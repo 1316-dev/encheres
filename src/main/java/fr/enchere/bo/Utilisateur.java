@@ -2,6 +2,7 @@ package fr.enchere.bo;
 
 import jakarta.validation.constraints.Email;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -20,14 +21,14 @@ public class Utilisateur {
     private int credit;
     private boolean administrateur;
 
-    private List<ArticleVendu>articleVendu;
-    private List<Enchere>enchere;
+    private List<ArticleVendu>articleVendu=new ArrayList<>();
+    private List<Enchere>enchere=new ArrayList<>();
 
     public Utilisateur() {
     }
 
     public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone,
-                       String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur, List<ArticleVendu> articleVendu, List<Enchere> enchere) {
+                       String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur) {
         this.noUtilisateur = noUtilisateur;
         this.pseudo = pseudo;
         this.nom = nom;
@@ -40,10 +41,9 @@ public class Utilisateur {
         this.motDePasse = motDePasse;
         this.credit = credit;
         this.administrateur = administrateur;
-        this.articleVendu = articleVendu;
-        this.enchere = enchere;
-    }
 
+    }
+    //Getters et setters
     public int getNoUtilisateur() {
         return noUtilisateur;
     }
@@ -153,5 +153,24 @@ public class Utilisateur {
     @Override
     public int hashCode() {
         return Objects.hash(noUtilisateur, pseudo, nom, prenom, email, telephone, rue, codePostal, ville, motDePasse, credit, administrateur, articleVendu, enchere);
+    }
+
+    @Override
+    public String toString() {
+        return "Utilisateur{" +
+                "noUtilisateur=" + noUtilisateur +
+                ", pseudo='" + pseudo + '\'' +
+                ", nom='" + nom + '\'' +
+                ", prenom='" + prenom + '\'' +
+                ", email='" + email + '\'' +
+                ", telephone='" + telephone + '\'' +
+                ", rue='" + rue + '\'' +
+                ", codePostal='" + codePostal + '\'' +
+                ", ville='" + ville + '\'' +
+                ", credit=" + credit +
+                ", administrateur=" + administrateur +
+                ", articleVendu=" + articleVendu +
+                ", enchere=" + enchere +
+                '}';
     }
 }

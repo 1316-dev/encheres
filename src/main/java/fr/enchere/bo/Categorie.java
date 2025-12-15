@@ -3,29 +3,27 @@ package fr.enchere.bo;
 import java.util.Objects;
 
 public class Categorie {
-    private int no_categorie ;
+    private int noCategorie ;
     private String libelle ;
 
     public Categorie() {
     }
 
-    public Categorie(int no_categorie, String libelle) {
-        this.no_categorie = no_categorie;
+    public Categorie(int noCategorie, String libelle) {
+        this.noCategorie = noCategorie;
         this.libelle = libelle;
     }
 
-    public int getNo_categorie() {
-        return no_categorie;
+    public int getNoCategorie() {
+        return noCategorie;
     }
-
-    public void setNo_categorie(int no_categorie) {
-        this.no_categorie = no_categorie;
+    public void setNoCategorie(int noCategorie) {
+        this.noCategorie = noCategorie;
     }
 
     public String getLibelle() {
         return libelle;
     }
-
     public void setLibelle(String libelle) {
         this.libelle = libelle;
     }
@@ -34,18 +32,18 @@ public class Categorie {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         Categorie categorie = (Categorie) o;
-        return no_categorie == categorie.no_categorie && Objects.equals(libelle, categorie.libelle);
+        return noCategorie == categorie.noCategorie && Objects.equals(libelle, categorie.libelle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(no_categorie, libelle);
+        return Objects.hash(noCategorie, libelle);
     }
 
     @Override
     public String toString() {
         return "Categorie{" +
-                "no_categorie=" + no_categorie +
+                "noCategorie=" + noCategorie +
                 ", libelle='" + libelle + '\'' +
                 '}';
     }
