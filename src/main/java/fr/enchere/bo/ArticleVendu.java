@@ -2,6 +2,7 @@ package fr.enchere.bo;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 public class ArticleVendu {
     private int noArticle;
@@ -122,11 +123,11 @@ public class ArticleVendu {
     }
 
     public List<Enchere> getEncheres() {
-        return ListeEncheres;
+        return listeEncheres;
     }
 
     public void setEncheres(List<Enchere> encheres) {
-        this.ListeEncheres = encheres;
+        this.listeEncheres = encheres;
     }
 
     @Override
@@ -142,7 +143,7 @@ public class ArticleVendu {
                 ", etatVente=" + etatVente +
                 ", utilisateur=" + utilisateur +
                 ", lieuRetrait=" + lieuRetrait +
-                ", encheres=" + ListeEncheres +
+                ", encheres=" + listeEncheres +
                 '}';
     }
 }

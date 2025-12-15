@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enchères - Connexion</title>
+</head>
+<body>
+<header data-th-replace="~{fragments/entete :: frag-entete }"></header>
+<main>
+    <form th:action="@{/}" method="POST">
+        <label for="inputLogin">Identifiant :</label>
+        <input type="text" id="inputLogin" th:field="*{username}">
+
+        <label for="inputMdp">Mot de passe :</label>
+        <input type="password" id="inputMdp" th:field="*{username}">
+        <button type="submit">Connexion</button>
+        <label for="cbSouvenir"></label>
+        <input type="checkbox" id="cbSouvenir" name="remember" />
+        <a href="">Mot de passe oublié</a>
+
+    </form>
+    <a href="https://google.com" class="button">Créer un compte</a>
+
+</main>
+</body>
+</html>
