@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enchères</title>
+
+</head>
+<body>
+
+<header th:replace="~{fragments/entete :: frag-entete}">
+</header>
+<main>
+    <h1>Liste des enchères</h1>
+    <th:block th:object="${categories}">
+
+        <form action="" method="get">
+        <Label for="inputRecherche">Filtres : </Label>
+        <input type="text" name="inputRecherche" id="inputRecherche" required>
+            <label for="listeCategories">Catégorie :</label>
+            <select name="listeCategories" id="listeCategories">
+                <option value="1">ameublement</option>
+                <option value="2">Sports</option>
+                <option value="3">vetement</option>
+            </select>
+            <!--<select id="listeCategories"
+                th:field="*{listeCategories}">
+                <option th:each="categorie : ${@categorieService.findAllCategories()}"
+                    th:text="${categorie.libelle}">
+                </option>
+            </select>-->
+            <input type="submit" value="Rechercher">
+        </form>
+    </th:block>>
+        <section>
+            <article>
+
+                <h2>Nom de l'article</h2>
+
+                <p>
+                    Mise à prix : <span>20</span> €
+                </p>
+
+                <p>
+                    Fin de l'enchère : <span> 20/07/25</span>
+                </p>
+
+                <p>
+                    Vendeur : <span>pseudo</span>
+                </p>
+
+            </article>
+        </section>
+
+        <!--a decommenter pour utiliser thymeleaf-->
+        <!--<section>
+            <article th:each="article : ${@enchereService.findAllArticle()}">
+
+                <h2 th:text="${article.nomArticle}"></h2>
+
+                <p>
+                    Mise à prix : <span th:text="${article.miseAPrix}"></span> €
+                </p>
+
+                <p>
+                    Fin de l'enchère : <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
+                </p>
+
+                <p>
+                    Vendeur : <span th:text="${article.utilisateur.pseudo}"></span>
+                </p>
+
+            </article>
+        </section>-->
+</main>
+</body>
+</html>
