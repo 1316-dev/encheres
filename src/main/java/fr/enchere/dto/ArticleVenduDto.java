@@ -1,39 +1,29 @@
 package fr.enchere.dto;
 
 
-import fr.enchere.bo.Utilisateur;
-
-import java.time.LocalDateTime;
-
+import java.util.Date;
 import java.util.Objects;
 
-public class ArticleDto {
+public class ArticleVenduDto {
 
         private int noArticle;
         private String nomArticle;
-        private LocalDateTime dateFinEnchere;
+        private Date dateFinEnchere;
         private int miseAPrix;
 
-        private Utilisateur utilisateur;
+        private String vendeur;
         private int noCategorie;
 
-    public ArticleDto() {
+
+    public ArticleVenduDto() {
     }
 
-    public ArticleDto(String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, Utilisateur utilisateur, int noCategorie) {
-        this.nomArticle = nomArticle;
-        this.dateFinEnchere = dateFinEnchere;
-        this.miseAPrix = miseAPrix;
-        this.utilisateur = utilisateur;
-        this.noCategorie = noCategorie;
-    }
-
-    public ArticleDto(int noArticle, String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, Utilisateur utilisateur, int noCategorie) {
+    public ArticleVenduDto(int noArticle, String nomArticle, Date dateFinEnchere, int miseAPrix, String vendeur, int noCategorie) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.dateFinEnchere = dateFinEnchere;
         this.miseAPrix = miseAPrix;
-        this.utilisateur = utilisateur;
+        this.vendeur = vendeur;
         this.noCategorie = noCategorie;
     }
 
@@ -53,11 +43,11 @@ public class ArticleDto {
         this.nomArticle = nomArticle;
     }
 
-    public LocalDateTime getDateFinEnchere() {
+    public Date getDateFinEnchere() {
         return dateFinEnchere;
     }
 
-    public void setDateFinEnchere(LocalDateTime dateFinEnchere) {
+    public void setDateFinEnchere(Date dateFinEnchere) {
         this.dateFinEnchere = dateFinEnchere;
     }
 
@@ -69,12 +59,12 @@ public class ArticleDto {
         this.miseAPrix = miseAPrix;
     }
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
+    public String getVendeur() {
+        return vendeur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
+    public void setVendeur(String vendeur) {
+        this.vendeur = vendeur;
     }
 
     public int getNoCategorie() {
@@ -92,7 +82,7 @@ public class ArticleDto {
                 ", nomArticle='" + nomArticle + '\'' +
                 ", dateFinEnchere=" + dateFinEnchere +
                 ", miseAPrix=" + miseAPrix +
-                ", utilisateur=" + utilisateur +
+                ", utilisateur=" + vendeur +
                 ", categorieArticle=" + noCategorie +
                 '}';
     }
@@ -100,12 +90,12 @@ public class ArticleDto {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        ArticleDto that = (ArticleDto) o;
-        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && noCategorie == that.noCategorie && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(utilisateur, that.utilisateur);
+        ArticleVenduDto that = (ArticleVenduDto) o;
+        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && noCategorie == that.noCategorie && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(vendeur, that.vendeur);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, utilisateur, noCategorie);
+        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, vendeur, noCategorie);
     }
 }
