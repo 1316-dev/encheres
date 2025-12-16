@@ -12,11 +12,12 @@ DELETE FROM UTILISATEURS;
 SET IDENTITY_INSERT CATEGORIES ON;
 
 INSERT INTO CATEGORIES (no_categorie, libelle) VALUES
-                                                   (1, 'Informatique'),
-                                                   (2, 'Ameublement'),
-                                                   (3, 'Vêtements'),
-                                                   (4, 'Sport'),
-                                                   (5, 'Livre');
+                                                   (1, 'Toutes'),
+                                                   (2, 'Informatique'),
+                                                   (3, 'Ameublement'),
+                                                   (4, 'Vêtements'),
+                                                   (5, 'Sport'),
+                                                   (6, 'Livre');
 
 SET IDENTITY_INSERT CATEGORIES OFF;
 
