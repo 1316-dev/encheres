@@ -19,4 +19,11 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
     public List<ArticleVenduDto> AfficherListeArticleVendu() {
         return articleVenduRepository.listeArticleVendu();
     }
+
+    @Override
+    public List<ArticleVenduDto> AfficherListeArticleVenduByCategorie(int no_categorie) {
+        return articleVenduRepository.listeArticleVenduByCategorie(no_categorie);
+    }
+
+
 }

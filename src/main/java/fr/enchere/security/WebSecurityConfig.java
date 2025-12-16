@@ -3,7 +3,6 @@ package fr.enchere.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
-import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.User;
@@ -24,6 +23,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/","/encheres").permitAll()
                        // .requestMatchers( "/profil","/vendre","/").hasRole("ADMIN")
                         .anyRequest().authenticated()
+                       // .anyRequest().permitAll()
                 )
                 //.formLogin(Customizer.withDefaults())
                 .formLogin((form) -> form.loginPage("/connexion")

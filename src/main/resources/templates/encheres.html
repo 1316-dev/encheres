@@ -13,7 +13,7 @@
     <h1>Liste des enchères</h1>
 
 
-        <form action="" method="get" th:object="${articleVenduDto}">
+        <form th:action="@{/encheresCategorie}" method="get" th:object="${articleVenduDto}">
         <Label for="inputRecherche">Filtres : </Label>
         <input type="text" name="inputRecherche" id="inputRecherche">
             <label for="noCategorie">Catégorie :</label>
@@ -31,7 +31,7 @@
 
 
         <section>
-            <article th:each="article : ${@articleVenduServiceImpl.AfficherListeArticleVendu()}">
+            <article th:each="article : ${listeArticleVendu}">
 
                 <h2 th:text="${article.nomArticle}"></h2>
 
