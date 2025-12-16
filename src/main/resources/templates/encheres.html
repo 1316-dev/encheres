@@ -11,23 +11,24 @@
 </header>
 <main>
     <h1>Liste des enchères</h1>
-    <th:block th:object="${categories}">
+    <th:block th:object="${categorie}">
 
         <form action="" method="get">
         <Label for="inputRecherche">Filtres : </Label>
         <input type="text" name="inputRecherche" id="inputRecherche" required>
             <label for="listeCategories">Catégorie :</label>
-            <select name="listeCategories" id="listeCategories">
+           <!-- <select name="listeCategories" id="listeCategories">
                 <option value="1">ameublement</option>
                 <option value="2">Sports</option>
                 <option value="3">vetement</option>
-            </select>
-            <!--<select id="listeCategories"
-                th:field="*{listeCategories}">
-                <option th:each="categorie : ${@categorieService.findAllCategories()}"
-                    th:text="${categorie.libelle}">
-                </option>
             </select>-->
+            <select id="listeCategories"
+                th:field="*{libelle}">
+                <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
+                    th:text="${categorie.libelle}"
+                    th:value="${categorie.noCategorie}">
+                </option>
+            </select>
             <input type="submit" value="Rechercher">
         </form>
     </th:block>
