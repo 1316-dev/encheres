@@ -5,8 +5,8 @@
         <li><a th:href="@{/inscription}">S'inscrire</a></li>
         <li><a th:href="@{/connexion}">Se Connecter</a></li>
         <li><a th:href="@{/encheres}">Enchères</a></li>
-        <li><a th:href="@{/view-vendre-article}">Vendre un article</a></li>
-        <li><a th:href="@{/view-mon-profil}">Mon profil</a></li>
-        <li><a th:href="@{/encheres}">Déconnexion</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/view-vendre-article}">Vendre un article</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/view-mon-profil}">Mon profil</a></li>
+        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Déconnexion (connecté en tant que : <span sec:authentication="name"></span>)</a></li>
     </ul>
 </header>
