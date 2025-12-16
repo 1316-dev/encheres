@@ -31,12 +31,12 @@ public class WebSecurityConfig {
                 .loginProcessingUrl("/login")
                 .permitAll() )
 
-                .logout((logout) -> logout
-                        .clearAuthentication(true)
-                        .invalidateHttpSession(true)
-                        .deleteCookies("JSESSIONID")
-                        .logoutSuccessUrl("/encheres")
-                        .permitAll());
+                .logout(logout -> logout
+                        .logoutUrl("/logout")          // URL de déconnexion
+                        .logoutSuccessUrl("/")         // URL après déconnexion
+                        .invalidateHttpSession(true)   // invalide la session
+                        .clearAuthentication(true)     // nettoie l'authentification
+                        .deleteCookies("JSESSIONID")); // supprime le cookie de session
 
 
         return http.build();

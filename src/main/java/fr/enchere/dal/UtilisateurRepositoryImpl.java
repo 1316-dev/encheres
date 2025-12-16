@@ -5,8 +5,11 @@ import fr.enchere.exception.UtilisateurNotFound;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
+import org.springframework.jdbc.support.KeyHolder;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -52,6 +55,31 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
             return user;
         }
     }
+    @Override
+    public void saveUtilisateur(Utilisateur utilisateur){
+        String sql ="insert into utilisateurs(pseudo, nom, prenom, email, telephone, rue, code_postal,  ville, mot_de_passe, credit)"
+                    +"values(:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit)";
+
+        KeyHolder keyholder=new GeneratedKeyHolder();
+
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("pseudo",utilisateur.getPseudo());
+        parameters.addValue("nom",utilisateur.getNom());
+        parameters.addValue("prenom",utilisateur.getPseudo());
+        parameters.addValue("email",utilisateur.getEmail());
+        parameters.addValue("telephone",utilisateur.getTelephone());
+        parameters.addValue("rue",utilisateur.getRue());
+        parameters.addValue("code_postal",utilisateur.getCodePostal());
+        parameters.addValue("ville",utilisateur.getVille());
+        parameters.addValue("mot_de_passe",utilisateur.getMotDePasse());
+        parameters.addValue("credit",utilisateur.getCredit());
+
+        namedParameterJdbcTemplate.update(sql,parameters, keyholder, new String[]{"no_utilisateur"});
+        utilisateur.setNoUtilisateur(keyholder.getKey().intValue());
+
+    }
+
 
 
 }

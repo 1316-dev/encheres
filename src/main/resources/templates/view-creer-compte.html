@@ -7,7 +7,7 @@
 <body>
 <header data-th-replace="~{fragments/entete :: frag-entete }"></header>
 <main>
-    <form th:action="@{/profil}" method="POST" th:object="${utilisateurDto}">
+    <form th:action="@{/inscription}" method="POST" th:object="${utilisateurDto}">
         <h1>Mon profil</h1>
 
         <label for="inputPseudo">Pseudo :</label>
@@ -40,7 +40,7 @@
         <label for="inputConfirm">Confirmation :</label>
         <input type="password" id="inputConfirm" th:field="*{motDePasse}">
 
-
+        <button type="submit">s'incrire</button>
         <a href="/echeres" class="button">Annuler</a>
 
     </form>
