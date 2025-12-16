@@ -3,6 +3,7 @@ package fr.enchere.security;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -17,18 +18,18 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/encheres","/connexion ","/css/*", "/images/*").permitAll()
+                        .requestMatchers("/", "/encheres","/inscription","/css/*", "/images/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/","/encheres").permitAll()
                        // .requestMatchers( "/profil","/vendre","/").hasRole("ADMIN")
                         .anyRequest().authenticated()
                 )
-                //.formLogin(Customizer.withDefaults())
+               // .formLogin(Customizer.withDefaults())
                 //.logout((logout) -> logout.permitAll());
-                .formLogin((form) -> form.loginPage("/connexion")
+               /* .formLogin((form) -> form.loginPage("/connexion")
                         .defaultSuccessUrl("/encheres", false)
                         .loginProcessingUrl("/login")
                         .permitAll()
-                )
+                )*/
                 .logout((logout) -> logout
                         .clearAuthentication(true)
                         .invalidateHttpSession(true)
