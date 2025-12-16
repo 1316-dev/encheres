@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class UtilisateurController {
 
+    @GetMapping({"/connexion"})
+    public String connexion() {
+        return "view-connexion";
+    }
+
 
     @GetMapping({"/inscription"})
     public String inscription(Model model) {
