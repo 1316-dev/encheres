@@ -7,6 +7,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -31,12 +32,17 @@ public class AccueilController {
     }
 
     @GetMapping("/encheresCategorie")
-    public String filtrerVenteParCategorie(@RequestParam(name = "noCategorie") int no_categorie, Model model) {
+    public String filtrerVenteParCategorie(@RequestParam(name = "noCategorie") int no_categorie,@RequestParam(name="lettreRecherche") String lettreRecherche, Model model) {
         if (!(model.containsAttribute("articleVenduDto"))) {
             model.addAttribute("articleVenduDto", new ArticleVenduDto());
         }
-        List <ArticleVenduDto> listeArticleVenduByCategorie = articleVenduService.AfficherListeArticleVenduByCategorie(no_categorie);
-        model.addAttribute("listeArticleVendu", listeArticleVenduByCategorie);
+        List <ArticleVenduDto> listeArticleVendufiltre = new ArrayList<>();
+        if (no_categorie == 1) {
+            listeArticleVendufiltre= articleVenduService.AfficherlisteArticleVenduByNom(lettreRecherche);
+        } else {
+             listeArticleVendufiltre = articleVenduService.AfficherListeArticleVenduFiltree(no_categorie, lettreRecherche);
+        }
+        model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
 
         return "encheres";
     }

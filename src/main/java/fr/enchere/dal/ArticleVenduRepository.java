@@ -9,6 +9,8 @@ public interface ArticleVenduRepository {
 
     List <ArticleVenduDto> listeArticleVendu();
 
-    List <ArticleVenduDto> listeArticleVenduByCategorie(int no_categorie);
+    List <ArticleVenduDto> listeArticleVenduByNom(String recherche);
+
+    List <ArticleVenduDto> listeArticleFiltree(int no_categorie, String recherche);
 
 }
