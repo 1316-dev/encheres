@@ -38,7 +38,7 @@ public class UtilisateurController {
     }
    @PostMapping({"/inscription"})
     public String creerUtilisateur (@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr){
-       System.out.println("je suis ici : " + utilisateurDto);
+
         if(resultat.hasErrors()){
             redirectAttr.addFlashAttribute( "org.springframework.validation.BindingResult.utilisateurDto", resultat);
             redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
@@ -46,7 +46,7 @@ public class UtilisateurController {
         }
         Utilisateur utilisateur= new Utilisateur();
         BeanUtils.copyProperties(utilisateurDto, utilisateur);
-        System.out.println("je suis la : " + utilisateur);
+
        utilisateurService.creerUtilisateur(utilisateur);
                 return "redirect:/view-list-encheres?pseudo=" + utilisateur.getPseudo();
     }

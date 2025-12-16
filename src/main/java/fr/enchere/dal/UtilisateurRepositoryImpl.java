@@ -57,8 +57,8 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     }
     @Override
     public void saveUtilisateur(Utilisateur utilisateur){
-        String sql ="insert into utilisateurs(pseudo, nom, prenom, email, telephone, rue, code_postal,  ville, mot_de_passe, credit)"
-                    +"values(:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe, :credit)";
+        String sql ="insert into utilisateurs(pseudo, nom, prenom, email, telephone, rue, code_postal,  ville, mot_de_passe)"
+                    +"values(:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
 
         KeyHolder keyholder=new GeneratedKeyHolder();
 
@@ -73,7 +73,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         parameters.addValue("code_postal",utilisateur.getCodePostal());
         parameters.addValue("ville",utilisateur.getVille());
         parameters.addValue("mot_de_passe",utilisateur.getMotDePasse());
-        parameters.addValue("credit",utilisateur.getCredit());
+
 
         namedParameterJdbcTemplate.update(sql,parameters, keyholder, new String[]{"no_utilisateur"});
         utilisateur.setNoUtilisateur(keyholder.getKey().intValue());

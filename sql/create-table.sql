@@ -30,7 +30,8 @@ CREATE TABLE UTILISATEURS (
                               administrateur   bit NOT NULL default 0
 )
 ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk PRIMARY KEY (no_utilisateur)
-ALTER TABLE UTILISATEURS ADD constraint utilisateur_uq UNIQUE(email,pseudo)
+ALTER TABLE UTILISATEURS ADD constraint utilisateurEmail_uq UNIQUE(email)
+ALTER TABLE UTILISATEURS ADD constraint utilisateurPseudo_uq UNIQUE(pseudo)
 CREATE TABLE ARTICLES_VENDUS (
                                  no_article                    INTEGER IDENTITY(1,1) NOT NULL,
                                  nom_article                   VARCHAR(30) NOT NULL,
