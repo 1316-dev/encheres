@@ -3,6 +3,7 @@ package fr.enchere.bo;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Objects;
 
 public class ArticleVendu {
     private int noArticle;
@@ -14,6 +15,7 @@ public class ArticleVendu {
     private int prixVente;
     private boolean etatVente;
 
+    private Categorie categorieArticle;
     private Utilisateur utilisateur;
     private Retrait lieuRetrait;
     private List<Enchere> listeEncheres;
@@ -40,6 +42,22 @@ public class ArticleVendu {
         this.prixVente = prixVente;
         this.etatVente = etatVente;
     }
+
+    public ArticleVendu(int noArticle, String nomArticle, String description, LocalDateTime dateDebutEnchere, LocalDateTime dateFinEnchere, int miseAPrix, int prixVente, boolean etatVente, Categorie categorieArticle, Utilisateur utilisateur, Retrait lieuRetrait, List<Enchere> listeEncheres) {
+        this.noArticle = noArticle;
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.prixVente = prixVente;
+        this.etatVente = etatVente;
+        this.categorieArticle = categorieArticle;
+        this.utilisateur = utilisateur;
+        this.lieuRetrait = lieuRetrait;
+        this.listeEncheres = listeEncheres;
+    }
+
     //Getters et setters
 
     public int getNoArticle() {
@@ -130,6 +148,22 @@ public class ArticleVendu {
         this.listeEncheres = encheres;
     }
 
+    public Categorie getCategorieArticle() {
+        return categorieArticle;
+    }
+
+    public void setCategorieArticle(Categorie categorieArticle) {
+        this.categorieArticle = categorieArticle;
+    }
+
+    public List<Enchere> getListeEncheres() {
+        return listeEncheres;
+    }
+
+    public void setListeEncheres(List<Enchere> listeEncheres) {
+        this.listeEncheres = listeEncheres;
+    }
+
     @Override
     public String toString() {
         return "ArticleVendu{" +
@@ -141,9 +175,22 @@ public class ArticleVendu {
                 ", miseAPrix=" + miseAPrix +
                 ", prixVente=" + prixVente +
                 ", etatVente=" + etatVente +
+                ", categorieArticle=" + categorieArticle +
                 ", utilisateur=" + utilisateur +
                 ", lieuRetrait=" + lieuRetrait +
-                ", encheres=" + listeEncheres +
+                ", listeEncheres=" + listeEncheres +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o == null || getClass() != o.getClass()) return false;
+        ArticleVendu that = (ArticleVendu) o;
+        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && prixVente == that.prixVente && etatVente == that.etatVente && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(description, that.description) && Objects.equals(dateDebutEnchere, that.dateDebutEnchere) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(categorieArticle, that.categorieArticle) && Objects.equals(utilisateur, that.utilisateur) && Objects.equals(lieuRetrait, that.lieuRetrait) && Objects.equals(listeEncheres, that.listeEncheres);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(noArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, prixVente, etatVente, categorieArticle, utilisateur, lieuRetrait, listeEncheres);
     }
 }
