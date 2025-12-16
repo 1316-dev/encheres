@@ -1,12 +1,10 @@
 package fr.enchere.dto;
 
-import fr.enchere.bo.Categorie;
-import fr.enchere.bo.Enchere;
-import fr.enchere.bo.Retrait;
+
 import fr.enchere.bo.Utilisateur;
 
 import java.time.LocalDateTime;
-import java.util.List;
+
 import java.util.Objects;
 
 public class ArticleDto {
@@ -17,26 +15,26 @@ public class ArticleDto {
         private int miseAPrix;
 
         private Utilisateur utilisateur;
-        private Categorie categorieArticle;
+        private int noCategorie;
 
     public ArticleDto() {
     }
 
-    public ArticleDto(String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, Utilisateur utilisateur, Categorie categorieArticle) {
+    public ArticleDto(String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, Utilisateur utilisateur, int noCategorie) {
         this.nomArticle = nomArticle;
         this.dateFinEnchere = dateFinEnchere;
         this.miseAPrix = miseAPrix;
         this.utilisateur = utilisateur;
-        this.categorieArticle = categorieArticle;
+        this.noCategorie = noCategorie;
     }
 
-    public ArticleDto(int noArticle, String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, Utilisateur utilisateur, Categorie categorieArticle) {
+    public ArticleDto(int noArticle, String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, Utilisateur utilisateur, int noCategorie) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.dateFinEnchere = dateFinEnchere;
         this.miseAPrix = miseAPrix;
         this.utilisateur = utilisateur;
-        this.categorieArticle = categorieArticle;
+        this.noCategorie = noCategorie;
     }
 
     public int getNoArticle() {
@@ -79,12 +77,12 @@ public class ArticleDto {
         this.utilisateur = utilisateur;
     }
 
-    public Categorie getCategorieArticle() {
-        return categorieArticle;
+    public int getNoCategorie() {
+        return noCategorie;
     }
 
-    public void setCategorieArticle(Categorie categorieArticle) {
-        this.categorieArticle = categorieArticle;
+    public void setNoCategorie(int noCategorie) {
+        this.noCategorie = noCategorie;
     }
 
     @Override
@@ -95,7 +93,7 @@ public class ArticleDto {
                 ", dateFinEnchere=" + dateFinEnchere +
                 ", miseAPrix=" + miseAPrix +
                 ", utilisateur=" + utilisateur +
-                ", categorieArticle=" + categorieArticle +
+                ", categorieArticle=" + noCategorie +
                 '}';
     }
 
@@ -103,11 +101,11 @@ public class ArticleDto {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ArticleDto that = (ArticleDto) o;
-        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(utilisateur, that.utilisateur) && Objects.equals(categorieArticle, that.categorieArticle);
+        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && noCategorie == that.noCategorie && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(utilisateur, that.utilisateur);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, utilisateur, categorieArticle);
+        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, utilisateur, noCategorie);
     }
 }
