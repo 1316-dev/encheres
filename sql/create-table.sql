@@ -27,7 +27,7 @@ CREATE TABLE UTILISATEURS (
                               ville            VARCHAR(50) NOT NULL,
                               mot_de_passe     VARCHAR(100) NOT NULL,
                               credit           INTEGER NOT NULL default 100,
-                              administrateur   bit NOT NULL
+                              administrateur   bit NOT NULL default 0
 )
 ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk PRIMARY KEY (no_utilisateur)
 ALTER TABLE UTILISATEURS ADD constraint utilisateur_uq UNIQUE(email,pseudo)
