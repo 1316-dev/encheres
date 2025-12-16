@@ -25,5 +25,10 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
         return articleVenduRepository.listeArticleVenduByCategorie(no_categorie);
     }
 
+    @Override
+    public List<ArticleVenduDto> AfficherListeArticleVenduFiltree(int no_categorie, String recherche) {
+        return articleVenduRepository.listeArticleFiltree(no_categorie,recherche);
+    }
+
 
 }

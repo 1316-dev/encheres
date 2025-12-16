@@ -31,12 +31,15 @@ public class AccueilController {
     }
 
     @GetMapping("/encheresCategorie")
-    public String filtrerVenteParCategorie(@RequestParam(name = "noCategorie") int no_categorie, Model model) {
+    public String filtrerVenteParCategorie(@RequestParam(name = "noCategorie") int no_categorie,@RequestParam(name="lettreRecherche") String lettreRecherche, Model model) {
         if (!(model.containsAttribute("articleVenduDto"))) {
             model.addAttribute("articleVenduDto", new ArticleVenduDto());
         }
-        List <ArticleVenduDto> listeArticleVenduByCategorie = articleVenduService.AfficherListeArticleVenduByCategorie(no_categorie);
-        model.addAttribute("listeArticleVendu", listeArticleVenduByCategorie);
+        //List <ArticleVenduDto> listeArticleVenduByCategorie = articleVenduService.AfficherListeArticleVenduByCategorie(no_categorie);
+
+        List <ArticleVenduDto> listeArticleVendufiltre= articleVenduService.AfficherListeArticleVenduFiltree(no_categorie,lettreRecherche);
+
+        model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
 
         return "encheres";
     }

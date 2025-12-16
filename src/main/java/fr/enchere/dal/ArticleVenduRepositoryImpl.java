@@ -54,4 +54,15 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
         return ListeArticleFiltreCategorie;
     }
+
+    @Override
+    public List<ArticleVenduDto> listeArticleFiltree(int no_categorie, String recherche) {
+        String sql = "select * from dbo.afficherVentesEnCours where no_categorie = ? AND nom_article LIKE ?";
+
+        List<ArticleVenduDto> ListeArticleFiltreCategorie = jdbcTemplate.query(sql,new ArticleVenduRowMapper(), no_categorie,"%"+recherche+"%");
+
+        return ListeArticleFiltreCategorie;
+    }
+
+
 }
