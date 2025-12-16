@@ -11,49 +11,27 @@
 </header>
 <main>
     <h1>Liste des enchères</h1>
-    <th:block th:object="${categories}">
 
-        <form action="" method="get">
-        <Label for="inputRecherche">Filtres : </Label>
-        <input type="text" name="inputRecherche" id="inputRecherche" required>
-            <label for="listeCategories">Catégorie :</label>
-            <select name="listeCategories" id="listeCategories">
-                <option value="1">ameublement</option>
-                <option value="2">Sports</option>
-                <option value="3">vetement</option>
-            </select>
-            <!--<select id="listeCategories"
-                th:field="*{listeCategories}">
-                <option th:each="categorie : ${@categorieService.findAllCategories()}"
-                    th:text="${categorie.libelle}">
+
+        <form th:action="@{/encheresCategorie}" method="get" th:object="${articleVenduDto}">
+        <Label for="lettreRecherche">Filtres : </Label>
+        <input type="text" name="lettreRecherche" id="lettreRecherche">
+            <label for="noCategorie">Catégorie :</label>
+
+            <select id="noCategorie"
+                th:field="*{noCategorie}">
+                <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
+                    th:text="${categorie.libelle}"
+                    th:value="${categorie.noCategorie}">
                 </option>
-            </select>-->
+            </select>
             <input type="submit" value="Rechercher">
         </form>
-    </th:block>
+
+
+
         <section>
-            <article>
-
-                <h2>Nom de l'article</h2>
-
-                <p>
-                    Mise à prix : <span>20</span> €
-                </p>
-
-                <p>
-                    Fin de l'enchère : <span> 20/07/25</span>
-                </p>
-
-                <p>
-                    Vendeur : <span>pseudo</span>
-                </p>
-
-            </article>
-        </section>
-
-        <!--a decommenter pour utiliser thymeleaf-->
-        <!--<section>
-            <article th:each="article : ${@enchereService.findAllArticle()}">
+            <article th:each="article : ${listeArticleVendu}">
 
                 <h2 th:text="${article.nomArticle}"></h2>
 
@@ -62,15 +40,15 @@
                 </p>
 
                 <p>
-                    Fin de l'enchère : <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
+                    Fin de l'enchère : <span th:text="${article.getDateFinEnchere()}"></span>
                 </p>
 
                 <p>
-                    Vendeur : <span th:text="${article.utilisateur.pseudo}"></span>
+                    Vendeur : <span th:text="${article.vendeur}"></span>
                 </p>
 
             </article>
-        </section>-->
+        </section>
 </main>
 </body>
 </html>

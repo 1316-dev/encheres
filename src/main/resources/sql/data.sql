@@ -12,12 +12,11 @@ DELETE FROM UTILISATEURS;
 SET IDENTITY_INSERT CATEGORIES ON;
 
 INSERT INTO CATEGORIES (no_categorie, libelle) VALUES
-                                                   (1, 'Toutes'),
-                                                   (2, 'Informatique'),
-                                                   (3, 'Ameublement'),
-                                                   (4, 'Vêtements'),
-                                                   (5, 'Sport'),
-                                                   (6, 'Livre');
+                                                   (1, 'Informatique'),
+                                                   (2, 'Ameublement'),
+                                                   (3, 'Vêtements'),
+                                                   (4, 'Sport'),
+                                                   (5, 'Livre');
 
 SET IDENTITY_INSERT CATEGORIES OFF;
 
@@ -30,13 +29,13 @@ INSERT INTO UTILISATEURS
  rue, code_postal, ville, mot_de_passe, credit, administrateur)
 VALUES
     (1, 'jdupont', 'DUPONT', 'Jean', 'jean.dupont@mail.com', '0600000001',
-     '10 rue Victor Hugo', '75001', 'Paris', 'pwd123', 100, 0),
+     '10 rue Victor Hugo', '75001', 'Paris', '{bcrypt}$2a$10$OyG5YbdLxhxIQyrQFil31uf6HLcCehaMIkXGmSWbCxff5dSvQ.rQq', 100, 0),
 
     (2, 'mMartin', 'MARTIN', 'Marie', 'marie.martin@mail.com', '0600000002',
-     '5 avenue de France', '69000', 'Lyon', 'pwd123', 150, 0),
+     '5 avenue de France', '69000', 'Lyon', '{bcrypt}$2a$10$OyG5YbdLxhxIQyrQFil31uf6HLcCehaMIkXGmSWbCxff5dSvQ.rQq', 150, 0),
 
     (3, 'admin', 'ADMIN', 'Super', 'admin@mail.com', NULL,
-     '1 rue Admin', '31000', 'Toulouse', 'adminpwd', 500, 1);
+     '1 rue Admin', '31000', 'Toulouse', '{bcrypt}$2a$10$OyG5YbdLxhxIQyrQFil31uf6HLcCehaMIkXGmSWbCxff5dSvQ.rQq', 500, 1);
 
 SET IDENTITY_INSERT UTILISATEURS OFF;
 

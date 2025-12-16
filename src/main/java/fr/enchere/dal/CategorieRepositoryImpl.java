@@ -1,0 +1,42 @@
+package fr.enchere.dal;
+
+import fr.enchere.bo.Categorie;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
+
+@Repository
+public class CategorieRepositoryImpl implements CategorieRepository{
+
+
+    private JdbcTemplate jdbcTemplate;
+
+    public CategorieRepositoryImpl(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
+    // Création d'une classe interne pour faire notre mapping
+    class CategorieRowMapper implements RowMapper<Categorie> {
+
+        @Override
+        public Categorie mapRow(ResultSet rs, int rowNum) throws SQLException {
+            Categorie categorie = new Categorie();
+            categorie.setNoCategorie(rs.getInt("no_categorie"));
+            categorie.setLibelle(rs.getString("libelle"));
+
+            return categorie;
+        }
+    }
+
+    @Override
+    public List<Categorie> findAllCategorie() {
+        //todo : lien sql
+        String sql = "select no_categorie, libelle from categories";
+        List<Categorie> ListeCategories = jdbcTemplate.query(sql,new CategorieRowMapper());
+        return ListeCategories;
+    }
+}

@@ -7,15 +7,16 @@
 <body>
 <header data-th-replace="~{fragments/entete :: frag-entete }"></header>
 <main>
-    <form th:action="@{/}" method="POST">
+    <form th:action="@{/login}" method="POST">
         <label for="inputLogin">Identifiant :</label>
-        <input type="text" id="inputLogin" th:field="*{username}">
+        <input type="text" id="inputLogin" name="username">
 
         <label for="inputMdp">Mot de passe :</label>
-        <input type="password" id="inputMdp" th:field="*{password}">
+        <input type="password" id="inputMdp" name="password">
         <button type="submit">Connexion</button>
-        <label for="cbSouvenir"></label>
+
         <input type="checkbox" id="cbSouvenir" name="remember" />
+        <label for="cbSouvenir">Se souvenir de moi</label>
         <a href="">Mot de passe oublié</a>
 
     </form>
