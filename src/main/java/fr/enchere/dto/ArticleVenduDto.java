@@ -11,18 +11,19 @@ public class ArticleVenduDto {
         private Date dateFinEnchere;
         private int miseAPrix;
 
-        private int no_utilisateur;
+        private String vendeur;
         private int noCategorie;
+
 
     public ArticleVenduDto() {
     }
 
-    public ArticleVenduDto(int noArticle, String nomArticle, Date dateFinEnchere, int miseAPrix, int no_utilisateur, int noCategorie) {
+    public ArticleVenduDto(int noArticle, String nomArticle, Date dateFinEnchere, int miseAPrix, String vendeur, int noCategorie) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.dateFinEnchere = dateFinEnchere;
         this.miseAPrix = miseAPrix;
-        this.no_utilisateur = no_utilisateur;
+        this.vendeur = vendeur;
         this.noCategorie = noCategorie;
     }
 
@@ -58,12 +59,12 @@ public class ArticleVenduDto {
         this.miseAPrix = miseAPrix;
     }
 
-    public int getNo_utilisateur() {
-        return no_utilisateur;
+    public String getVendeur() {
+        return vendeur;
     }
 
-    public void setNo_utilisateur(int no_utilisateur) {
-        this.no_utilisateur = no_utilisateur;
+    public void setVendeur(String vendeur) {
+        this.vendeur = vendeur;
     }
 
     public int getNoCategorie() {
@@ -81,7 +82,7 @@ public class ArticleVenduDto {
                 ", nomArticle='" + nomArticle + '\'' +
                 ", dateFinEnchere=" + dateFinEnchere +
                 ", miseAPrix=" + miseAPrix +
-                ", utilisateur=" + no_utilisateur +
+                ", utilisateur=" + vendeur +
                 ", categorieArticle=" + noCategorie +
                 '}';
     }
@@ -90,11 +91,11 @@ public class ArticleVenduDto {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ArticleVenduDto that = (ArticleVenduDto) o;
-        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && no_utilisateur == that.no_utilisateur && noCategorie == that.noCategorie && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere);
+        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && noCategorie == that.noCategorie && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(vendeur, that.vendeur);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, no_utilisateur, noCategorie);
+        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, vendeur, noCategorie);
     }
 }

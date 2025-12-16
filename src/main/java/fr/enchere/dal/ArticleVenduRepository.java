@@ -1,10 +1,11 @@
 package fr.enchere.dal;
 
-import fr.enchere.bo.ArticleVendu;
+
+import fr.enchere.dto.ArticleVenduDto;
 
 import java.util.List;
 
 public interface ArticleVenduRepository {
 
-    List <ArticleVendu> listeArticleVendu();
+    List <ArticleVenduDto> listeArticleVendu();
 }
