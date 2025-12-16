@@ -42,14 +42,4 @@ public class EnchereController {
         return "encheres";
     }
 
-    @GetMapping("/detail")
-    public String afficherUnFilm(@RequestParam(name = "no_categorie") int no_categorie, Model model) {
-
-
-
-        //model.addAttribute("film", film);
-
-        return "view-detail";
-
-    }
 }
