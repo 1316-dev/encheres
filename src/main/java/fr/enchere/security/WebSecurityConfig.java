@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.userdetails.User;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -17,19 +19,18 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/encheres","/inscription","/css/*", "/images/*").permitAll()
+                        .requestMatchers("/", "/encheres","/inscription ","/css/*", "/images/*").permitAll()
                         .requestMatchers(HttpMethod.GET, "/","/encheres").permitAll()
                        // .requestMatchers( "/profil","/vendre","/").hasRole("ADMIN")
                         //.anyRequest().authenticated()
                         .anyRequest().permitAll()
                 )
-               // .formLogin(Customizer.withDefaults())
-                //.logout((logout) -> logout.permitAll());
-               /* .formLogin((form) -> form.loginPage("/connexion")
-                        .defaultSuccessUrl("/encheres", false)
-                        .loginProcessingUrl("/login")
-                        .permitAll()
-                )*/
+                //.formLogin(Customizer.withDefaults())
+                .formLogin((form) -> form.loginPage("/connexion")
+                .defaultSuccessUrl("/encheres", true)
+                .loginProcessingUrl("/login")
+                .permitAll() )
+
                 .logout((logout) -> logout
                         .clearAuthentication(true)
                         .invalidateHttpSession(true)
@@ -39,6 +40,7 @@ public class WebSecurityConfig {
 
 
         return http.build();
+
     }
 
     @Bean
