@@ -31,6 +31,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
             articleVenduDto.setMiseAPrix(rs.getInt("prix_initial"));
             articleVenduDto.setDateFinEnchere(rs.getDate("date_fin_encheres"));
             articleVenduDto.setVendeur(rs.getString("vendeur"));
+            articleVenduDto.setVendeur(rs.getString("no_categorie"));
 
 
             return articleVenduDto;
@@ -43,5 +44,14 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
         List<ArticleVenduDto> ListeArticleVenduDto = jdbcTemplate.query(sql,new ArticleVenduRowMapper());
         return ListeArticleVenduDto;
+    }
+
+    @Override
+    public List<ArticleVenduDto> listeArticleVenduByCategorie(int no_categorie) {
+        String sql = "select * from dbo.afficherVentesEnCours where no_categorie = ?";
+
+        List<ArticleVenduDto> ListeArticleFiltreCategorie = jdbcTemplate.query(sql,new ArticleVenduRowMapper(), no_categorie);
+
+        return ListeArticleFiltreCategorie;
     }
 }
