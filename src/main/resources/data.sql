@@ -12,11 +12,12 @@ DELETE FROM UTILISATEURS;
 SET IDENTITY_INSERT CATEGORIES ON;
 
 INSERT INTO CATEGORIES (no_categorie, libelle) VALUES
-                                                   (1, 'Informatique'),
-                                                   (2, 'Ameublement'),
-                                                   (3, 'Vêtements'),
-                                                   (4, 'Sport'),
-                                                   (5, 'Livre');
+                                                   (1, 'Toutes'),
+                                                   (2, 'Informatique'),
+                                                   (3, 'Ameublement'),
+                                                   (4, 'Vêtements'),
+                                                   (5, 'Sport'),
+                                                   (6, 'Livre');
 
 SET IDENTITY_INSERT CATEGORIES OFF;
 
@@ -50,17 +51,17 @@ VALUES
     (1, 'PC Portable', 'PC gamer Asus 32Go RAM',
      CAST(GETDATE() AS date),
      DATEADD(day, 10, CAST(GETDATE() AS date)),
-     500, NULL, 1, 1),
+     500, NULL, 1, 2),
 
     (2, 'Canapé', 'Canapé 3 places',
      CAST(GETDATE() AS date),
      DATEADD(day, 7, CAST(GETDATE() AS date)),
-     200, NULL, 2, 2),
+     200, NULL, 2, 3),
 
     (3, 'Vélo', 'Vélo de course',
      CAST(GETDATE() AS date),
      DATEADD(day, 9, CAST(GETDATE() AS date)),
-     300, NULL, 1, 4);
+     300, NULL, 1, 5);
 
 SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 
