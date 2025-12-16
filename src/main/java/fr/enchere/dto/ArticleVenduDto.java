@@ -7,33 +7,25 @@ import java.time.LocalDateTime;
 
 import java.util.Objects;
 
-public class ArticleDto {
+public class ArticleVenduDto {
 
         private int noArticle;
         private String nomArticle;
         private LocalDateTime dateFinEnchere;
         private int miseAPrix;
 
-        private Utilisateur utilisateur;
+        private int no_utilisateur;
         private int noCategorie;
 
-    public ArticleDto() {
+    public ArticleVenduDto() {
     }
 
-    public ArticleDto(String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, Utilisateur utilisateur, int noCategorie) {
-        this.nomArticle = nomArticle;
-        this.dateFinEnchere = dateFinEnchere;
-        this.miseAPrix = miseAPrix;
-        this.utilisateur = utilisateur;
-        this.noCategorie = noCategorie;
-    }
-
-    public ArticleDto(int noArticle, String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, Utilisateur utilisateur, int noCategorie) {
+    public ArticleVenduDto(int noArticle, String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, int no_utilisateur, int noCategorie) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.dateFinEnchere = dateFinEnchere;
         this.miseAPrix = miseAPrix;
-        this.utilisateur = utilisateur;
+        this.no_utilisateur = no_utilisateur;
         this.noCategorie = noCategorie;
     }
 
@@ -69,12 +61,12 @@ public class ArticleDto {
         this.miseAPrix = miseAPrix;
     }
 
-    public Utilisateur getUtilisateur() {
-        return utilisateur;
+    public int getNo_utilisateur() {
+        return no_utilisateur;
     }
 
-    public void setUtilisateur(Utilisateur utilisateur) {
-        this.utilisateur = utilisateur;
+    public void setNo_utilisateur(int no_utilisateur) {
+        this.no_utilisateur = no_utilisateur;
     }
 
     public int getNoCategorie() {
@@ -92,7 +84,7 @@ public class ArticleDto {
                 ", nomArticle='" + nomArticle + '\'' +
                 ", dateFinEnchere=" + dateFinEnchere +
                 ", miseAPrix=" + miseAPrix +
-                ", utilisateur=" + utilisateur +
+                ", utilisateur=" + no_utilisateur +
                 ", categorieArticle=" + noCategorie +
                 '}';
     }
@@ -100,12 +92,12 @@ public class ArticleDto {
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        ArticleDto that = (ArticleDto) o;
-        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && noCategorie == that.noCategorie && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(utilisateur, that.utilisateur);
+        ArticleVenduDto that = (ArticleVenduDto) o;
+        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && no_utilisateur == that.no_utilisateur && noCategorie == that.noCategorie && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, utilisateur, noCategorie);
+        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, no_utilisateur, noCategorie);
     }
 }
