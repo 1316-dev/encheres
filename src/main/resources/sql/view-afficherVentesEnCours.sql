@@ -1,3 +1,6 @@
+DROP VIEW IF EXISTS afficherVentesEnCours
+GO
+
 CREATE VIEW afficherVentesEnCours
 AS
 select no_article,nom_article, prix_initial, date_fin_encheres, utilisateurs.pseudo AS Vendeur, no_categorie
