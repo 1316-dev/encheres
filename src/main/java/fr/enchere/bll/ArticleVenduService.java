@@ -8,7 +8,7 @@ public interface ArticleVenduService {
 
     List<ArticleVenduDto> AfficherListeArticleVendu();
 
-    List <ArticleVenduDto> AfficherListeArticleVenduByCategorie(int no_categorie);
+    List <ArticleVenduDto> AfficherlisteArticleVenduByNom(String recherche);
 
     List<ArticleVenduDto> AfficherListeArticleVenduFiltree(int no_categorie, String recherche);
 }
