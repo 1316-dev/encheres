@@ -1,17 +1,14 @@
 package fr.enchere.dto;
 
 
-import fr.enchere.bo.Utilisateur;
-
-import java.time.LocalDateTime;
-
+import java.util.Date;
 import java.util.Objects;
 
 public class ArticleVenduDto {
 
         private int noArticle;
         private String nomArticle;
-        private LocalDateTime dateFinEnchere;
+        private Date dateFinEnchere;
         private int miseAPrix;
 
         private int no_utilisateur;
@@ -20,7 +17,7 @@ public class ArticleVenduDto {
     public ArticleVenduDto() {
     }
 
-    public ArticleVenduDto(int noArticle, String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, int no_utilisateur, int noCategorie) {
+    public ArticleVenduDto(int noArticle, String nomArticle, Date dateFinEnchere, int miseAPrix, int no_utilisateur, int noCategorie) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.dateFinEnchere = dateFinEnchere;
@@ -45,11 +42,11 @@ public class ArticleVenduDto {
         this.nomArticle = nomArticle;
     }
 
-    public LocalDateTime getDateFinEnchere() {
+    public Date getDateFinEnchere() {
         return dateFinEnchere;
     }
 
-    public void setDateFinEnchere(LocalDateTime dateFinEnchere) {
+    public void setDateFinEnchere(Date dateFinEnchere) {
         this.dateFinEnchere = dateFinEnchere;
     }
 
