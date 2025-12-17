@@ -7,4 +7,5 @@ public interface UtilisateurService {
     void creerUtilisateur(Utilisateur utilisateur);
 
     Utilisateur findUserByUsername(String pseudo);
+    Utilisateur consulterUtilisateur(String pseudo);
 }

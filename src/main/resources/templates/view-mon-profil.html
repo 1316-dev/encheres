@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>Enchères - Mon Profil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body>
+
+<header data-th-replace="~{fragments/entete :: frag-entete }"></header>
+
+<main class="container mt-5">
+    <div class="row justify-content-between">
+        <div class="col-lg-8">
+
+            <div class="border rounded p-4 shadow">
+
+                <h1 class="text-center mb-4">Mon profil</h1>
+
+
+                <div class="row justify-content-between">
+
+                    <div class="w-75">
+
+                        <div class="row mb-3">
+                            <div class="col-4 text-end fw-bold">Pseudo :</div>
+                            <div class="col-8 text-start" th:text="${utilisateurDto.pseudo}"></div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-4 text-end fw-bold">Nom :</div>
+                            <div class="col-8 text-start" th:text="${utilisateurDto.nom}"></div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-4 text-end fw-bold">Prénom :</div>
+                            <div class="col-8 text-start" th:text="${utilisateurDto.prenom}"></div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-4 text-end fw-bold">Email :</div>
+                            <div class="col-8 text-start" th:text="${utilisateurDto.email}"></div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-4 text-end fw-bold">Téléphone :</div>
+                            <div class="col-8 text-start" th:text="${utilisateurDto.telephone}"></div>
+                        </div>
+
+                        <div class="row mb-3">
+                            <div class="col-4 text-end fw-bold">Rue :</div>
+                            <div class="col-8 text-start" th:text="${utilisateurDto.rue}"></div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-4 text-end fw-bold">Code postal :</div>
+                            <div class="col-8 text-start" th:text="${utilisateurDto.codePostal}"></div>
+                        </div>
+
+
+                        <div class="row mb-3">
+                            <div class="col-4 text-end fw-bold">Ville :</div>
+                            <div class="col-8 text-start" th:text="${utilisateurDto.ville}"></div>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="text-center mt-4">
+                    <a th:href="@{/modifier}" class="btn btn-outline-light px-4">
+                        Modifier
+                    </a>
+                </div>
+</div>
+            </div>
+
+        </div>
+    </div>
+</main>
+
+</body>
+</html>
