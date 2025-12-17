@@ -24,7 +24,7 @@
             <p>Retrait :</p>
             <p>adresse retrait à faire</p>
             <p>Vendeur</p>
-            <p> Vendeur à chercher</p>
+            <p th:text="${article.getUtilisateur()}"></p>
         </div>
 
         <form th:action="@{/detail-vente}" method="POST" class="border rounded p-4 shadow">
