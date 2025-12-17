@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <title>Enchères - Connexion</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
 <header data-th-replace="~{fragments/entete :: frag-entete }"></header>
-<main>
-    <form th:action="@{/login}" method="POST">
+<main class="container mt-5">
+    <form th:action="@{/login}" method="POST" class="border rounded p-4 shadow">
         <label for="inputLogin">Identifiant :</label>
         <input type="text" id="inputLogin" name="username">
 
