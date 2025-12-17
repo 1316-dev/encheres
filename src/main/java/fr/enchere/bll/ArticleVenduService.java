@@ -9,6 +9,7 @@ import java.util.List;
 
 public interface ArticleVenduService {
 
+    ArticleVendu findArticleById(int id);
     List<ArticleVenduDto> AfficherListeArticleVendu();
 
     List <ArticleVenduDto> AfficherlisteArticleVenduByNom(String recherche);
