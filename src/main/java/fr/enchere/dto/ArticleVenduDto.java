@@ -2,6 +2,9 @@ package fr.enchere.dto;
 
 
 import fr.enchere.bo.Retrait;
+import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.Objects;
@@ -10,11 +13,17 @@ public class ArticleVenduDto {
 
         private int noArticle;
         private String nomArticle;
+        @NotNull(message = "La date de début est obligatoire")
+        @FutureOrPresent(message = "La date de début ne peut pas être dans le passé")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private Date dateFinEnchere;
         private int miseAPrix;
         private String vendeur;
         private int noCategorie;
         private String description;
+        @NotNull(message = "La date de début est obligatoire")
+        @FutureOrPresent(message = "La date de début ne peut pas être dans le passé")
+        @DateTimeFormat(pattern = "yyyy-MM-dd")
         private Date dateDebutEnchere;
         private Retrait lieuRetrait;
         private int prixVente;
