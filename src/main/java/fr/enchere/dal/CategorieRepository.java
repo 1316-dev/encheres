@@ -7,4 +7,6 @@ import java.util.List;
 public interface CategorieRepository {
 
     List<Categorie> findAllCategorie();
+
+    Categorie findCategorieById(int no_categorie);
 }

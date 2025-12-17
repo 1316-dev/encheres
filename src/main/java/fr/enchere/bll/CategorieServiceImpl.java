@@ -20,4 +20,9 @@ public class CategorieServiceImpl implements CategorieService{
         List<Categorie> listeCategories = categorieRepository.findAllCategorie();
         return listeCategories;
     }
+
+    @Override
+    public Categorie findCategorieById(int no_categorie) {
+        return categorieRepository.findCategorieById(no_categorie);
+    }
 }
