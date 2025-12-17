@@ -30,8 +30,8 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
             articleVenduDto.setNomArticle(rs.getString("nom_article"));
             articleVenduDto.setMiseAPrix(rs.getInt("prix_initial"));
             articleVenduDto.setDateFinEnchere(rs.getDate("date_fin_encheres"));
-            articleVenduDto.setVendeur(rs.getString("vendeur"));
-            articleVenduDto.setVendeur(rs.getString("no_categorie"));
+            articleVenduDto.setVendeur(rs.getString("Vendeur"));
+            articleVenduDto.setNoCategorie(rs.getInt("no_categorie"));
 
 
             return articleVenduDto;
@@ -49,7 +49,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
     @Override
     public List<ArticleVenduDto> listeArticleVenduByNom(String recherche) {
         String sql = "select * from dbo.afficherVentesEnCours where nom_article LIKE ? and date_fin_encheres > getdate()";
-
+        System.out.println(sql);
         List<ArticleVenduDto> ListeArticleFiltreCategorie = jdbcTemplate.query(sql,new ArticleVenduRowMapper(), "%"+recherche+"%");
 
         return ListeArticleFiltreCategorie;
