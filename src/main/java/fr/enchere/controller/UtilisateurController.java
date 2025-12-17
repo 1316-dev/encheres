@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @Controller
@@ -49,6 +50,22 @@ public class UtilisateurController {
 
        utilisateurService.creerUtilisateur(utilisateur);
                 return "redirect:/view-list-encheres?pseudo=" + utilisateur.getPseudo();
+    }
+
+    @GetMapping("/modifier")
+    public String afficherProfil(@RequestParam(name="pseudo")String identifiant,  Model model ){
+      Utilisateur  utilisateur = this.utilisateurService.consulterUtilisateur(identifiant);
+        UtilisateurDto utilisateurDto = new UtilisateurDto();
+        utilisateurDto.setPseudo(utilisateur.getPseudo());
+        utilisateurDto.setNom(utilisateur.getNom());
+        utilisateurDto.setPrenom(utilisateur.getPrenom());
+        utilisateurDto.setEmail(utilisateur.getEmail());
+        utilisateurDto.setTelephone(utilisateur.getTelephone());
+        utilisateurDto.setRue(utilisateur.getRue());
+        utilisateurDto.setCodePostal(utilisateur.getCodePostal());
+        utilisateurDto.setVille(utilisateur.getVille());
+    model.addAttribute("utilisateurDto", utilisateurDto);
+    return "/view-mon-profil" ;
     }
 
 }
