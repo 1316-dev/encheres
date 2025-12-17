@@ -55,6 +55,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
             return user;
         }
     }
+
     @Override
     public void saveUtilisateur(Utilisateur utilisateur){
         String sql ="insert into utilisateurs(pseudo, nom, prenom, email, telephone, rue, code_postal,  ville, mot_de_passe)"
@@ -66,7 +67,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("pseudo",utilisateur.getPseudo());
         parameters.addValue("nom",utilisateur.getNom());
-        parameters.addValue("prenom",utilisateur.getPseudo());
+        parameters.addValue("prenom",utilisateur.getPrenom());
         parameters.addValue("email",utilisateur.getEmail());
         parameters.addValue("telephone",utilisateur.getTelephone());
         parameters.addValue("rue",utilisateur.getRue());
@@ -80,6 +81,43 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
     }
 
+   /* @Override
+    public void updateUtilisateur(Utilisateur utilisateur) {
+
+        String sql = "insert into utilisateurs(no_utlisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passse)"
+                + values(:)
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
+        parameters.addValue("pseudo", utilisateur.getPseudo());
+        parameters.addValue("nom", utilisateur.getNom());
+        parameters.addValue("prenom", utilisateur.getPrenom());
+        parameters.addValue("email", utilisateur.getEmail());
+        parameters.addValue("telephone", utilisateur.getTelephone());
+        parameters.addValue("rue", utilisateur.getRue());
+        parameters.addValue("code_postal", utilisateur.getCodePostal());
+        parameters.addValue("ville", utilisateur.getVille());
+        parameters.addValue("mot_de_passe", utilisateur.getMotDePasse());
+
+        int rows = namedParameterJdbcTemplate.update(sql, parameters);
+
+        if (rows == 0) {
+            throw new UtilisateurNotFound("Utilisateur non trouvé pour mise à jour");
+        }
+    }*/
+
+
+
+    @Override
+    public void deleteUtilisateur(int noUtilisateur) {
+
+        String sql = "DELETE FROM utilisateurs WHERE no_utilisateur = ?";
+
+        int rows = jdbcTemplate.update(sql, noUtilisateur);
+
+        if (rows == 0) {
+            throw new UtilisateurNotFound("Utilisateur non trouvé pour suppression");
+        }
+    }
 
 
 }

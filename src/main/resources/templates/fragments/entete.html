@@ -1,12 +1,74 @@
-<header th:fragment="frag-entete" xmlns:sec="http://www.w3.org/1999/xhtml">
-    <h1 id="nav-title"><a th:href="@{/encheres} ">Eni-Enchere</a></h1>
-    <ul>
+<header th:fragment="frag-entete"
+        xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-        <li><a th:href="@{/inscription}">S'inscrire</a></li>
-        <li><a th:href="@{/connexion}">Se Connecter</a></li>
-        <li><a th:href="@{/encheres}">Enchères</a></li>
-        <li sec:authorize="isAuthenticated()"><a th:href="@{/view-vendre-article}">Vendre un article</a></li>
-        <li sec:authorize="isAuthenticated()"><a th:href="@{/view-mon-profil}">Mon profil</a></li>
-        <li sec:authorize="isAuthenticated()"><a th:href="@{/logout}">Déconnexion (connecté en tant que : <span sec:authentication="name"></span>)</a></li>
-    </ul>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
+        <div class="container">
+
+            <!-- LOGO / TITRE -->
+            <a class="navbar-brand fw-bold" th:href="@{/encheres}">
+                Eni-Enchère
+            </a>
+
+            <!-- BOUTON MOBILE -->
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#navbarContent"
+                    aria-controls="navbarContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+
+            <div class="collapse navbar-collapse" id="navbarContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center">
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/encheres}">Enchères</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/inscription}">S'inscrire</a>
+                    </li>
+
+                    <li class="nav-item">
+                        <a class="nav-link" th:href="@{/connexion}">Se connecter</a>
+                    </li>
+
+
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/view-vendre-article}">
+                            Vendre un article
+                        </a>
+                    </li>
+
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link" th:href="@{/view-mon-profil}">
+                            Mon profil
+                        </a>
+                    </li>
+
+                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
+                        <a class="nav-link dropdown-toggle text-warning"
+                           href="#"
+                           role="button"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+                            <span sec:authentication="name"></span>
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            <li>
+                                <a class="dropdown-item text-danger"
+                                   th:href="@{/logout}">
+                                    Déconnexion
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
 </header>
