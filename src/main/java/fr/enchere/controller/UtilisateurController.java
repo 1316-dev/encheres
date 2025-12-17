@@ -72,7 +72,7 @@ public class UtilisateurController {
 
     @GetMapping("/modifier")
     public String ModifierProfil(@RequestParam(name="pseudo")String identifiant,  Model model ){
-            Utilisateur  utilisateurProfil = this.utilisateurService.consulterUtilisateur(identifiant);
+            Utilisateur  utilisateurProfil = this.utilisateurService.findUserByUsername(identifiant);
             UtilisateurDto utilisateurDto = new UtilisateurDto();
             utilisateurDto.setPseudo(utilisateurProfil.getPseudo());
             utilisateurDto.setNom(utilisateurProfil.getNom());
