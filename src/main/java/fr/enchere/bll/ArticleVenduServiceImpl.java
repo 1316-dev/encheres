@@ -19,6 +19,11 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
     }
 
     @Override
+    public ArticleVendu findArticleById(int id) {
+       return articleVenduRepository.findArticleById(id);
+    }
+
+    @Override
     public List<ArticleVenduDto> AfficherListeArticleVendu() {
         return articleVenduRepository.listeArticleVendu();
     }

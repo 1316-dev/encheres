@@ -16,5 +16,8 @@ public interface ArticleVenduRepository {
 
     List <ArticleVenduDto> listeArticleFiltree(int no_categorie, String recherche);
 
+
+
+    ArticleVendu findArticleById(int id);
     void createArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur);
 }

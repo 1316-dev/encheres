@@ -20,4 +20,14 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     public Utilisateur findUserByUsername(String pseudo) {
         return utilisateurRepository.findUserByUsername(pseudo);
     }
+
+    @Override
+    public void supprimerUtilisateur(int noUtilisateur) {
+        utilisateurRepository.deleteUtilisateur(noUtilisateur);
+    }
+
+    @Override
+    public void updateProfil(Utilisateur utilisateur) {
+        utilisateurRepository.updateUtilisateur(utilisateur);
+    }
 }

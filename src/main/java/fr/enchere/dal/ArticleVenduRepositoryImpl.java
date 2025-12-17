@@ -2,6 +2,7 @@ package fr.enchere.dal;
 
 
 import fr.enchere.bo.ArticleVendu;
+import fr.enchere.bo.Categorie;
 import fr.enchere.bo.Retrait;
 import fr.enchere.bo.Utilisateur;
 import fr.enchere.dto.ArticleVenduDto;
@@ -49,6 +50,15 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
     }
 
     @Override
+    public ArticleVendu findArticleById(int id) {
+        String sql ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie FROM Articles_Vendus WHERE no_article = ?";
+
+        ArticleVendu article = jdbcTemplate.queryForObject(sql, new ArticleBORowMapper(), id);
+
+        return article;
+    }
+
+    @Override
     public List<ArticleVenduDto> listeArticleVendu() {
         String sql = "select * from dbo.afficherVentesEnCours where date_fin_encheres > getdate()";
 
@@ -72,6 +82,34 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         List<ArticleVenduDto> ListeArticleFiltreCategorie = jdbcTemplate.query(sql,new ArticleVenduRowMapper(), no_categorie,"%"+recherche+"%");
 
         return ListeArticleFiltreCategorie;
+    }
+
+    class ArticleBORowMapper implements RowMapper<ArticleVendu> {
+
+        @Override
+        public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
+
+            Utilisateur user = new Utilisateur();
+            Categorie categorie = new Categorie();
+
+
+            ArticleVendu articleVendu = new ArticleVendu();
+            articleVendu.setNoArticle(rs.getInt("no_article"));
+            articleVendu.setNomArticle(rs.getString("nom_article"));
+            articleVendu.setDescription(rs.getString("description"));
+            articleVendu.setDateDebutEnchere(rs.getDate("date_debut_encheres"));
+            articleVendu.setDateFinEnchere(rs.getDate("date_fin_encheres"));
+            articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
+            articleVendu.setPrixVente(rs.getInt("prix_vente"));
+
+            user.setNoUtilisateur(rs.getInt("no_utilisateur"));
+            categorie.setNoCategorie(rs.getInt("no_categorie"));
+
+            articleVendu.setUtilisateur(user);
+            articleVendu.setCategorieArticle(categorie);
+
+            return articleVendu;
+        }
     }
 
     @Override
