@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,6 +16,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -28,7 +30,8 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     private PasswordEncoder passwordEncoder;
 
     public UtilisateurRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
-        this.jdbcTemplate = namedParameterJdbcTemplate.getJdbcTemplate();;
+        this.jdbcTemplate = namedParameterJdbcTemplate.getJdbcTemplate();
+        ;
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
@@ -38,7 +41,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         Utilisateur user = null;
         try {
             user = jdbcTemplate.queryForObject(sql, new UtilisateurRepositoryImpl.UserRowMapper(), pseudo);
-        } catch(EmptyResultDataAccessException ex) {
+        } catch (EmptyResultDataAccessException ex) {
             throw new UtilisateurNotFound("Utilisateur non trouvé");
         }
         return user;
@@ -64,41 +67,14 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     }
 
     @Override
-    public void saveUtilisateur(Utilisateur utilisateur){
-        String sql ="insert into utilisateurs(pseudo, nom, prenom, email, telephone, rue, code_postal,  ville, mot_de_passe)"
-                    +"values(:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
+    public void saveUtilisateur(Utilisateur utilisateur) {
+        String sql = "insert into utilisateurs(pseudo, nom, prenom, email, telephone, rue, code_postal,  ville, mot_de_passe)"
+                + "values(:pseudo, :nom, :prenom, :email, :telephone, :rue, :code_postal, :ville, :mot_de_passe)";
 
-        KeyHolder keyholder=new GeneratedKeyHolder();
+        KeyHolder keyholder = new GeneratedKeyHolder();
 
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("pseudo",utilisateur.getPseudo());
-        parameters.addValue("nom",utilisateur.getNom());
-        parameters.addValue("prenom",utilisateur.getPrenom());
-        parameters.addValue("email",utilisateur.getEmail());
-        parameters.addValue("telephone",utilisateur.getTelephone());
-        parameters.addValue("rue",utilisateur.getRue());
-        parameters.addValue("code_postal",utilisateur.getCodePostal());
-        parameters.addValue("ville",utilisateur.getVille());
-        parameters.addValue("mot_de_passe", passwordEncoder.encode(utilisateur.getMotDePasse()));
-
-
-
-
-        namedParameterJdbcTemplate.update(sql,parameters, keyholder, new String[]{"no_utilisateur"});
-        utilisateur.setNoUtilisateur(keyholder.getKey().intValue());
-
-    }
-
-
-
-   /* @Override
-    public void updateUtilisateur(Utilisateur utilisateur) {
-
-        String sql = "insert into utilisateurs(no_utlisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passse)"
-                + values(:)
-        MapSqlParameterSource parameters = new MapSqlParameterSource();
-        parameters.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
         parameters.addValue("pseudo", utilisateur.getPseudo());
         parameters.addValue("nom", utilisateur.getNom());
         parameters.addValue("prenom", utilisateur.getPrenom());
@@ -109,26 +85,53 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         parameters.addValue("ville", utilisateur.getVille());
         parameters.addValue("mot_de_passe", utilisateur.getMotDePasse());
 
-        int rows = namedParameterJdbcTemplate.update(sql, parameters);
 
-        if (rows == 0) {
-            throw new UtilisateurNotFound("Utilisateur non trouvé pour mise à jour");
-        }
-    }*/
+        namedParameterJdbcTemplate.update(sql, parameters, keyholder, new String[]{"no_utilisateur"});
+        utilisateur.setNoUtilisateur(keyholder.getKey().intValue());
 
-
-
+    }
+    // test non effectué
     @Override
-    public void deleteUtilisateur(int noUtilisateur) {
+    public void updateUtilisateur(Utilisateur utilisateur) {
 
-        String sql = "DELETE FROM utilisateurs WHERE no_utilisateur = ?";
+        String sql = "update utilisateurs set pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? where no_utilisateur";
 
-        int rows = jdbcTemplate.update(sql, noUtilisateur);
+        try {
+            PreparedStatementSetter pss = new PreparedStatementSetter() {
+                @Override
+                public void setValues(PreparedStatement ps) throws SQLException {
+                    ps.setString(1, utilisateur.getPseudo());
+                    ps.setString(2, utilisateur.getNom());
+                    ps.setString(3, utilisateur.getPrenom());
+                    ps.setString(4, utilisateur.getEmail());
+                    ps.setString(5, utilisateur.getTelephone());
+                    ps.setString(6, utilisateur.getRue());
+                    ps.setString(7, utilisateur.getCodePostal());
+                    ps.setString(8, utilisateur.getVille());
+                    ps.setString(9, utilisateur.getMotDePasse());
+                }
+            };
+            jdbcTemplate.update(sql, pss);
 
-        if (rows == 0) {
-            throw new UtilisateurNotFound("Utilisateur non trouvé pour suppression");
+        } catch (EmptyResultDataAccessException ex) {
+            throw new UtilisateurNotFound(utilisateur.getPseudo());
         }
+
+    }
+    // test non effectué
+        @Override
+        public void deleteUtilisateur(int noUtilisateur){
+
+            String sql = "DELETE FROM utilisateurs WHERE no_utilisateur = ?";
+
+            int rows = jdbcTemplate.update(sql, noUtilisateur);
+
+            if (rows == 0) {
+                throw new UtilisateurNotFound("Utilisateur non trouvé pour suppression");
+            }
+        }
+
     }
 
 
-}
+

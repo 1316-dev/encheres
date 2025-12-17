@@ -8,5 +8,7 @@ public interface UtilisateurRepository {
 
     void saveUtilisateur(Utilisateur utilisateur);
 
+   void updateUtilisateur(Utilisateur utilisateur);
+
     void deleteUtilisateur(int noUtilisateur);
 }
