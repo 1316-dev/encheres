@@ -5,7 +5,10 @@ import fr.enchere.bo.Utilisateur;
 public interface UtilisateurService {
 
     void creerUtilisateur(Utilisateur utilisateur);
-    Utilisateur consulterUtilisateur(String pseudo);
+
+    Utilisateur findUserByUsername(String pseudo);
+
     void supprimerUtilisateur(int noUtilisateur);
+
     void updateProfil(Utilisateur utilisateur);
 }

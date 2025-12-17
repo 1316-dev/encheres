@@ -16,7 +16,7 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     @Override
     public void creerUtilisateur(Utilisateur utilisateur){utilisateurRepository.saveUtilisateur(utilisateur);}
 
-    @Override
+   @Override
     public Utilisateur findUserByUsername(String pseudo) {
         return utilisateurRepository.findUserByUsername(pseudo);
     }
@@ -30,4 +30,5 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     public void updateProfil(Utilisateur utilisateur) {
         utilisateurRepository.updateUtilisateur(utilisateur);
     }
+
 }
