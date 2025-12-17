@@ -72,14 +72,14 @@
 
 
                 <div class="text-center mt-4">
-                    <a th:href="@{/modifier}" class="btn btn-outline-light px-4">
+                    <a th:href="@{/modifier(pseudo=${#authentication.name})}" class="btn btn-outline-light px-4">
                         Modifier
                     </a>
                 </div>
-</div>
             </div>
-
         </div>
+
+    </div>
     </div>
 </main>
 

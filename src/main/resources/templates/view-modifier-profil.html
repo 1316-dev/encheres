@@ -2,7 +2,7 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <title>Enchères - S'inscrire</title>
+    <title>Enchères - Modifier Mon Profil</title>
 
 
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
@@ -15,7 +15,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
-            <form th:action="@{/inscription}"
+           <form th:action="@{/modifier}"
                   method="POST"
                   th:object="${utilisateurDto}"
                   class="border rounded p-4 shadow">
@@ -28,63 +28,72 @@
                         <label for="inputPseudo" class="form-label text-center w-100">Pseudo</label>
                         <input type="text" id="inputPseudo"
                                class="form-control w-75 mx-auto"
-                               th:field="*{pseudo}">
+                               th:placeholder="${utilisateurDto.pseudo}"
+                               th:field="${utilisateurDto.pseudo}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputNom" class="form-label text-center w-100">Nom</label>
                         <input type="text" id="inputNom"
                                class="form-control w-75 mx-auto"
-                               th:field="*{nom}">
+                               th:placeholder="${utilisateurDto.nom}"
+                               th:field="${utilisateurDto.nom}">
                     </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label for="inputPrenom" class="form-label text-center w-100">Prénom</label>
-                        <input type="text" id="inputPrenom"
-                               class="form-control w-75 mx-auto"
-                               th:field="*{prenom}">
-                    </div>
+                     <div class="col-md-6 mb-3">
+                          <label for="inputPrenom" class="form-label text-center w-100">Prénom</label>
+                          <input type="text" id="inputPrenom"
+                                 class="form-control w-75 mx-auto"
+                                 th:placeholder="${utilisateurDto.prenom}"
+                                 th:field="${utilisateurDto.prenom}">
+                      </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputEmail" class="form-label text-center w-100">Email</label>
                         <input type="email" id="inputEmail"
                                class="form-control w-75 mx-auto"
-                               th:field="*{email}">
+                               th:placeholder="${utilisateurDto.email}"
+                               th:field="${utilisateurDto.email}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputTel" class="form-label text-center w-100">Téléphone</label>
                         <input type="tel" id="inputTel"
                                class="form-control w-75 mx-auto"
-                               th:field="*{telephone}">
+                               th:placeholder="${utilisateurDto.telephone}"
+                               th:field="${utilisateurDto.telephone}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputRue" class="form-label text-center w-100">Rue</label>
                         <input type="text" id="inputRue"
                                class="form-control w-75 mx-auto"
-                               th:field="*{rue}">
+                               th:placeholder="${utilisateurDto.rue}"
+                               th:field="${utilisateurDto.rue}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputCP" class="form-label text-center w-100">Code postal</label>
                         <input type="text" id="inputCP"
                                class="form-control w-75 mx-auto"
-                               th:field="*{codePostal}">
+                               th:placeholder="${utilisateurDto.codePostal}"
+                               th:field="${utilisateurDto.codePostal}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputVille" class="form-label text-center w-100">Ville</label>
                         <input type="text" id="inputVille"
                                class="form-control w-75 mx-auto"
-                               th:field="*{ville}">
+                               th:placeholder="${utilisateurDto.ville}"
+                               th:field="${utilisateurDto.ville}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputMdp" class="form-label text-center w-100">Mot de passe</label>
                         <input type="password" id="inputMdp"
                                class="form-control w-75 mx-auto"
-                               th:field="*{motDePasse}">
+                               th:placeholder="${utilisateurDto.motDePasse}"
+                               th:field="${utilisateurDto.motDePasse}">
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -101,13 +110,13 @@
 
                     <div class="col-md-6 text-center">
                         <button type="submit" class="btn btn-success px-4">
-                            S'inscrire
+                            Enregistrer
                         </button>
                     </div>
 
                     <div class="col-md-6 text-center">
                         <a href="/encheres" class="btn btn-outline-light px-4">
-                            Annuler
+                            Supprimer mon compte
                         </a>
                     </div>
 

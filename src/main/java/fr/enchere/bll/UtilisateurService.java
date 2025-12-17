@@ -6,4 +6,6 @@ public interface UtilisateurService {
 
     void creerUtilisateur(Utilisateur utilisateur);
     Utilisateur consulterUtilisateur(String pseudo);
+    void supprimerUtilisateur(int noUtilisateur);
+    void updateProfil(Utilisateur utilisateur);
 }
