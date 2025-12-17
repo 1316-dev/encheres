@@ -28,16 +28,24 @@ public class WebSecurityConfig {
                 //.formLogin(Customizer.withDefaults())
                 .formLogin((form) -> form.loginPage("/connexion")
                 .defaultSuccessUrl("/encheres", true)
+                        //.failureUrl("/login?error") // redirect to error page
                 .loginProcessingUrl("/login")
                 .permitAll() )
-
                 .logout(logout -> logout
-                        .logoutUrl("/logout")          // URL de déconnexion
+                        .logoutUrl("/logout")
+                        .logoutSuccessUrl("/")
+                        .invalidateHttpSession(true)
+                        .clearAuthentication(true)
+                        .deleteCookies("JSESSIONID")
+                );
+        /*
+                .logout(logout -> logout
+                        .logoutUrl("/logout")      // URL de déconnexion
                         .logoutSuccessUrl("/")         // URL après déconnexion
                         .invalidateHttpSession(true)   // invalide la session
                         .clearAuthentication(true)     // nettoie l'authentification
                         .deleteCookies("JSESSIONID")); // supprime le cookie de session
-
+          */
 
         return http.build();
 

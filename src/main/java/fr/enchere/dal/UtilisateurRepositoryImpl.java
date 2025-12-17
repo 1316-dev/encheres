@@ -2,12 +2,16 @@ package fr.enchere.dal;
 
 import fr.enchere.bo.Utilisateur;
 import fr.enchere.exception.UtilisateurNotFound;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.support.KeyHolder;
 
@@ -19,6 +23,9 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
     private JdbcTemplate jdbcTemplate;
     private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public UtilisateurRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.jdbcTemplate = namedParameterJdbcTemplate.getJdbcTemplate();;
@@ -73,13 +80,17 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         parameters.addValue("rue",utilisateur.getRue());
         parameters.addValue("code_postal",utilisateur.getCodePostal());
         parameters.addValue("ville",utilisateur.getVille());
-        parameters.addValue("mot_de_passe",utilisateur.getMotDePasse());
+        parameters.addValue("mot_de_passe", passwordEncoder.encode(utilisateur.getMotDePasse()));
+
+
 
 
         namedParameterJdbcTemplate.update(sql,parameters, keyholder, new String[]{"no_utilisateur"});
         utilisateur.setNoUtilisateur(keyholder.getKey().intValue());
 
     }
+
+
 
    /* @Override
     public void updateUtilisateur(Utilisateur utilisateur) {
