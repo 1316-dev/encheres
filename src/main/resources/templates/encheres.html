@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="fr" xmlns:sec="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <title>Enchères</title>
@@ -58,7 +60,7 @@
                 <p class="card-text">
                     Vendeur : <span th:text="${article.vendeur}"></span>
                 </p>
-                <a href="#" class="btn btn-primary">Détail Vente</a>
+                <a href="#" class="btn btn-primary" sec:authorize="isAuthenticated()">Détail Vente</a>
             </div>
         </div>
     </div>
