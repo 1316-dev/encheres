@@ -44,6 +44,6 @@ public class CategorieRepositoryImpl implements CategorieRepository{
     public Categorie findCategorieById(int no_categorie) {
         String sql = "select no_categorie, libelle from categories where no_categorie = ?";
         Categorie categorie = jdbcTemplate.queryForObject(sql,new CategorieRowMapper(),no_categorie);
-        return null;
+        return categorie;
     }
 }

@@ -101,7 +101,7 @@
                                 <input type="text" id="inputRue"
                                        class="form-control w-75 mx-auto text-center"
                                        th:field="${retraitDto.rue}"
-                                        th:placeholder="${utilisateur.rue}">
+                                        >
 
                         </div>
                         <div class="col-4 justify-content-center mb-3">
@@ -109,8 +109,8 @@
                                 <label for="inputCP" class="form-label text-center w-100">Code postal</label>
                                 <input type="text" id="inputCP"
                                        class="form-control w-75 mx-auto text-center"
-                                       th:placeholder="${utilisateur.codePostal}"
-                                       th:field="${retraitDto.codePostal}"
+
+                                       th:field="${retraitDto.cp}"
                                 >
 
                         </div>
@@ -120,7 +120,7 @@
                                 <label for="inputVille" class="form-label text-center w-100">Ville</label>
                                 <input type="text" id="inputVille"
                                        class="form-control w-75 mx-auto text-center"
-                                       th:placeholder="${utilisateur.ville}"
+
                                        th:field="${retraitDto.ville}">
 
                         </div>

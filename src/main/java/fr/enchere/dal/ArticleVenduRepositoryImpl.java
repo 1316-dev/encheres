@@ -75,19 +75,20 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
     }
 
     @Override
-    public Void createArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
-        String sql = "insert into articles_vendus(nom_article, descrition, date_debut_enchere, date_fin_enchere, prix_initial,  no_utilisateur, no_categorie)"
-                + "values(:nom_article, :descrition, :date_debut_enchere, :date_fin_enchere, :prix_initial, :no_utilisateur, :nocategorie)";
+    public void createArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
+        String sql = "insert into articles_vendus(nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,  no_utilisateur, no_categorie)"
+                + "values(:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :nocategorie)";
 
         KeyHolder keyholder = new GeneratedKeyHolder();
 
 
         MapSqlParameterSource parameters = new MapSqlParameterSource();
         parameters.addValue("nom_article", articleVendu.getNomArticle());
-        parameters.addValue("descrition", articleVendu.getDescription());
-        parameters.addValue("date_debut_enchere", articleVendu.getDateDebutEnchere());
-        parameters.addValue("date_fin_enchere", articleVendu.getDateFinEnchere());
+        parameters.addValue("description", articleVendu.getDescription());
+        parameters.addValue("date_debut_encheres", articleVendu.getDateDebutEnchere());
+        parameters.addValue("date_fin_encheres", articleVendu.getDateFinEnchere());
         parameters.addValue("prix_initial", articleVendu.getMiseAPrix());
+        System.out.println(utilisateur.getNoUtilisateur());
         parameters.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
         parameters.addValue("nocategorie", articleVendu.getCategorieArticle().getNoCategorie());
 
@@ -97,17 +98,18 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         articleVendu.setNoArticle(keyholder.getKey().intValue());
 
         String sql2 = "insert into retraits(no_article,rue,code_postal,ville,no_utilisateur)" +
-                "values(:no_article,:rue,:code_postal,:ville,no_utilisateur)";
+                "values(:no_article,:rue,:code_postal,:ville,:no_utilisateur)";
 
-        KeyHolder keyholderRetrait = new GeneratedKeyHolder();
+
 
         MapSqlParameterSource parametersRetrait = new MapSqlParameterSource();
-        parametersRetrait.addValue("no_article", keyholder.getKey());
+        parametersRetrait.addValue("no_article", articleVendu.getNoArticle());
         parametersRetrait.addValue("rue", retrait.getRue());
         parametersRetrait.addValue("code_postal", retrait.getCp());
         parametersRetrait.addValue("ville", retrait.getVille());
         parametersRetrait.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
+        namedParameterJdbcTemplate.update(sql2, parametersRetrait);
 
-        return null;
+
     }
 }

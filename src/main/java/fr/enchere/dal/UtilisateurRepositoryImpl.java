@@ -23,15 +23,15 @@ import java.sql.SQLException;
 @Repository
 public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
-    private JdbcTemplate jdbcTemplate;
-    private NamedParameterJdbcTemplate namedParameterJdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     public UtilisateurRepositoryImpl(JdbcTemplate jdbcTemplate, NamedParameterJdbcTemplate namedParameterJdbcTemplate) {
         this.jdbcTemplate = namedParameterJdbcTemplate.getJdbcTemplate();
-        ;
+
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
@@ -50,6 +50,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     public class UserRowMapper implements RowMapper<Utilisateur> {
         public Utilisateur mapRow(ResultSet rs, int rowNum) throws SQLException {
             Utilisateur user = new Utilisateur();
+            user.setNoUtilisateur(rs.getInt("no_utilisateur"));
             user.setPseudo(rs.getString("pseudo"));
             user.setNom(rs.getString("nom"));
             user.setPrenom(rs.getString("prenom"));

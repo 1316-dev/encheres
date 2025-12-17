@@ -1,9 +1,11 @@
 package fr.enchere.controller;
 
 import fr.enchere.bll.ArticleVenduService;
+import fr.enchere.bll.CategorieService;
 import fr.enchere.bll.UtilisateurService;
 import fr.enchere.bo.ArticleVendu;
 
+import fr.enchere.bo.Categorie;
 import fr.enchere.bo.Retrait;
 import fr.enchere.bo.Utilisateur;
 import fr.enchere.dto.ArticleVenduDto;
@@ -27,10 +29,12 @@ public class EnchereController {
 
     private final UtilisateurService utilisateurService;
     private final ArticleVenduService articleVenduService;
+    private final CategorieService categorieService;
 
-    public EnchereController(UtilisateurService utilisateurService, ArticleVenduService articleVenduService) {
+    public EnchereController(UtilisateurService utilisateurService, ArticleVenduService articleVenduService, CategorieService categorieService) {
         this.utilisateurService = utilisateurService;
         this.articleVenduService = articleVenduService;
+        this.categorieService = categorieService;
     }
 
     @GetMapping({"/vendre"})
@@ -46,7 +50,10 @@ public class EnchereController {
         model.addAttribute("utilisateur", utilisateur);
 
         RetraitDto retraitDto = new RetraitDto();
-        model.addAttribute("retraitDto", utilisateur);
+        retraitDto.setRue(utilisateur.getRue());
+        retraitDto.setCp(utilisateur.getCodePostal());
+        retraitDto.setVille(utilisateur.getVille());
+        model.addAttribute("retraitDto", retraitDto);
 
         return "view-vendre-article";
 
@@ -63,12 +70,18 @@ public class EnchereController {
         ArticleVendu articleVendu= new ArticleVendu();
         BeanUtils.copyProperties(articleVenduDto, articleVendu);
 
+        Categorie categorie = categorieService.findCategorieById(articleVenduDto.getNoCategorie());
+
+        articleVendu.setCategorieArticle(categorie);
+
         Retrait retrait= new Retrait();
         BeanUtils.copyProperties(retraitDto, retrait);
+
         String pseudo = principal.getName();
         Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
+        System.out.println(utilisateur);
 
         articleVenduService.creerArticle(articleVendu, retrait, utilisateur);
-        return "redirect:/view-list-encheres";
+        return "redirect:/encheres";
     }
 }

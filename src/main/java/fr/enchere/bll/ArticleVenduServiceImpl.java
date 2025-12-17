@@ -34,7 +34,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
     }
 
     @Override
-    public Void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
-        return articleVenduRepository.createArticle(articleVendu, retrait,utilisateur);
+    public void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
+        articleVenduRepository.createArticle(articleVendu, retrait,utilisateur);
     }
 }
