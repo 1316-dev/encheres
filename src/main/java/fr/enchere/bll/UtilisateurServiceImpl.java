@@ -17,7 +17,7 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     public void creerUtilisateur(Utilisateur utilisateur){utilisateurRepository.saveUtilisateur(utilisateur);}
 
     @Override
-    public Utilisateur consulterUtilisateur(String pseudo) {
+    public Utilisateur findUserByUsername(String pseudo) {
         return utilisateurRepository.findUserByUsername(pseudo);
     }
 

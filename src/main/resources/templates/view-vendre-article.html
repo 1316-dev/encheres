@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="fr" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <title>Enchères - Nouvelle Vente</title>
+
+
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<header data-th-replace="~{fragments/entete :: frag-entete }"></header>
+
+<main class="container mt-5">
+    <div class="row justify-content-center" >
+        <div class="col-lg-8" th:object="${articleVenduDto}">
+
+            <form th:action="@{/encheres}"
+                  method="POST"
+                  class="border rounded p-4 shadow">
+
+                <h1 class="text-center mb-4">Nouvelle Vente</h1>
+
+                <div class="row">
+
+                    <div class="col-md-6 mb-3">
+                        <label for="nomArticle" class="form-label text-center w-100">Nom de l'article</label>
+                        <input type="text" id="nomArticle"
+                               class="form-control w-75 mx-auto text-center"
+                               th:field="*{nomArticle}">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="noCategorie" class="form-label text-center d-block mb-1">Catégorie </label>
+                        <select id="noCategorie"
+                                th:field="*{noCategorie}"
+                                class="form-control col-3">
+                            <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
+                                    th:text="${categorie.libelle}"
+                                    th:value="${categorie.noCategorie}">
+                            </option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-12 mb-3">
+                        <label for="description" class="form-label text-center w-100">Description</label>
+                        <textarea type="text" id="description"
+                                  rows="5" cols="10"
+                               class="form-control w-75 mx-auto text-center"
+                               th:field="*{description}">
+                        </textarea>
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="dateDebutEnchere" class="form-label text-center w-100">Début de l'enchère</label>
+                        <input type="date" id="dateDebutEnchere"
+                               class="form-control w-75 mx-auto text-center"
+                               th:field="*{dateDebutEnchere}">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="dateFinEnchere" class="form-label text-center w-100">Fin de l'enchère</label>
+                        <input type="date" id="dateFinEnchere"
+                               class="form-control w-75 mx-auto text-center"
+                               th:field="*{dateFinEnchere}">
+                    </div>
+
+                    <div class="col-md-6 mb-3">
+                        <label for="prixVente" class="form-label text-center w-100">Mise à prix </label>
+                        <input type="number" id="prixVente"
+                               class="form-control w-75 mx-auto text-center"
+
+                               th:field="*{miseAPrix}">
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="photo" class="form-label text-center w-100">Photo</label>
+                        <input type="file" id="photo"
+                               class="form-control w-75 mx-auto text-center"
+                               th:field="*{urlImage}">
+                    </div>
+
+
+                    <div class="row justify-content-center mx-auto" >
+                        <h3 class="mt-3 text-center">Lieu de Retrait</h3>
+
+
+                        <div class="row mb-3" th:object="${utilisateur}">
+                            <label for="listeAdresse" class="form mb-1">Liste Adresse enregistrée :</label>
+                            <select id="listeAdresse"
+                                    th:field="*{listeAdresseDeRetrait}"
+                                    class="form-control col-3">
+                                <option th:each="lieuRetrait : *{listeAdresseDeRetrait}"
+                                        th:text="${lieuRetrait.rue + lieuRetrait.cp +lieuRetrait.ville }"
+                                        th:value="${lieuRetrait}">
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-4 justify-content-center mb-3">
+
+                                <label for="inputRue" class="form-label text-center w-100">Rue</label>
+                                <input type="text" id="inputRue"
+                                       class="form-control w-75 mx-auto text-center"
+                                       th:field="${retraitDto.rue}"
+                                        th:placeholder="${utilisateur.rue}">
+
+                        </div>
+                        <div class="col-4 justify-content-center mb-3">
+
+                                <label for="inputCP" class="form-label text-center w-100">Code postal</label>
+                                <input type="text" id="inputCP"
+                                       class="form-control w-75 mx-auto text-center"
+                                       th:placeholder="${utilisateur.codePostal}"
+                                       th:field="${retraitDto.codePostal}"
+                                >
+
+                        </div>
+
+                        <div class="col-4 justify-content-center mb-3">
+
+                                <label for="inputVille" class="form-label text-center w-100">Ville</label>
+                                <input type="text" id="inputVille"
+                                       class="form-control w-75 mx-auto text-center"
+                                       th:placeholder="${utilisateur.ville}"
+                                       th:field="${retraitDto.ville}">
+
+                        </div>
+
+                </div>
+                </div>
+
+                <div class="row mt-2">
+
+                    <div class="col-md-4 text-center mt-2">
+                        <button type="submit" class="btn btn-success px-4">
+                            Enregistrer
+                        </button>
+                    </div>
+
+                    <div class="col-md-4 text-center mt-2">
+                        <a href="/echeres" class="btn btn-outline-light px-4">
+                            Annuler
+                        </a>
+                    </div>
+
+                    <div class="col-md-4 text-center mt-2">
+                        <a href="/echeres" class="btn btn-outline-light px-4">
+                            Annuler la vente
+                        </a>
+                    </div>
+
+                </div>
+
+            </form>
+
+        </div>
+    </div>
+</main>
+
+
+
+</body>
+</html>

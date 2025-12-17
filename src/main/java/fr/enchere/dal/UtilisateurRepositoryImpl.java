@@ -88,6 +88,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
         namedParameterJdbcTemplate.update(sql, parameters, keyholder, new String[]{"no_utilisateur"});
         utilisateur.setNoUtilisateur(keyholder.getKey().intValue());
+        //todo sql vers retrait
 
     }
     // test non effectué

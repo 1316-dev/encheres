@@ -23,6 +23,7 @@ public class Utilisateur {
 
     private List<ArticleVendu>articleVendu=new ArrayList<>();
     private List<Enchere>enchere=new ArrayList<>();
+    private List<Retrait> listeAdresseDeRetrait = new ArrayList<>();
 
     public Utilisateur() {
     }
@@ -43,6 +44,25 @@ public class Utilisateur {
         this.administrateur = administrateur;
 
     }
+
+    public Utilisateur(int noUtilisateur, String pseudo, String nom, String prenom, String email, String telephone, String rue, String codePostal, String ville, String motDePasse, int credit, boolean administrateur, List<ArticleVendu> articleVendu, List<Enchere> enchere, List<Retrait> listeAdresseDeRetrait) {
+        this.noUtilisateur = noUtilisateur;
+        this.pseudo = pseudo;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.email = email;
+        this.telephone = telephone;
+        this.rue = rue;
+        this.codePostal = codePostal;
+        this.ville = ville;
+        this.motDePasse = motDePasse;
+        this.credit = credit;
+        this.administrateur = administrateur;
+        this.articleVendu = articleVendu;
+        this.enchere = enchere;
+        this.listeAdresseDeRetrait = listeAdresseDeRetrait;
+    }
+
     //Getters et setters
     public int getNoUtilisateur() {
         return noUtilisateur;
@@ -142,6 +162,13 @@ public class Utilisateur {
         this.enchere = enchere;
     }
 
+    public List<Retrait> getListeAdresseDeRetrait() {
+        return listeAdresseDeRetrait;
+    }
+
+    public void setListeAdresseDeRetrait(List<Retrait> listeAdresseDeRetrait) {
+        this.listeAdresseDeRetrait = listeAdresseDeRetrait;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -56,7 +56,7 @@ public class UtilisateurController {
 
     @GetMapping("/monProfil")
     public String afficherProfil(@RequestParam(name="pseudo")String identifiant,  Model model ){
-      Utilisateur  utilisateur = this.utilisateurService.consulterUtilisateur(identifiant);
+      Utilisateur  utilisateur = this.utilisateurService.findUserByUsername(identifiant);
         UtilisateurDto utilisateurDto = new UtilisateurDto();
         utilisateurDto.setPseudo(utilisateur.getPseudo());
         utilisateurDto.setNom(utilisateur.getNom());

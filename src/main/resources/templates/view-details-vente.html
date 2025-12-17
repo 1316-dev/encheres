@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Enchères - Détail vente</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header data-th-replace="~{fragments/entete :: frag-entete }"></header>
+    <main>
+        <h1>Détail vente</h1>
+        <div>
+            <h2 th:text="${article.getNomArticle()}"></h2>
+            <p>Description :</p>
+            <p th:text="${article.getDescription()}"></p>
+            <p>Catégorie</p>
+            <p></p>
+            <p>Meilleure offre</p>
+            <p th:text="${article.getPrixVente()}"></p>
+            <p>Mise à prix</p>
+            <p th:text="${article.getMiseAPrix() + ' points'}"></p>
+            <p>Fin de l'enchère</p>
+            <p th:text="${article.getDateFinEnchere()}">dateFinEnchere</p>
+            <p>Retrait :</p>
+            <p>adresse retrait à faire</p>
+            <p>Vendeur</p>
+            <p> Vendeur à chercher</p>
+        </div>
+
+        <form th:action="@{/detail-vente}" method="POST" class="border rounded p-4 shadow">
+            <label for="inputEnchere">Ma proposition</label>
+            <input type="number" id="inputEnchere" name="nouvelleEnchere" th:placeholder="${article.getMiseAPrix() + 1}"/>
+            <button type="submit">Enchérir</button>
+        </form>
+    </main>
+</body>
+</html>
