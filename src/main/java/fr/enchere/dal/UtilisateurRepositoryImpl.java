@@ -92,10 +92,11 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
     }
     // test non effectué
-    @Override
+   /* @Override
     public void updateUtilisateur(Utilisateur utilisateur) {
 
-        String sql = "update utilisateurs set pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? where no_utilisateur";
+        String sql = "update utilisateurs set pseudo=?, nom=?, prenom=?, email=?, telephone=?, rue=?, code_postal=?, ville=?, mot_de_passe=? where no_utilisateur=?";
+
 
         try {
             PreparedStatementSetter pss = new PreparedStatementSetter() {
@@ -116,9 +117,37 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
         } catch (EmptyResultDataAccessException ex) {
             throw new UtilisateurNotFound(utilisateur.getPseudo());
+        }*/
+
+        @Override
+        public void updateUtilisateur(Utilisateur utilisateur) {
+
+            String sql = "update utilisateurs set "
+                    + "pseudo=?, nom=?, prenom=?, email=?, telephone=?, "
+                    + "rue=?, code_postal=?, ville=?, mot_de_passe=? "
+                    + "where no_utilisateur=?";
+
+            try {
+                jdbcTemplate.update(sql, ps -> {
+                    ps.setString(1, utilisateur.getPseudo());
+                    ps.setString(2, utilisateur.getNom());
+                    ps.setString(3, utilisateur.getPrenom());
+                    ps.setString(4, utilisateur.getEmail());
+                    ps.setString(5, utilisateur.getTelephone());
+                    ps.setString(6, utilisateur.getRue());
+                    ps.setString(7, utilisateur.getCodePostal());
+                    ps.setString(8, utilisateur.getVille());
+                    ps.setString(9, utilisateur.getMotDePasse());
+                    ps.setInt(10, utilisateur.getNoUtilisateur());
+                });
+
+            } catch (EmptyResultDataAccessException ex) {
+                throw new UtilisateurNotFound(utilisateur.getPseudo());
+            }
         }
 
-    }
+
+    
     // test non effectué
         @Override
         public void deleteUtilisateur(int noUtilisateur){
