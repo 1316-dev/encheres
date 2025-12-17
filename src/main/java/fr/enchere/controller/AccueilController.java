@@ -43,6 +43,7 @@ public class AccueilController {
              listeArticleVendufiltre = articleVenduService.AfficherListeArticleVenduFiltree(no_categorie, lettreRecherche);
         }
         model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
+        System.out.println(listeArticleVendufiltre);
 
         return "encheres";
     }

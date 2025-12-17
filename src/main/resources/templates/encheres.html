@@ -3,52 +3,66 @@
 <head>
     <meta charset="UTF-8">
     <title>Enchères</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
 
 </head>
 <body>
 
 <header th:replace="~{fragments/entete :: frag-entete}">
 </header>
-<main>
-    <h1>Liste des enchères</h1>
+<main class="container">
 
 
+    <h1 class="mt-4 m-3">Liste des enchères</h1>
+
+    <div class="row">
         <form th:action="@{/encheresCategorie}" method="get" th:object="${articleVenduDto}">
-        <Label for="lettreRecherche">Filtres : </Label>
-        <input type="text" name="lettreRecherche" id="lettreRecherche">
-            <label for="noCategorie">Catégorie :</label>
+            <div class="row">
+            <div class="col-3 m-3">
+                <Label  for="lettreRecherche" class="form mb-1">Filtres : </Label>
+                <input type="text" name="lettreRecherche" id="lettreRecherche" class="form-control col-3">
+            </div>
+            <div class="col-3 m-3">
+                <label for="noCategorie" class="form mb-1">Catégorie :</label>
+                <select id="noCategorie"
+                    th:field="*{noCategorie}"
+                    class="form-control col-3">
+                    <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
+                        th:text="${categorie.libelle}"
+                        th:value="${categorie.noCategorie}">
+                    </option>
+                </select>
+            </div>
+                <div class="col-3 mt-4 mb-3">
+                <input type="submit" value="Rechercher" class="btn btn-primary m-3">
+                </div>
+            </div>
 
-            <select id="noCategorie"
-                th:field="*{noCategorie}">
-                <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
-                    th:text="${categorie.libelle}"
-                    th:value="${categorie.noCategorie}">
-                </option>
-            </select>
-            <input type="submit" value="Rechercher">
+
         </form>
+    </div>
 
-
-
-        <section>
-            <article th:each="article : ${listeArticleVendu}">
-
-                <h2 th:text="${article.nomArticle}"></h2>
-
-                <p>
-                    Mise à prix : <span th:text="${article.miseAPrix}"></span> €
+    <div class="row">
+        <div class="card col-3 m-3" style="width: 18rem;" th:each="article : ${listeArticleVendu}">
+            <!--<img src="..." class="card-img-top" alt="...">-->
+            <div class="card-body " >
+                <h3 class="card-title" th:text="${article.nomArticle}"></h3>
+                <p class="card-text">
+                    Mise à prix : <span th:text="${article.miseAPrix}"></span> crédit
                 </p>
 
-                <p>
+                <p class="card-text">
                     Fin de l'enchère : <span th:text="${article.getDateFinEnchere()}"></span>
                 </p>
 
-                <p>
+                <p class="card-text">
                     Vendeur : <span th:text="${article.vendeur}"></span>
                 </p>
+                <a href="#" class="btn btn-primary">Détail Vente</a>
+            </div>
+        </div>
+    </div>
 
-            </article>
-        </section>
 </main>
 </body>
 </html>

@@ -77,12 +77,12 @@ public class ArticleVenduDto {
 
     @Override
     public String toString() {
-        return "ArticleDto{" +
+        return "ArticleVendueDto{" +
                 "noArticle=" + noArticle +
                 ", nomArticle='" + nomArticle + '\'' +
                 ", dateFinEnchere=" + dateFinEnchere +
                 ", miseAPrix=" + miseAPrix +
-                ", utilisateur=" + vendeur +
+                ", vendeur=" + vendeur +
                 ", categorieArticle=" + noCategorie +
                 '}';
     }
