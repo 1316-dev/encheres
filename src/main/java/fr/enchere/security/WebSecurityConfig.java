@@ -23,7 +23,7 @@ public class WebSecurityConfig {
                         .requestMatchers(HttpMethod.GET, "/","/encheres").permitAll()
                        // .requestMatchers( "/profil","/vendre","/").hasRole("ADMIN")
                         .anyRequest().authenticated()
-                       // .anyRequest().permitAll()
+                        // .anyRequest().permitAll()
                 )
                 //.formLogin(Customizer.withDefaults())
                 .formLogin((form) -> form.loginPage("/connexion")

@@ -1,5 +1,8 @@
 package fr.enchere.bll;
 
+import fr.enchere.bo.ArticleVendu;
+import fr.enchere.bo.Retrait;
+import fr.enchere.bo.Utilisateur;
 import fr.enchere.dal.ArticleVenduRepository;
 import fr.enchere.dto.ArticleVenduDto;
 import org.springframework.stereotype.Service;
@@ -30,5 +33,8 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
         return articleVenduRepository.listeArticleFiltree(no_categorie,recherche);
     }
 
-
+    @Override
+    public Void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
+        return articleVenduRepository.createArticle(articleVendu, retrait,utilisateur);
+    }
 }

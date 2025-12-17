@@ -1,25 +1,18 @@
-package fr.enchere.bo;
+package fr.enchere.dto;
 
 import java.util.Objects;
 
-public class Retrait {
+public class RetraitDto {
     private String rue;
     private String cp;
     private String ville;
     private int noArticle;
     private int noUtilisateur;
 
-    public Retrait() {
+    public RetraitDto() {
     }
 
-    public Retrait(String rue, String cp, String ville, int noArticle) {
-        this.rue = rue;
-        this.cp = cp;
-        this.ville = ville;
-        this.noArticle = noArticle;
-    }
-
-    public Retrait(String rue, String cp, String ville, int noArticle, int noUtilisateur) {
+    public RetraitDto(String rue, String cp, String ville, int noArticle, int noUtilisateur) {
         this.rue = rue;
         this.cp = cp;
         this.ville = ville;
@@ -30,6 +23,7 @@ public class Retrait {
     public String getRue() {
         return rue;
     }
+
     public void setRue(String rue) {
         this.rue = rue;
     }
@@ -37,6 +31,7 @@ public class Retrait {
     public String getCp() {
         return cp;
     }
+
     public void setCp(String cp) {
         this.cp = cp;
     }
@@ -44,6 +39,7 @@ public class Retrait {
     public String getVille() {
         return ville;
     }
+
     public void setVille(String ville) {
         this.ville = ville;
     }
@@ -51,6 +47,7 @@ public class Retrait {
     public int getNoArticle() {
         return noArticle;
     }
+
     public void setNoArticle(int noArticle) {
         this.noArticle = noArticle;
     }
@@ -64,24 +61,25 @@ public class Retrait {
     }
 
     @Override
+    public String toString() {
+        return "RetraitDto{" +
+                "rue='" + rue + '\'' +
+                ", cp='" + cp + '\'' +
+                ", ville='" + ville + '\'' +
+                ", noArticle=" + noArticle +
+                ", noUtilisateur=" + noUtilisateur +
+                '}';
+    }
+
+    @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
-        Retrait retrait = (Retrait) o;
-        return noArticle == retrait.noArticle && noUtilisateur == retrait.noUtilisateur && Objects.equals(rue, retrait.rue) && Objects.equals(cp, retrait.cp) && Objects.equals(ville, retrait.ville);
+        RetraitDto that = (RetraitDto) o;
+        return noArticle == that.noArticle && noUtilisateur == that.noUtilisateur && Objects.equals(rue, that.rue) && Objects.equals(cp, that.cp) && Objects.equals(ville, that.ville);
     }
 
     @Override
     public int hashCode() {
         return Objects.hash(rue, cp, ville, noArticle, noUtilisateur);
-    }
-
-    @Override
-    public String toString() {
-        return "Retrait{" +
-                "rue='" + rue + '\'' +
-                ", cp='" + cp + '\'' +
-                ", ville='" + ville + '\'' +
-                ", noArticle=" + noArticle +
-                '}';
     }
 }

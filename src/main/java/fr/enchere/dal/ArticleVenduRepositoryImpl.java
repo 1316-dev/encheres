@@ -1,9 +1,17 @@
 package fr.enchere.dal;
 
 
+import fr.enchere.bo.ArticleVendu;
+import fr.enchere.bo.Retrait;
+import fr.enchere.bo.Utilisateur;
 import fr.enchere.dto.ArticleVenduDto;
+
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.support.GeneratedKeyHolder;
+import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
@@ -13,9 +21,11 @@ import java.util.List;
 @Repository
 public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
+    private final NamedParameterJdbcTemplate namedParameterJdbcTemplate;
     private final JdbcTemplate jdbcTemplate;
 
-    public ArticleVenduRepositoryImpl(JdbcTemplate jdbcTemplate) {
+    public ArticleVenduRepositoryImpl(NamedParameterJdbcTemplate namedParameterJdbcTemplate, JdbcTemplate jdbcTemplate) {
+        this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
         this.jdbcTemplate = jdbcTemplate;
     }
 
@@ -64,5 +74,40 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         return ListeArticleFiltreCategorie;
     }
 
+    @Override
+    public Void createArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
+        String sql = "insert into articles_vendus(nom_article, descrition, date_debut_enchere, date_fin_enchere, prix_initial,  no_utilisateur, no_categorie)"
+                + "values(:nom_article, :descrition, :date_debut_enchere, :date_fin_enchere, :prix_initial, :no_utilisateur, :nocategorie)";
 
+        KeyHolder keyholder = new GeneratedKeyHolder();
+
+
+        MapSqlParameterSource parameters = new MapSqlParameterSource();
+        parameters.addValue("nom_article", articleVendu.getNomArticle());
+        parameters.addValue("descrition", articleVendu.getDescription());
+        parameters.addValue("date_debut_enchere", articleVendu.getDateDebutEnchere());
+        parameters.addValue("date_fin_enchere", articleVendu.getDateFinEnchere());
+        parameters.addValue("prix_initial", articleVendu.getMiseAPrix());
+        parameters.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
+        parameters.addValue("nocategorie", articleVendu.getCategorieArticle().getNoCategorie());
+
+
+
+        namedParameterJdbcTemplate.update(sql, parameters, keyholder, new String[]{"no_article"});
+        articleVendu.setNoArticle(keyholder.getKey().intValue());
+
+        String sql2 = "insert into retraits(no_article,rue,code_postal,ville,no_utilisateur)" +
+                "values(:no_article,:rue,:code_postal,:ville,no_utilisateur)";
+
+        KeyHolder keyholderRetrait = new GeneratedKeyHolder();
+
+        MapSqlParameterSource parametersRetrait = new MapSqlParameterSource();
+        parametersRetrait.addValue("no_article", keyholder.getKey());
+        parametersRetrait.addValue("rue", retrait.getRue());
+        parametersRetrait.addValue("code_postal", retrait.getCp());
+        parametersRetrait.addValue("ville", retrait.getVille());
+        parametersRetrait.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
+
+        return null;
+    }
 }
