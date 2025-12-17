@@ -15,14 +15,15 @@ public class ArticleVenduDto {
         private String vendeur;
         private int noCategorie;
         private String description;
-        private Date debutFinEnchere;
+        private Date dateDebutEnchere;
         private Retrait lieuRetrait;
         private int prixVente;
+        private String urlImage ;
 
     public ArticleVenduDto() {
     }
 
-    public ArticleVenduDto(int noArticle, String nomArticle, Date dateFinEnchere, int miseAPrix, String vendeur, int noCategorie, String description, Date debutFinEnchere, Retrait lieuRetrait, int prixVente) {
+    public ArticleVenduDto(int noArticle, String nomArticle, Date dateFinEnchere, int miseAPrix, String vendeur, int noCategorie, String description, Date dateDebutEnchere, Retrait lieuRetrait, int prixVente, String urlImage) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.dateFinEnchere = dateFinEnchere;
@@ -30,9 +31,10 @@ public class ArticleVenduDto {
         this.vendeur = vendeur;
         this.noCategorie = noCategorie;
         this.description = description;
-        this.debutFinEnchere = debutFinEnchere;
+        this.dateDebutEnchere = dateDebutEnchere;
         this.lieuRetrait = lieuRetrait;
         this.prixVente = prixVente;
+        this.urlImage = urlImage;
     }
 
     public int getNoArticle() {
@@ -91,12 +93,12 @@ public class ArticleVenduDto {
         this.description = description;
     }
 
-    public Date getDebutFinEnchere() {
-        return debutFinEnchere;
+    public Date getDateDebutEnchere() {
+        return dateDebutEnchere;
     }
 
-    public void setDebutFinEnchere(Date debutFinEnchere) {
-        this.debutFinEnchere = debutFinEnchere;
+    public void setDateDebutEnchere(Date dateDebutEnchere) {
+        this.dateDebutEnchere = dateDebutEnchere;
     }
 
     public Retrait getLieuRetrait() {
@@ -115,16 +117,24 @@ public class ArticleVenduDto {
         this.prixVente = prixVente;
     }
 
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ArticleVenduDto that = (ArticleVenduDto) o;
-        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && noCategorie == that.noCategorie && prixVente == that.prixVente && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(vendeur, that.vendeur) && Objects.equals(description, that.description) && Objects.equals(debutFinEnchere, that.debutFinEnchere) && Objects.equals(lieuRetrait, that.lieuRetrait);
+        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && noCategorie == that.noCategorie && prixVente == that.prixVente && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(vendeur, that.vendeur) && Objects.equals(description, that.description) && Objects.equals(dateDebutEnchere, that.dateDebutEnchere) && Objects.equals(lieuRetrait, that.lieuRetrait);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, vendeur, noCategorie, description, debutFinEnchere, lieuRetrait, prixVente);
+        return Objects.hash(noArticle, nomArticle, dateFinEnchere, miseAPrix, vendeur, noCategorie, description, dateDebutEnchere, lieuRetrait, prixVente);
     }
 
     @Override
@@ -137,7 +147,7 @@ public class ArticleVenduDto {
                 ", vendeur='" + vendeur + '\'' +
                 ", noCategorie=" + noCategorie +
                 ", description='" + description + '\'' +
-                ", debutFinEnchere=" + debutFinEnchere +
+                ", debutFinEnchere=" + dateDebutEnchere +
                 ", lieuRetrait=" + lieuRetrait +
                 ", prixVente=" + prixVente +
                 '}';

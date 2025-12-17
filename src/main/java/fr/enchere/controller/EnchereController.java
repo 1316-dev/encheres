@@ -3,6 +3,8 @@ package fr.enchere.controller;
 import fr.enchere.bll.UtilisateurService;
 import fr.enchere.bo.ArticleVendu;
 import fr.enchere.bo.Utilisateur;
+import fr.enchere.dto.ArticleVenduDto;
+import fr.enchere.dto.RetraitDto;
 import fr.enchere.dto.UtilisateurDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,15 +25,18 @@ public class EnchereController {
 
     @GetMapping({"/vendre"})
     public String vendreUnArticle(Model model, Principal principal) {
-        ArticleVendu articleVendu =(ArticleVendu) model.getAttribute("articleVendu");
-        if(articleVendu==null){
-            model.addAttribute("articleVendu", new ArticleVendu());
+        ArticleVenduDto articleVenduDto =(ArticleVenduDto) model.getAttribute("articleVenduDto");
+        if(articleVenduDto==null){
+            model.addAttribute("articleVenduDto", new ArticleVenduDto());
 
         }
         String pseudo = principal.getName();
         Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
         model.addAttribute("today", LocalDate.now());
         model.addAttribute("utilisateur", utilisateur);
+
+        RetraitDto retraitDto = new RetraitDto();
+        model.addAttribute("retraitDto", utilisateur);
 
         return "view-vendre-article";
 
