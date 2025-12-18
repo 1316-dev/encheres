@@ -1,6 +1,8 @@
 package fr.enchere.dal;
 
 import fr.enchere.bo.Categorie;
+import fr.enchere.exception.CategorieNotFoundException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,7 +15,7 @@ import java.util.List;
 public class CategorieRepositoryImpl implements CategorieRepository{
 
 
-    private JdbcTemplate jdbcTemplate;
+    private final JdbcTemplate jdbcTemplate;
 
     public CategorieRepositoryImpl(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
@@ -43,7 +45,15 @@ public class CategorieRepositoryImpl implements CategorieRepository{
     @Override
     public Categorie findCategorieById(int no_categorie) {
         String sql = "select no_categorie, libelle from categories where no_categorie = ?";
-        Categorie categorie = jdbcTemplate.queryForObject(sql,new CategorieRowMapper(),no_categorie);
+        Categorie categorie;
+
+        try {
+         categorie = jdbcTemplate.queryForObject(sql,new CategorieRowMapper(),no_categorie);
+            } catch (
+            EmptyResultDataAccessException ex) {
+                throw new CategorieNotFoundException(no_categorie);
+            }
+
         return categorie;
     }
 }
