@@ -41,7 +41,8 @@ CREATE TABLE ARTICLES_VENDUS (
                                  prix_initial                  INTEGER NOT NULL,
                                  prix_vente                    INTEGER,
                                  no_utilisateur                INTEGER NOT NULL,
-                                 no_categorie                  INTEGER NOT NULL
+                                 no_categorie                  INTEGER NOT NULL,
+                                 url_image                     VARCHAR(80)
 )
 
 ALTER TABLE ARTICLES_VENDUS ADD constraint articles_vendus_pk PRIMARY KEY (no_article)
@@ -50,11 +51,16 @@ CREATE TABLE RETRAITS (
                           no_article       INTEGER NOT NULL,
                           rue              VARCHAR(30) NOT NULL,
                           code_postal      VARCHAR(15) NOT NULL,
-                          ville            VARCHAR(30) NOT NULL
+                          ville            VARCHAR(30) NOT NULL,
+                          no_utilisateur   INTEGER NOT NULL
 )
 ALTER TABLE RETRAITS ADD constraint retrait_pk PRIMARY KEY  (no_article)
 ALTER TABLE RETRAITS
     ADD CONSTRAINT retrait_article_fk FOREIGN KEY ( no_article ) REFERENCES  ARTICLES_VENDUS (no_article)
+        ON DELETE NO ACTION
+        ON UPDATE no action
+ALTER TABLE RETRAITS
+    ADD CONSTRAINT retrait_utilisateur_fk FOREIGN KEY ( no_utilisateur ) REFERENCES  UTILISATEURS (no_utilisateur)
         ON DELETE NO ACTION
         ON UPDATE no action
 
