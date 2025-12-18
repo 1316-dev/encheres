@@ -21,7 +21,8 @@
                 <p class="value" th:text="${article.getPrixVente()}"></p>
                 <p class="label">Mise à prix :</p>
                 <p class="value" th:text="${article.getMiseAPrix() + ' points'}"></p>
-            <p>Fin de l'enchère le
+            <p class="label">Fin de l'enchère le</p>
+            <p class="value">
                 <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
                 à
                 <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
