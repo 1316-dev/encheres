@@ -47,6 +47,18 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         return user;
     }
 
+    @Override
+    public Utilisateur findUserByUsernameOrEmail(String mail, String pseudo) {
+        String sql = "select no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur from utilisateurs where pseudo = ? OR email = ?";
+        Utilisateur user = null;
+        try {
+            user = jdbcTemplate.queryForObject(sql, new UtilisateurRepositoryImpl.UserRowMapper(), pseudo, pseudo);
+        } catch (EmptyResultDataAccessException ex) {
+            throw new UtilisateurNotFound("Utilisateur non trouvé");
+        }
+        return user;
+    }
+
     public class UserRowMapper implements RowMapper<Utilisateur> {
         public Utilisateur mapRow(ResultSet rs, int rowNum) throws SQLException {
             Utilisateur user = new Utilisateur();

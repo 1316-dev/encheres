@@ -5,6 +5,7 @@ import fr.enchere.bo.Utilisateur;
 public interface UtilisateurRepository {
 
     Utilisateur findUserByUsername(String pseudo);
+    Utilisateur findUserByUsernameOrEmail(String email, String pseudo);
 
     void saveUtilisateur(Utilisateur utilisateur);
 
