@@ -132,6 +132,7 @@ public class ArticleVendu {
     }
 
     public Retrait getLieuRetrait() {
+        System.out.println("lieur retrait" + lieuRetrait);
         return lieuRetrait;
     }
 
@@ -148,6 +149,7 @@ public class ArticleVendu {
     }
 
     public Categorie getCategorieArticle() {
+
         return categorieArticle;
     }
 

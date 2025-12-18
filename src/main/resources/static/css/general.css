@@ -1,0 +1,15 @@
+.form-like {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.5rem 1rem;
+}
+
+.form-like p {
+    margin: 0;
+}
+
+.label {
+    font-weight: bold;
+    text-align: right;
+    white-space: nowrap;
+}
