@@ -2,6 +2,7 @@ package fr.enchere.controller;
 
 import fr.enchere.bll.UtilisateurService;
 import fr.enchere.bo.Utilisateur;
+
 import fr.enchere.dto.UtilisateurDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -16,13 +17,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+
 @Controller
 public class UtilisateurController {
 
-    @GetMapping({"/connexion"})
-    public String connexion() {
-        return "view-connexion";
-    }
 
     private UtilisateurService utilisateurService;
 
@@ -30,6 +29,10 @@ public class UtilisateurController {
         this.utilisateurService = utilisateurService;
     }
 
+    @GetMapping({"/connexion"})
+    public String connexion() {
+        return "view-connexion";
+    }
 
     @GetMapping({"/inscription"})
     public String inscription(Model model) {
@@ -40,6 +43,7 @@ public class UtilisateurController {
         return "view-creer-compte";
 
     }
+
 
     @PostMapping({"/inscription"})
     public String creerUtilisateur(@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr) {

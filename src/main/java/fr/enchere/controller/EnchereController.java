@@ -20,10 +20,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.List;
 
 @Controller
 public class EnchereController {
@@ -107,5 +108,16 @@ public class EnchereController {
         model.addAttribute("article", article);
 
         return "view-details-vente";
+    }
+
+    @GetMapping("/gestion-encheres")
+    public String listerEnchere(Model model) {
+        if (!(model.containsAttribute("articleVenduDto"))) {
+            model.addAttribute("articleVenduDto", new ArticleVenduDto());
+        }
+        List<ArticleVenduDto> listeArticleVendu = articleVenduService.AfficherListeArticleVendu();
+        model.addAttribute("listeArticleVendu", listeArticleVendu);
+
+        return "view-gestion-encheres";
     }
 }
