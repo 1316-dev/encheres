@@ -2,6 +2,7 @@ package fr.enchere.dto;
 
 
 import fr.enchere.bo.Retrait;
+import jakarta.validation.constraints.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDateTime;
@@ -10,14 +11,24 @@ import java.util.Objects;
 public class ArticleVenduDto {
 
         private int noArticle;
+        @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Le titre ne doit pas contenir de caractères spéciaux.")
+        @Size(min = 5, max = 30, message = "Le titre doit faire entre 5 et 30 caractères.")
+        @NotBlank
         private String nomArticle;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
+
+        //@NotNull(message = "La date de début est obligatoire.")
+        @Future(message = "La date de fin doit être postérieure à aujourd'hui.")
         private LocalDateTime dateFinEnchere;
         private int miseAPrix;
         private String vendeur;
         private int noCategorie;
+        @Pattern(regexp = "^[^<>]+$", message = "La description ne doit pas contenir de caractères spéciaux.")
+        @Size(min = 5, max = 300, message = "La description doit faire entre 5 et 300 caractères.")
+        @NotBlank
         private String description;
-        @DateTimeFormat(pattern = "yyyy-MM-dd")
+
+        //@NotNull(message = "La date de fin est obligatoire.")
+        @Future(message = "La date de début doit être postérieure à aujourd'hui.")
         private LocalDateTime dateDebutEnchere;
         private Retrait lieuRetrait;
         private int prixVente;

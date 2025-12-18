@@ -1,10 +1,20 @@
 package fr.enchere.dto;
 
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
+
 import java.util.Objects;
 
 public class RetraitDto {
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "La rue ne doit pas contenir de caractères spéciaux.")
+    @Max(value = 30, message = "La rue doit faire entre 0 et 30 caractères.")
     private String rue;
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Le CP ne doit pas contenir de caractères spéciaux.")
+    @Max(value = 15, message = "Le CP doit faire entre 0 et 15 caractères.")
     private String cp;
+    @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "La ville ne doit pas contenir de caractères spéciaux.")
+    @Max(value = 30, message = "La ville doit faire entre 0 et 30 caractères.")
     private String ville;
     private int noArticle;
     private int noUtilisateur;

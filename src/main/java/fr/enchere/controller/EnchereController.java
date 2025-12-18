@@ -17,6 +17,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -60,12 +61,24 @@ public class EnchereController {
 
     }
     @PostMapping({"/encheres"})
-    public String creerArticle(@Valid ArticleVenduDto articleVenduDto,@Valid RetraitDto retraitDto, BindingResult resultat, RedirectAttributes redirectAttr, Principal principal){
+    public String creerArticle(@Valid @ModelAttribute("articleVenduDto") ArticleVenduDto articleVenduDto,
+                               BindingResult resultat, // Suit l'article
+                               //@Valid @ModelAttribute("retraitDto")
+                                   RetraitDto retraitDto,
+                               //BindingResult resultatRetrait, // Suit le retrait
+                               Model model,
+                               Principal principal) {
+        //todo valid sur retraitDto
+        if (resultat.hasErrors() /*|| resultatRetrait.hasErrors()*/) {
 
-        if(resultat.hasErrors()){
-            redirectAttr.addFlashAttribute( "org.springframework.validation.BindingResult.utilisateurDto", resultat);
-            redirectAttr.addFlashAttribute("articleVenduDto", articleVenduDto);
-            return "redirect:/view-list-encheres";
+            Utilisateur utilisateur = utilisateurService.findUserByUsername(principal.getName());
+            model.addAttribute("utilisateur", utilisateur);
+
+
+            model.addAttribute("today", LocalDate.now());
+
+
+            return "view-vendre-article";
         }
 
         ArticleVendu articleVendu= new ArticleVendu();
