@@ -28,7 +28,9 @@
                         <label for="inputPseudo" class="form-label text-center w-100">Pseudo</label>
                         <input type="text" id="inputPseudo"
                                class="form-control w-75 mx-auto"
-                               th:field="*{pseudo}">
+                               th:field="*{pseudo}" pattern="[a-zA-Z0-9]+"
+                               title="Uniquement lettres et chiffres"
+                               required>
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -83,34 +85,33 @@
                     <div class="col-md-6 mb-3">
                         <label for="inputMdp" class="form-label text-center w-100">Mot de passe</label>
                         <input type="password" id="inputMdp"
-                               class="form-control w-75 mx-auto"
+                               class="form-control w-75 mx-auto" required
                                th:field="*{motDePasse}">
+
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputConfirm" class="form-label text-center w-100">Confirmation</label>
                         <input type="password" id="inputConfirm"
                                name="confirmation"
-                               class="form-control w-75 mx-auto">
+                               class="form-control w-75 mx-auto" required>
                     </div>
 
-                </div>
 
+                    <div class="row mt-4">
 
-                <div class="row mt-4">
+                        <div class="col-md-6 text-center">
+                            <button type="submit" class="btn btn-success px-4">
+                                S'inscrire
+                            </button>
+                        </div>
 
-                    <div class="col-md-6 text-center">
-                        <button type="submit" class="btn btn-success px-4">
-                            S'inscrire
-                        </button>
+                        <div class="col-md-6 text-center">
+                            <a href="/encheres" class="btn btn-outline-light px-4">
+                                Annuler
+                            </a>
+                        </div>
                     </div>
-
-                    <div class="col-md-6 text-center">
-                        <a href="/encheres" class="btn btn-outline-light px-4">
-                            Annuler
-                        </a>
-                    </div>
-
                 </div>
 
             </form>
@@ -118,7 +119,6 @@
         </div>
     </div>
 </main>
-
 
 
 </body>

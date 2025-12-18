@@ -15,7 +15,7 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
-           <form th:action="@{/modifier}"
+            <form th:action="@{/modifier}"
                   method="POST"
                   th:object="${utilisateurDto}"
                   class="border rounded p-4 shadow">
@@ -38,12 +38,12 @@
                                th:field="*{nom}">
                     </div>
 
-                     <div class="col-md-6 mb-3">
-                          <label for="inputPrenom" class="form-label text-center w-100">Prénom</label>
-                          <input type="text" id="inputPrenom"
-                                 class="form-control w-75 mx-auto"
-                                 th:field="*{prenom}">
-                      </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="inputPrenom" class="form-label text-center w-100">Prénom</label>
+                        <input type="text" id="inputPrenom"
+                               class="form-control w-75 mx-auto"
+                               th:field="*{prenom}">
+                    </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputEmail" class="form-label text-center w-100">Email</label>
@@ -81,12 +81,17 @@
                     </div>
 
                     <div class="col-md-6 mb-3">
-                        <label for="inputMdp" class="form-label text-center w-100">Mot de passe</label>
+                        <label for="inputMdp" class="form-label text-center w-100">Mot de passe Actuel</label>
                         <input type="password" id="inputMdp"
-                               class="form-control w-75 mx-auto"
-                               th:field="*{motDePasse}">
-                    </div>
+                               class="form-control w-75 mx-auto">
 
+                    </div>
+                    <div class="col-md-6 mb-3">
+                        <label for="inputMdp" class="form-label text-center w-100">Nouveau Mot de passe</label>
+                        <input type="password" id="inputNvMdp"
+                               class="form-control w-75 mx-auto">
+
+                    </div>
                     <div class="col-md-6 mb-3">
                         <label for="inputConfirm" class="form-label text-center w-100">Confirmation</label>
                         <input type="password" id="inputConfirm"
@@ -106,19 +111,20 @@
                     </div>
 
                     <div class="col-md-6 text-center">
-                        <a href="/encheres" class="btn btn-outline-danger px-4">
+                        <button form="sup" type="submit" class="btn btn-outline-danger px-4">
                             Supprimer mon compte
-                        </a>
+                        </button>
                     </div>
 
                 </div>
 
             </form>
 
+            <form id="sup" th:action="@{/supprimer}" method="post"></form>
+
         </div>
     </div>
 </main>
-
 
 
 </body>
