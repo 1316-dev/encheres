@@ -113,7 +113,7 @@ public class EnchereController {
 
     @PostMapping("/detail-vente/{articleId}")
     public String creerEnchere(@PathVariable int articleId, @RequestParam int montant, @AuthenticationPrincipal UserDetails user) {
-        //Constructin d'une enchere pour création
+        //Construction d'une enchere pour création
         //Initialisation date de l'enchère
         LocalDateTime dateEnchere = LocalDateTime.now();
         //Récupération de l'article
@@ -122,8 +122,7 @@ public class EnchereController {
         Utilisateur utilisateur = utilisateurService.findUserByUsername(user.getUsername());
 
         Enchere enchere = new Enchere(dateEnchere, montant, article, utilisateur);
-        System.out.println("créateur de l'enchere : " + enchere.getUtilisateur().getPseudo());
-        //enchereService.creerEnchere(enchere);
+        enchereService.creerEnchere(enchere);
 
         return "redirect:/detail-vente/" + articleId;
     }

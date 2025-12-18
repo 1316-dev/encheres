@@ -39,7 +39,7 @@ public class EnchereRepositoryImpl implements EnchereRepository {
     @Override
     public void creerEnchere(Enchere enchere) {
 
-        String sql = "INSERT INTO ENCHERES(date_enchere, montant_enchere, no_article, no_utilisateur VALUES(:date_enchere, :montant_enchere, :no_article, :no_utilisateur)";
+        String sql = "INSERT INTO ENCHERES(date_enchere, montant_enchere, no_article, no_utilisateur) VALUES(:date_enchere, :montant_enchere, :no_article, :no_utilisateur)";
 
         KeyHolder keyholder = new GeneratedKeyHolder();
         MapSqlParameterSource parameters = new MapSqlParameterSource();
