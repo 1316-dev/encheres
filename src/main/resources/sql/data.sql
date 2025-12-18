@@ -67,11 +67,11 @@ SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 
 /*A VOIR POUR AUTOGENERER A PARTIR ADRESSE VENDEUR */
 /* RETRAITS */
-INSERT INTO RETRAITS (no_article, rue, code_postal, ville)
+INSERT INTO RETRAITS (no_article, rue, code_postal, ville,no_utilisateur)
 VALUES
-    (1, '10 rue Victor Hugo', '75001', 'Paris'),
-    (2, '5 avenue de France', '69000', 'Lyon'),
-    (3, '10 rue Victor Hugo', '75001', 'Paris');
+    (1, '10 rue Victor Hugo', '75001', 'Paris',1),
+    (2, '5 avenue de France', '69000', 'Lyon',2),
+    (3, '10 rue Victor Hugo', '75001', 'Paris',3);
 
 
 /* Revoir si besoin DATE ET HEURE*/
