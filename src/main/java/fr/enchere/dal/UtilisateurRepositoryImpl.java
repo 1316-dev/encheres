@@ -1,5 +1,6 @@
 package fr.enchere.dal;
 
+import fr.enchere.bo.Categorie;
 import fr.enchere.bo.Utilisateur;
 import fr.enchere.exception.UtilisateurNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,13 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         this.jdbcTemplate = namedParameterJdbcTemplate.getJdbcTemplate();
 
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
+    }
+
+    public Utilisateur findUserById(int id){
+
+        String sql = "select no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur from utilisateurs where no_utilisateur = ?";
+        Utilisateur user = jdbcTemplate.queryForObject(sql,new UtilisateurRepositoryImpl.UserRowMapper(),id);
+        return user;
     }
 
     @Override

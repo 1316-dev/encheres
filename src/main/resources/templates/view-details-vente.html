@@ -4,30 +4,37 @@
     <meta charset="UTF-8">
     <title>Enchères - Détail vente</title>
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/general.css" rel="stylesheet">
 </head>
 <body>
     <header data-th-replace="~{fragments/entete :: frag-entete }"></header>
     <main>
         <h1>Détail vente</h1>
-        <div>
-            <h2 th:text="${article.getNomArticle()}"></h2>
-            <p>Description :</p>
-            <p th:text="${article.getDescription()}"></p>
-            <p>Catégorie</p>
-            <p></p>
-            <p>Meilleure offre</p>
-            <p th:text="${article.getPrixVente()}"></p>
-            <p>Mise à prix</p>
-            <p th:text="${article.getMiseAPrix() + ' points'}"></p>
-            <p>Fin de l'enchère le
-            <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
-            à
-            <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
+        <h2 th:text="${article.getNomArticle()}"></h2>
+        <div class="form-like">
+
+                <p class="label">Description</p>
+                <p class="value" th:text="${article.getDescription()}"></p>
+                <p class="label">Catégorie : </p>
+                <p class="value" th:text="${@categorieServiceImpl.findCategorieById(article.categorieArticle.getNoCategorie()).libelle}"></p>
+                <p class="label">Meilleure offre :</p>
+                <p class="value" th:text="${article.getPrixVente()}"></p>
+                <p class="label">Mise à prix :</p>
+                <p class="value" th:text="${article.getMiseAPrix() + ' points'}"></p>
+            <p class="label">Fin de l'enchère le</p>
+            <p class="value">
+                <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
+                à
+                <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
             </p>
-            <p>Retrait :</p>
-            <p>adresse retrait à faire</p>
-            <p>Vendeur</p>
-            <p> Vendeur à chercher</p>
+                <p class="label">Retrait :</p>
+                <p class="value" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getRue()}"></p>
+            <p class="label"></p>
+            <p class="value" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getCodePostal() + ', ' + @utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getVille()}"></p>
+
+                <p class="label">Vendeur :</p>
+                <p class="value" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}"></p>
+
         </div>
 
         <form th:action="@{/detail-vente}" method="POST" class="border rounded p-4 shadow">
