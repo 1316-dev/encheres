@@ -137,11 +137,10 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
             String sql = "update utilisateurs set "
                     + "pseudo=?, nom=?, prenom=?, email=?, telephone=?, "
-                    + "rue=?, code_postal=?, ville=?, mot_de_passe=? "
+                    + "rue=?, code_postal=?, ville=?"
                     + "where no_utilisateur=?";
 
-            try {
-                jdbcTemplate.update(sql, ps -> {
+               int rows = jdbcTemplate.update(sql, ps -> {
                     ps.setString(1, utilisateur.getPseudo());
                     ps.setString(2, utilisateur.getNom());
                     ps.setString(3, utilisateur.getPrenom());
@@ -150,12 +149,10 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
                     ps.setString(6, utilisateur.getRue());
                     ps.setString(7, utilisateur.getCodePostal());
                     ps.setString(8, utilisateur.getVille());
-                    ps.setString(9, utilisateur.getMotDePasse());
-                    ps.setInt(10, utilisateur.getNoUtilisateur());
+                    ps.setInt(9, utilisateur.getNoUtilisateur());
                 });
 
-            } catch (EmptyResultDataAccessException ex) {
-                throw new UtilisateurNotFound(utilisateur.getPseudo());
+          if(rows ==0){ new UtilisateurNotFound(utilisateur.getPseudo());
             }
         }
 
