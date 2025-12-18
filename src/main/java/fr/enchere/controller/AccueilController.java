@@ -1,6 +1,7 @@
 package fr.enchere.controller;
 
 import fr.enchere.bll.ArticleVenduService;
+import fr.enchere.bo.ArticleVendu;
 import fr.enchere.dto.ArticleVenduDto;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

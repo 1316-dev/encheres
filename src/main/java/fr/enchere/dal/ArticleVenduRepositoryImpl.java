@@ -43,6 +43,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
             articleVenduDto.setDateFinEnchere(rs.getDate("date_fin_encheres"));
             articleVenduDto.setVendeur(rs.getString("Vendeur"));
             articleVenduDto.setNoCategorie(rs.getInt("no_categorie"));
+            articleVenduDto.setUrlImage(rs.getString("url_image"));
 
 
             return articleVenduDto;
@@ -51,7 +52,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
     @Override
     public ArticleVendu findArticleById(int id) {
-        String sql ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie FROM Articles_Vendus WHERE no_article = ?";
+        String sql ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie, url_image FROM Articles_Vendus WHERE no_article = ?";
 
         ArticleVendu article = jdbcTemplate.queryForObject(sql, new ArticleBORowMapper(), id);
 
@@ -101,6 +102,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
             articleVendu.setDateFinEnchere(rs.getDate("date_fin_encheres"));
             articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
             articleVendu.setPrixVente(rs.getInt("prix_vente"));
+            articleVendu.setUrlImage(rs.getString("url_image"));
 
             user.setNoUtilisateur(rs.getInt("no_utilisateur"));
             categorie.setNoCategorie(rs.getInt("no_categorie"));
@@ -114,8 +116,8 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
     @Override
     public void createArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
-        String sql = "insert into articles_vendus(nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,  no_utilisateur, no_categorie)"
-                + "values(:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :nocategorie)";
+        String sql = "insert into articles_vendus(nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,  no_utilisateur, no_categorie,url_image)"
+                + "values(:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :nocategorie,:url_image)";
 
         KeyHolder keyholder = new GeneratedKeyHolder();
 
@@ -129,7 +131,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         System.out.println(utilisateur.getNoUtilisateur());
         parameters.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
         parameters.addValue("nocategorie", articleVendu.getCategorieArticle().getNoCategorie());
-
+        parameters.addValue("url_image", articleVendu.getUrlImage());
 
 
         namedParameterJdbcTemplate.update(sql, parameters, keyholder, new String[]{"no_article"});

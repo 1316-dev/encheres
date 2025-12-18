@@ -13,6 +13,7 @@ public class ArticleVendu {
     private int miseAPrix;
     private int prixVente;
     private boolean etatVente;
+    private String urlImage;
 
     private Categorie categorieArticle;
     private Utilisateur utilisateur;
@@ -51,6 +52,22 @@ public class ArticleVendu {
         this.miseAPrix = miseAPrix;
         this.prixVente = prixVente;
         this.etatVente = etatVente;
+        this.categorieArticle = categorieArticle;
+        this.utilisateur = utilisateur;
+        this.lieuRetrait = lieuRetrait;
+        this.listeEncheres = listeEncheres;
+    }
+
+    public ArticleVendu(int noArticle, String nomArticle, String description, Date dateDebutEnchere, Date dateFinEnchere, int miseAPrix, int prixVente, boolean etatVente, String urlImage, Categorie categorieArticle, Utilisateur utilisateur, Retrait lieuRetrait, List<Enchere> listeEncheres) {
+        this.noArticle = noArticle;
+        this.nomArticle = nomArticle;
+        this.description = description;
+        this.dateDebutEnchere = dateDebutEnchere;
+        this.dateFinEnchere = dateFinEnchere;
+        this.miseAPrix = miseAPrix;
+        this.prixVente = prixVente;
+        this.etatVente = etatVente;
+        this.urlImage = urlImage;
         this.categorieArticle = categorieArticle;
         this.utilisateur = utilisateur;
         this.lieuRetrait = lieuRetrait;
@@ -161,6 +178,14 @@ public class ArticleVendu {
 
     public void setListeEncheres(List<Enchere> listeEncheres) {
         this.listeEncheres = listeEncheres;
+    }
+
+    public String getUrlImage() {
+        return urlImage;
+    }
+
+    public void setUrlImage(String urlImage) {
+        this.urlImage = urlImage;
     }
 
     @Override
