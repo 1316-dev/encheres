@@ -2,29 +2,23 @@ package fr.enchere.dto;
 
 
 import fr.enchere.bo.Retrait;
-import jakarta.validation.constraints.FutureOrPresent;
-import jakarta.validation.constraints.NotNull;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.Objects;
 
 public class ArticleVenduDto {
 
         private int noArticle;
         private String nomArticle;
-        @NotNull(message = "La date de début est obligatoire")
-        @FutureOrPresent(message = "La date de début ne peut pas être dans le passé")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private Date dateFinEnchere;
+        private LocalDateTime dateFinEnchere;
         private int miseAPrix;
         private String vendeur;
         private int noCategorie;
         private String description;
-        @NotNull(message = "La date de début est obligatoire")
-        @FutureOrPresent(message = "La date de début ne peut pas être dans le passé")
         @DateTimeFormat(pattern = "yyyy-MM-dd")
-        private Date dateDebutEnchere;
+        private LocalDateTime dateDebutEnchere;
         private Retrait lieuRetrait;
         private int prixVente;
         private String urlImage ;
@@ -32,7 +26,7 @@ public class ArticleVenduDto {
     public ArticleVenduDto() {
     }
 
-    public ArticleVenduDto(int noArticle, String nomArticle, Date dateFinEnchere, int miseAPrix, String vendeur, int noCategorie, String description, Date dateDebutEnchere, Retrait lieuRetrait, int prixVente, String urlImage) {
+    public ArticleVenduDto(int noArticle, String nomArticle, LocalDateTime dateFinEnchere, int miseAPrix, String vendeur, int noCategorie, String description, LocalDateTime dateDebutEnchere, Retrait lieuRetrait, int prixVente, String urlImage) {
         this.noArticle = noArticle;
         this.nomArticle = nomArticle;
         this.dateFinEnchere = dateFinEnchere;
@@ -62,11 +56,11 @@ public class ArticleVenduDto {
         this.nomArticle = nomArticle;
     }
 
-    public Date getDateFinEnchere() {
+    public LocalDateTime getDateFinEnchere() {
         return dateFinEnchere;
     }
 
-    public void setDateFinEnchere(Date dateFinEnchere) {
+    public void setDateFinEnchere(LocalDateTime dateFinEnchere) {
         this.dateFinEnchere = dateFinEnchere;
     }
 
@@ -102,11 +96,11 @@ public class ArticleVenduDto {
         this.description = description;
     }
 
-    public Date getDateDebutEnchere() {
+    public LocalDateTime getDateDebutEnchere() {
         return dateDebutEnchere;
     }
 
-    public void setDateDebutEnchere(Date dateDebutEnchere) {
+    public void setDateDebutEnchere(LocalDateTime dateDebutEnchere) {
         this.dateDebutEnchere = dateDebutEnchere;
     }
 
