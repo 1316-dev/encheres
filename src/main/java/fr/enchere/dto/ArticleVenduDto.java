@@ -3,7 +3,7 @@ package fr.enchere.dto;
 
 import fr.enchere.bo.Retrait;
 import jakarta.validation.constraints.*;
-import org.springframework.format.annotation.DateTimeFormat;
+
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -19,6 +19,8 @@ public class ArticleVenduDto {
         //@NotNull(message = "La date de début est obligatoire.")
         @Future(message = "La date de fin doit être postérieure à aujourd'hui.")
         private LocalDateTime dateFinEnchere;
+
+        @Min(value=1)
         private int miseAPrix;
         private String vendeur;
         private int noCategorie;
