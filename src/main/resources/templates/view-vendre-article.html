@@ -19,22 +19,34 @@
                   method="POST"
                   class="border rounded p-4 shadow">
 
-                <h1 class="text-center mb-4">Nouvelle Vente</h1>
-
+                <h1 class="text-center mb-3">Nouvelle Vente</h1>
+                <div class="text-center" style="color: red;" th:if="${#fields.hasErrors('*')}">
+                    <p th:text="#{index.erreurs}">Message d'erreur</p>
+                </div>
                 <div class="row">
 
                     <div class="col-md-6 mb-3">
                         <label for="nomArticle" class="form-label text-center w-100">Nom de l'article</label>
                         <input type="text" id="nomArticle"
                                class="form-control w-75 mx-auto text-center"
+                               pattern="^[a-zA-Z0-9 ]+$"
+                               required
+                               data-th-errorclass="is-invalid"
                                th:field="*{nomArticle}">
+                        <div style="color: red;"
+                             class="text-center"
+                             th:if="${#fields.hasErrors('nomArticle')}"
+                             th:errors="*{nomArticle}">
+                        </div>
                     </div>
+
 
                     <div class="col-md-6 mb-3">
                         <label for="noCategorie" class="form-label text-center d-block mb-1">Catégorie </label>
                         <select id="noCategorie"
                                 th:field="*{noCategorie}"
-                                class="form-control col-3">
+                                class="form-control col-3"
+                                data-th-errorclass="is-invalid">
                             <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
                                     th:text="${categorie.libelle}"
                                     th:value="${categorie.noCategorie}">
@@ -44,33 +56,61 @@
 
                     <div class="col-md-12 mb-3">
                         <label for="description" class="form-label text-center w-100">Description</label>
-                        <textarea type="text" id="description"
+                        <textarea id="description"
                                   rows="5" cols="10"
-                               class="form-control w-75 mx-auto text-center"
-                               th:field="*{description}">
+                                  class="form-control w-75 mx-auto text-center"
+                                  pattern="^[^<>]+$"
+                                  required
+                                  th:field="*{description}"
+                                  data-th-errorclass="is-invalid">
                         </textarea>
+                        <div style="color: red;"
+                             class="text-center"
+                             th:if="${#fields.hasErrors('description')}"
+                             th:errors="*{description}">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="dateDebutEnchere" class="form-label text-center w-100">Début de l'enchère</label>
                         <input type="datetime-local" id="dateDebutEnchere"
                                class="form-control w-75 mx-auto text-center"
-                               th:field="*{dateDebutEnchere}">
+                               th:field="*{dateDebutEnchere}"
+                                required>
+                        <div style="color: red;"
+                             class="text-center"
+                             th:if="${#fields.hasErrors('dateDebutEnchere')}"
+                             th:errors="*{dateDebutEnchere}">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="dateFinEnchere" class="form-label text-center w-100">Fin de l'enchère</label>
                         <input type="datetime-local" id="dateFinEnchere"
                                class="form-control w-75 mx-auto text-center"
-                               th:field="*{dateFinEnchere}">
+                               th:field="*{dateFinEnchere}"
+                               required>
+                        <div style="color: red;"
+                             class="text-center"
+                             th:if="${#fields.hasErrors('dateFinEnchere')}"
+                             th:errors="*{dateFinEnchere}">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="prixVente" class="form-label text-center w-100">Mise à prix </label>
-                        <input type="number" id="prixVente"
+                        <input type="number"
+                               id="prixVente"
+                               min="1"
+                               step="1"
+                               required
                                class="form-control w-75 mx-auto text-center"
-
                                th:field="*{miseAPrix}">
+                        <div style="color: red;"
+                             class="text-center"
+                             th:if="${#fields.hasErrors('miseAPrix')}"
+                             th:errors="*{miseAPrix}">
+                        </div>
                     </div>
                     <div class="col-md-6 mb-3">
                         <label for="photo" class="form-label text-center w-100">Photo</label>
@@ -100,8 +140,15 @@
                                 <label for="inputRue" class="form-label text-center w-100">Rue</label>
                                 <input type="text" id="inputRue"
                                        class="form-control w-75 mx-auto text-center"
+                                       pattern="^[a-zA-Z0-9 ]+$"
+                                       required
                                        th:field="${retraitDto.rue}"
                                         >
+                            <div style="color: red;"
+                                 class="text-center"
+                                 th:if="${#fields.hasErrors('${retraitDto.rue}')}"
+                                 th:text="${#fields.errors('retraitDto.cp')}">
+                            </div>
 
                         </div>
                         <div class="col-4 justify-content-center mb-3">
@@ -109,9 +156,16 @@
                                 <label for="inputCP" class="form-label text-center w-100">Code postal</label>
                                 <input type="text" id="inputCP"
                                        class="form-control w-75 mx-auto text-center"
+                                       pattern="^[a-zA-Z0-9 ]+$"
+                                       required
 
                                        th:field="${retraitDto.cp}"
                                 >
+                            <div style="color: red;"
+                                 class="text-center"
+                                 th:if="${#fields.hasErrors('${retraitDto.cp}')}"
+                                 th:text="${#fields.errors('retraitDto.cp')}">
+                            </div>
 
                         </div>
 
@@ -121,14 +175,20 @@
                                 <input type="text" id="inputVille"
                                        class="form-control w-75 mx-auto text-center"
 
-                                       th:field="${retraitDto.ville}">
+                                       th:field="${retraitDto.ville}"
+                                >
+                            <div style="color: red;"
+                                 class="text-center"
+                                 th:if="${#fields.hasErrors('${retraitDto.ville}')}"
+                                 th:text="${#fields.errors('retraitDto.cp')}">
+                            </div>
 
                         </div>
 
                 </div>
                 </div>
 
-                <div class="row mt-2">
+                <div class="row justify-content-center mt-2">
 
                     <div class="col-md-4 text-center mt-2">
                         <button type="submit" class="btn btn-success px-4">
@@ -136,14 +196,14 @@
                         </button>
                     </div>
 
-                    <div class="col-md-4 text-center mt-2">
-                        <a href="/echeres" class="btn btn-outline-light px-4">
+                    <!--<div class="col-md-4 text-center mt-2">
+                        <a th:href="@{/encheres}" class="btn btn-outline-light px-4">
                             Annuler
                         </a>
-                    </div>
+                    </div>-->
 
                     <div class="col-md-4 text-center mt-2">
-                        <a href="/echeres" class="btn btn-outline-light px-4">
+                        <a th:href="@{/encheres}" class="btn btn-outline-light px-4">
                             Annuler la vente
                         </a>
                     </div>

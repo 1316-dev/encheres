@@ -115,7 +115,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
     @Override
     public void createArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
         String sql = "insert into articles_vendus(nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,  no_utilisateur, no_categorie)"
-                + "values(:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :nocategorie)";
+                + "values(:nom_article, :description, :date_debut_encheres, :date_fin_encheres, :prix_initial, :no_utilisateur, :noCategorie)";
 
         KeyHolder keyholder = new GeneratedKeyHolder();
 
@@ -127,7 +127,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         parameters.addValue("date_fin_encheres", articleVendu.getDateFinEnchere());
         parameters.addValue("prix_initial", articleVendu.getMiseAPrix());
         parameters.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
-        parameters.addValue("nocategorie", articleVendu.getCategorieArticle().getNoCategorie());
+        parameters.addValue("noCategorie", articleVendu.getCategorieArticle().getNoCategorie());
 
         namedParameterJdbcTemplate.update(sql, parameters, keyholder, new String[]{"no_article"});
         articleVendu.setNoArticle(keyholder.getKey().intValue());

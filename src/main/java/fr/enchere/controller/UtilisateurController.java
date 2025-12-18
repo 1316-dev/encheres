@@ -19,45 +19,46 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UtilisateurController {
 
-   @GetMapping({"/connexion"})
+    @GetMapping({"/connexion"})
     public String connexion() {
         return "view-connexion";
     }
 
     private UtilisateurService utilisateurService;
 
-    public UtilisateurController(UtilisateurService utilisateurService){
-        this.utilisateurService=utilisateurService;
+    public UtilisateurController(UtilisateurService utilisateurService) {
+        this.utilisateurService = utilisateurService;
     }
 
 
     @GetMapping({"/inscription"})
     public String inscription(Model model) {
-    UtilisateurDto utilisateurDto=(UtilisateurDto) model.getAttribute("utilisateurDto");
-            if(utilisateurDto==null){
-                model.addAttribute("utilisateurDto", new UtilisateurDto());
-            }
+        UtilisateurDto utilisateurDto = (UtilisateurDto) model.getAttribute("utilisateurDto");
+        if (utilisateurDto == null) {
+            model.addAttribute("utilisateurDto", new UtilisateurDto());
+        }
         return "view-creer-compte";
 
     }
-   @PostMapping({"/inscription"})
-    public String creerUtilisateur (@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr){
 
-        if(resultat.hasErrors()){
-            redirectAttr.addFlashAttribute( "org.springframework.validation.BindingResult.utilisateurDto", resultat);
+    @PostMapping({"/inscription"})
+    public String creerUtilisateur(@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr) {
+
+        if (resultat.hasErrors()) {
+            redirectAttr.addFlashAttribute("org.springframework.validation.BindingResult.utilisateurDto", resultat);
             redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
             return "redirect:/view-list-encheres";
         }
-        Utilisateur utilisateur= new Utilisateur();
+        Utilisateur utilisateur = new Utilisateur();
         BeanUtils.copyProperties(utilisateurDto, utilisateur);
 
-       utilisateurService.creerUtilisateur(utilisateur);
-                return "redirect:/view-list-encheres?pseudo=" + utilisateur.getPseudo();
+        utilisateurService.creerUtilisateur(utilisateur);
+        return "redirect:/view-list-encheres?pseudo=" + utilisateur.getPseudo();
     }
 
     @GetMapping("/monProfil")
-    public String afficherProfil(@RequestParam(name="pseudo")String identifiant,  Model model ){
-      Utilisateur  utilisateur = this.utilisateurService.findUserByUsername(identifiant);
+    public String afficherProfil(@RequestParam(name = "pseudo") String identifiant, Model model) {
+        Utilisateur utilisateur = this.utilisateurService.findUserByUsername(identifiant);
         UtilisateurDto utilisateurDto = new UtilisateurDto();
         utilisateurDto.setPseudo(utilisateur.getPseudo());
         utilisateurDto.setNom(utilisateur.getNom());
@@ -67,61 +68,77 @@ public class UtilisateurController {
         utilisateurDto.setRue(utilisateur.getRue());
         utilisateurDto.setCodePostal(utilisateur.getCodePostal());
         utilisateurDto.setVille(utilisateur.getVille());
-    model.addAttribute("utilisateurDto", utilisateurDto);
-    return "/view-mon-profil" ;
+        model.addAttribute("utilisateurDto", utilisateurDto);
+        return "/view-mon-profil";
     }
 
     @GetMapping("/modifier")
-    public String ModifierProfil(@RequestParam(name="pseudo")String identifiant,  Model model ){
-            Utilisateur  utilisateurProfil = this.utilisateurService.findUserByUsername(identifiant);
-            UtilisateurDto utilisateurDto = new UtilisateurDto();
-            utilisateurDto.setPseudo(utilisateurProfil.getPseudo());
-            utilisateurDto.setNom(utilisateurProfil.getNom());
-            utilisateurDto.setPrenom(utilisateurProfil.getPrenom());
-            utilisateurDto.setEmail(utilisateurProfil.getEmail());
-            utilisateurDto.setTelephone(utilisateurProfil.getTelephone());
-            utilisateurDto.setRue(utilisateurProfil.getRue());
-            utilisateurDto.setCodePostal(utilisateurProfil.getCodePostal());
-            utilisateurDto.setVille(utilisateurProfil.getVille());
-            model.addAttribute("utilisateurDto", utilisateurDto);
+    public String ModifierProfil(@RequestParam(name = "pseudo") String identifiant, Model model) {
+        Utilisateur utilisateurProfil = this.utilisateurService.findUserByUsername(identifiant);
+        UtilisateurDto utilisateurDto = new UtilisateurDto();
+        utilisateurDto.setPseudo(utilisateurProfil.getPseudo());
+        utilisateurDto.setNom(utilisateurProfil.getNom());
+        utilisateurDto.setPrenom(utilisateurProfil.getPrenom());
+        utilisateurDto.setEmail(utilisateurProfil.getEmail());
+        utilisateurDto.setTelephone(utilisateurProfil.getTelephone());
+        utilisateurDto.setRue(utilisateurProfil.getRue());
+        utilisateurDto.setCodePostal(utilisateurProfil.getCodePostal());
+        utilisateurDto.setVille(utilisateurProfil.getVille());
+        model.addAttribute("utilisateurDto", utilisateurDto);
         return "/view-modifier-profil";
     }
 
-  
-  @PostMapping("/modifier")
-  public String enregistrementModifProfil(
-          @Valid @ModelAttribute UtilisateurDto utilisateurDto,
-          BindingResult resultat,
-          RedirectAttributes redirectAttr,
-          Authentication authentication,
-          HttpServletRequest request) {
 
-      if (resultat.hasErrors()) {
-          redirectAttr.addFlashAttribute(
-                  "org.springframework.validation.BindingResult.utilisateurDto", resultat);
-          redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
-          return "redirect:/profil";
-      }
+    @PostMapping("/modifier")
+    public String enregistrementModifProfil(
+            @Valid @ModelAttribute UtilisateurDto utilisateurDto,
+            BindingResult resultat,
+            RedirectAttributes redirectAttr,
+            Authentication authentication,
+            HttpServletRequest request) {
 
-      Utilisateur utilisateur =
-              utilisateurService.findUserByUsername(authentication.getName());
+        if (resultat.hasErrors()) {
+            redirectAttr.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.utilisateurDto", resultat);
+            redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
+            return "redirect:/profil";
+        }
 
-      boolean pseudoModifie =
-              !utilisateur.getPseudo().equals(utilisateurDto.getPseudo());
+        Utilisateur utilisateur =
+                utilisateurService.findUserByUsername(authentication.getName());
 
-      BeanUtils.copyProperties(utilisateurDto, utilisateur,
-              "noUtilisateur", "motDePasse");
+        boolean pseudoModifie =
+                !utilisateur.getPseudo().equals(utilisateurDto.getPseudo());
 
-      utilisateurService.updateProfil(utilisateur);
+        BeanUtils.copyProperties(utilisateurDto, utilisateur,
+                "noUtilisateur", "motDePasse");
 
-      if(pseudoModifie){
-          request.getSession().invalidate();
-          return "redirect:/connexion?pseudoModifie";
-      }
+        utilisateurService.updateProfil(utilisateur);
 
-      redirectAttr.addFlashAttribute("success", "Profil mis à jour");
-      return "redirect:/monProfil?pseudo=" + utilisateur.getPseudo();
-  }
+        if (pseudoModifie) {
+            request.getSession().invalidate();
+            return "redirect:/connexion?pseudoModifie";
+        }
+
+        redirectAttr.addFlashAttribute("success", "Profil mis à jour");
+        return "redirect:/monProfil?pseudo=" + utilisateur.getPseudo();
+    }
+
+    @PostMapping("/supprimer")
+    public String supprimerCompte(Authentication authentication,
+                                  HttpServletRequest request,
+                                  RedirectAttributes redirectAttributes) {
+
+        String pseudo = authentication.getName();
+        Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
+
+        utilisateurService.supprimerUtilisateur(utilisateur.getNoUtilisateur());
+
+        request.getSession().invalidate();
+        redirectAttributes.addFlashAttribute("success", "Votre compte a été supprimé avec succès");
+
+        return "redirect:/encheres";
 
 
+    }
 }
