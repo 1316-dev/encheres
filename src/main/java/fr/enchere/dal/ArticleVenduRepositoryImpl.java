@@ -40,7 +40,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
             articleVenduDto.setNoArticle(rs.getInt("no_article"));
             articleVenduDto.setNomArticle(rs.getString("nom_article"));
             articleVenduDto.setMiseAPrix(rs.getInt("prix_initial"));
-            articleVenduDto.setDateFinEnchere(rs.getDate("date_fin_encheres"));
+            articleVenduDto.setDateFinEnchere(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
             articleVenduDto.setVendeur(rs.getString("Vendeur"));
             articleVenduDto.setNoCategorie(rs.getInt("no_categorie"));
 
@@ -97,8 +97,8 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
             articleVendu.setNoArticle(rs.getInt("no_article"));
             articleVendu.setNomArticle(rs.getString("nom_article"));
             articleVendu.setDescription(rs.getString("description"));
-            articleVendu.setDateDebutEnchere(rs.getDate("date_debut_encheres"));
-            articleVendu.setDateFinEnchere(rs.getDate("date_fin_encheres"));
+            articleVendu.setDateDebutEnchere(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
+            articleVendu.setDateFinEnchere(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
             articleVendu.setMiseAPrix(rs.getInt("prix_initial"));
             articleVendu.setPrixVente(rs.getInt("prix_vente"));
 
