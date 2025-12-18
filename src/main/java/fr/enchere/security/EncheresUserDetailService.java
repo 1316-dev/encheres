@@ -24,14 +24,14 @@ public class EncheresUserDetailService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String login) throws UsernameNotFoundException {
 
-        Utilisateur user =  utilisateurRepository.findUserByUsername(username);
+        Utilisateur user =  utilisateurRepository.findUserByUsernameOrEmail(login, login);
         //verifier si l'utilisateur existe en BD
         if (user == null) {
             throw new UsernameNotFoundException("Utilisateur ou mot de passe invalide");
         }
-        User.UserBuilder builder = User.withUsername(username)
+        User.UserBuilder builder = User.withUsername(user.getPseudo())
                 .password(user.getMotDePasse());
                 //.roles(user.isAdmin() ? "ADMIN" : "USER");
 

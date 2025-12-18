@@ -30,6 +30,7 @@ public class WebSecurityConfig {
                 .defaultSuccessUrl("/encheres", true)
                         //.failureUrl("/login?error") // redirect to error page
                 .loginProcessingUrl("/login")
+                        .usernameParameter("login")
                 .permitAll() )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
