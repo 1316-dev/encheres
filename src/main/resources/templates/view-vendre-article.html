@@ -44,7 +44,7 @@
 
                     <div class="col-md-12 mb-3">
                         <label for="description" class="form-label text-center w-100">Description</label>
-                        <textarea type="text" id="description"
+                        <textarea id="description"
                                   rows="5" cols="10"
                                class="form-control w-75 mx-auto text-center"
                                th:field="*{description}">
@@ -128,7 +128,7 @@
                 </div>
                 </div>
 
-                <div class="row mt-2">
+                <div class="row justify-content-center mt-2">
 
                     <div class="col-md-4 text-center mt-2">
                         <button type="submit" class="btn btn-success px-4">
@@ -136,14 +136,14 @@
                         </button>
                     </div>
 
-                    <div class="col-md-4 text-center mt-2">
-                        <a href="/echeres" class="btn btn-outline-light px-4">
+                    <!--<div class="col-md-4 text-center mt-2">
+                        <a th:href="@{/encheres}" class="btn btn-outline-light px-4">
                             Annuler
                         </a>
-                    </div>
+                    </div>-->
 
                     <div class="col-md-4 text-center mt-2">
-                        <a href="/echeres" class="btn btn-outline-light px-4">
+                        <a th:href="@{/encheres}" class="btn btn-outline-light px-4">
                             Annuler la vente
                         </a>
                     </div>
