@@ -60,7 +60,7 @@ public class EnchereController {
 
     }
     @PostMapping({"/encheres"})
-    public String creerArtcile(@Valid ArticleVenduDto articleVenduDto,@Valid RetraitDto retraitDto, BindingResult resultat, RedirectAttributes redirectAttr, Principal principal){
+    public String creerArticle(@Valid ArticleVenduDto articleVenduDto,@Valid RetraitDto retraitDto, BindingResult resultat, RedirectAttributes redirectAttr, Principal principal){
 
         if(resultat.hasErrors()){
             redirectAttr.addFlashAttribute( "org.springframework.validation.BindingResult.utilisateurDto", resultat);
