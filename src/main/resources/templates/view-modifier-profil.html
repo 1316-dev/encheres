@@ -28,72 +28,63 @@
                         <label for="inputPseudo" class="form-label text-center w-100">Pseudo</label>
                         <input type="text" id="inputPseudo"
                                class="form-control w-75 mx-auto"
-                               th:placeholder="${utilisateurDto.pseudo}"
-                               th:field="${utilisateurDto.pseudo}">
+                               th:field="*{pseudo}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputNom" class="form-label text-center w-100">Nom</label>
                         <input type="text" id="inputNom"
                                class="form-control w-75 mx-auto"
-                               th:placeholder="${utilisateurDto.nom}"
-                               th:field="${utilisateurDto.nom}">
+                               th:field="*{nom}">
                     </div>
 
                      <div class="col-md-6 mb-3">
                           <label for="inputPrenom" class="form-label text-center w-100">Prénom</label>
                           <input type="text" id="inputPrenom"
                                  class="form-control w-75 mx-auto"
-                                 th:placeholder="${utilisateurDto.prenom}"
-                                 th:field="${utilisateurDto.prenom}">
+                                 th:field="*{prenom}">
                       </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputEmail" class="form-label text-center w-100">Email</label>
                         <input type="email" id="inputEmail"
                                class="form-control w-75 mx-auto"
-                               th:placeholder="${utilisateurDto.email}"
-                               th:field="${utilisateurDto.email}">
+                               th:field="*{email}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputTel" class="form-label text-center w-100">Téléphone</label>
                         <input type="tel" id="inputTel"
                                class="form-control w-75 mx-auto"
-                               th:placeholder="${utilisateurDto.telephone}"
-                               th:field="${utilisateurDto.telephone}">
+                               th:field="*{telephone}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputRue" class="form-label text-center w-100">Rue</label>
                         <input type="text" id="inputRue"
                                class="form-control w-75 mx-auto"
-                               th:placeholder="${utilisateurDto.rue}"
-                               th:field="${utilisateurDto.rue}">
+                               th:field="*{rue}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputCP" class="form-label text-center w-100">Code postal</label>
                         <input type="text" id="inputCP"
                                class="form-control w-75 mx-auto"
-                               th:placeholder="${utilisateurDto.codePostal}"
-                               th:field="${utilisateurDto.codePostal}">
+                               th:field="*{codePostal}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputVille" class="form-label text-center w-100">Ville</label>
                         <input type="text" id="inputVille"
                                class="form-control w-75 mx-auto"
-                               th:placeholder="${utilisateurDto.ville}"
-                               th:field="${utilisateurDto.ville}">
+                               th:field="*{ville}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputMdp" class="form-label text-center w-100">Mot de passe</label>
                         <input type="password" id="inputMdp"
                                class="form-control w-75 mx-auto"
-                               th:placeholder="${utilisateurDto.motDePasse}"
-                               th:field="${utilisateurDto.motDePasse}">
+                               th:field="*{motDePasse}">
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -115,7 +106,7 @@
                     </div>
 
                     <div class="col-md-6 text-center">
-                        <a href="/encheres" class="btn btn-outline-light px-4">
+                        <a href="/encheres" class="btn btn-outline-danger px-4">
                             Supprimer mon compte
                         </a>
                     </div>

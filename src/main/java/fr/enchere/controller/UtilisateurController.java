@@ -3,6 +3,7 @@ package fr.enchere.controller;
 import fr.enchere.bll.UtilisateurService;
 import fr.enchere.bo.Utilisateur;
 import fr.enchere.dto.UtilisateurDto;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
@@ -87,12 +88,13 @@ public class UtilisateurController {
     }
 
   
- /* @PostMapping("/modifier")
-  public String enregistrementModiProfil(
+  @PostMapping("/modifier")
+  public String enregistrementModifProfil(
           @Valid @ModelAttribute UtilisateurDto utilisateurDto,
           BindingResult resultat,
           RedirectAttributes redirectAttr,
-          Authentication authentication) {
+          Authentication authentication,
+          HttpServletRequest request) {
 
       if (resultat.hasErrors()) {
           redirectAttr.addFlashAttribute(
@@ -102,15 +104,24 @@ public class UtilisateurController {
       }
 
       Utilisateur utilisateur =
-              utilisateurService.consulterUtilisateur(authentication.getName());
+              utilisateurService.findUserByUsername(authentication.getName());
+
+      boolean pseudoModifie =
+              !utilisateur.getPseudo().equals(utilisateurDto.getPseudo());
 
       BeanUtils.copyProperties(utilisateurDto, utilisateur,
               "noUtilisateur", "motDePasse");
 
       utilisateurService.updateProfil(utilisateur);
 
+      if(pseudoModifie){
+          request.getSession().invalidate();
+          return "redirect:/connexion?pseudoModifie";
+      }
+
       redirectAttr.addFlashAttribute("success", "Profil mis à jour");
-      return "redirect:/view-list-encheres";
-  }*/
+      return "redirect:/monProfil?pseudo=" + utilisateur.getPseudo();
+  }
+
 
 }

@@ -49,29 +49,29 @@ INSERT INTO ARTICLES_VENDUS
  prix_initial, prix_vente, no_utilisateur, no_categorie)
 VALUES
     (1, 'PC Portable', 'PC gamer Asus 32Go RAM',
-     CAST(GETDATE() AS date),
-     DATEADD(day, 10, CAST(GETDATE() AS date)),
+     DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
+     DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
      500, NULL, 1, 2),
 
     (2, 'Canapé', 'Canapé 3 places',
-     CAST(GETDATE() AS date),
-     DATEADD(day, 7, CAST(GETDATE() AS date)),
-     200, NULL, 2, 3),
+     GETDATE(), -- Date et heure actuelle de début pour le test revoir pour fin
+     DATEADD(day, 10, GETDATE()), -- Finit dans exactement 10 jours à la même heure
+     500, NULL, 1, 2),
 
     (3, 'Vélo', 'Vélo de course',
-     CAST(GETDATE() AS date),
-     DATEADD(day, 9, CAST(GETDATE() AS date)),
-     300, NULL, 1, 5);
+     DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
+     DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
+     500, NULL, 1, 2),
 
 SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 
 /*A VOIR POUR AUTOGENERER A PARTIR ADRESSE VENDEUR */
 /* RETRAITS */
-INSERT INTO RETRAITS (no_article, rue, code_postal, ville)
+INSERT INTO RETRAITS (no_article, rue, code_postal, ville,no_utilisateur)
 VALUES
-    (1, '10 rue Victor Hugo', '75001', 'Paris'),
-    (2, '5 avenue de France', '69000', 'Lyon'),
-    (3, '10 rue Victor Hugo', '75001', 'Paris');
+    (1, '10 rue Victor Hugo', '75001', 'Paris',1),
+    (2, '5 avenue de France', '69000', 'Lyon',2),
+    (3, '10 rue Victor Hugo', '75001', 'Paris',3);
 
 
 /* Revoir si besoin DATE ET HEURE*/

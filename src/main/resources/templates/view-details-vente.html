@@ -21,8 +21,11 @@
                 <p class="value" th:text="${article.getPrixVente()}"></p>
                 <p class="label">Mise à prix :</p>
                 <p class="value" th:text="${article.getMiseAPrix() + ' points'}"></p>
-                <p class="label">Fin de l'enchère :</p>
-                <p class="value" th:text="${article.getDateFinEnchere()}">dateFinEnchere</p>
+            <p>Fin de l'enchère le
+                <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
+                à
+                <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
+            </p>
                 <p class="label">Retrait :</p>
                 <p class="value" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getRue()}"></p>
             <p class="label"></p>
