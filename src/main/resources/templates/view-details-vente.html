@@ -37,9 +37,14 @@
 
         </div>
 
-        <form th:action="@{/detail-vente}" method="POST" class="border rounded p-4 shadow">
+        <form th:action="@{/detail-vente/{id}(id=${article.getNoArticle()})}" method="POST" class="border rounded p-4 shadow">
             <label for="inputEnchere">Ma proposition</label>
-            <input type="number" id="inputEnchere" name="nouvelleEnchere" th:placeholder="${article.getMiseAPrix() + 1}"/>
+            <input type="number"
+                   id="inputEnchere"
+                   name="montant"
+                   th:min="${article.getMiseAPrix() + 1}"
+                   th:placeholder="${article.getMiseAPrix() + 1}"
+                    required />
             <button type="submit">Enchérir</button>
         </form>
     </main>

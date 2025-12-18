@@ -58,12 +58,12 @@
                     à
                     <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
                 </p>
-                </p>
+
 
                 <p class="card-text">
                     Vendeur : <span th:text="${article.vendeur}"></span>
                 </p>
-                <a th:href="@{/detail-vente(id=${article.getNoArticle()})}" class="btn btn-primary" sec:authorize="isAuthenticated()">Détail Vente</a>
+                <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary" sec:authorize="isAuthenticated()">Détail Vente</a>
             </div>
         </div>
     </div>
