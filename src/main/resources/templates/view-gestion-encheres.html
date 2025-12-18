@@ -15,9 +15,8 @@
 
 
     <h1 class="mt-4 m-3">Liste des enchères</h1>
-
     <div class="row">
-        <form th:action="@{/encheresCategorie}" method="get" th:object="${articleVenduDto}">
+        <form th:action="@{/encheresFiltrees}" method="get" th:object="${articleVenduDto}">
             <div class="row">
             <div class="col-3 m-3">
                 <Label  for="lettreRecherche" class="form mb-1">Filtres : </Label>
@@ -33,26 +32,65 @@
                         th:value="${categorie.noCategorie}">
                     </option>
                 </select>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" id="achat" name="achat" value="1">
-                    <label class="form-check-label" for="achat">
-                        Achats
-                    </label>
+            </div>
+                <div class="row">
+                    <div class="form-check col-3 m-3">
+                        <input class="form-check-input" type="radio" id="radioAchats" name="typeRecherche" value="1">
+                        <label class="form-check-label" for="radioAchats">
+                            Achats
+                        </label>
+                        <div id="groupeAchats">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="encheresOuvertes" checked>
+                                <label class="form-check-label" for="encheresOuvertes">
+                                    Enchères ouvertes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="2" id="mesEncheres">
+                                <label class="form-check-label" for="mesEncheres">
+                                    Mes enchères
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="3" id="encheresRemportees">
+                                <label class="form-check-label" for="encheresRemportees">
+                                    Mes enchères remportées
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-check col-3 m-3">
+                        <input class="form-check-input" type="radio" id="radioVentes" name="typeRecherche" value="2" checked>
+                        <label class="form-check-label" for="radioVentes">
+                            Mes Ventes
+                        </label>
+                        <div id="groupeVentes">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="mesVentesEnCours" checked>
+                                <label class="form-check-label" for="mesVentesEnCours">
+                                    Mes Ventes en cours
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="2" id="mesVentesNonDebutes">
+                                <label class="form-check-label" for="mesVentesNonDebutes">
+                                    Ventes non débutées
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="3" id="mesVentesTerminees">
+                                <label class="form-check-label" for="mesVentesTerminees">
+                                    Ventes terminées
+                                </label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div class="form-check">
-                    <input class="form-check-input" type="radio" id="mesVentes" name="mesVentes" value="2" checked>
-                    <label class="form-check-label" for="mesVentes">
-                        Default checked radio
-                    </label>
-                </div>
-
-                <div class="col-3 mt-4 mb-3">
+            </div>
+            <div class="col-3 mt-4 mb-3">
                 <input type="submit" value="Rechercher" class="btn btn-primary m-3">
                 </div>
-            </div>
-
-
-            </div>
         </form>
     </div>
 
@@ -82,5 +120,26 @@
     </div>
 
 </main>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const radioAchats = document.getElementById('radioAchats');
+        const radioVentes = document.getElementById('radioVentes');
+        const inputsAchats = document.querySelectorAll('#groupeAchats input');
+        const inputsVentes = document.querySelectorAll('#groupeVentes input');
+
+        function toggleFiltres() {
+            const isAchats = radioAchats.checked;
+            inputsAchats.forEach(i => i.disabled = !isAchats);
+            inputsVentes.forEach(i => i.disabled = isAchats);
+        }
+
+        // Écouter les changements
+        radioAchats.addEventListener('change', toggleFiltres);
+        radioVentes.addEventListener('change', toggleFiltres);
+
+        // Exécuter une fois au chargement pour l'état initial
+        toggleFiltres();
+    });
+</script>
 </body>
 </html>

@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
@@ -117,6 +118,23 @@ public class EnchereController {
         }
         List<ArticleVenduDto> listeArticleVendu = articleVenduService.AfficherListeArticleVendu();
         model.addAttribute("listeArticleVendu", listeArticleVendu);
+
+        return "view-gestion-encheres";
+    }
+
+    @GetMapping("/encheresFiltrees")
+    public String filtrerVenteParCategorie(@RequestParam(name = "noCategorie") int no_categorie,@RequestParam(name="lettreRecherche") String lettreRecherche, Model model) {
+        if (!(model.containsAttribute("articleVenduDto"))) {
+            model.addAttribute("articleVenduDto", new ArticleVenduDto());
+        }
+        List <ArticleVenduDto> listeArticleVendufiltre = new ArrayList<>();
+        if (no_categorie == 1) {
+            listeArticleVendufiltre= articleVenduService.AfficherlisteArticleVenduByNom(lettreRecherche);
+        } else {
+            listeArticleVendufiltre = articleVenduService.AfficherListeArticleVenduFiltree(no_categorie, lettreRecherche);
+        }
+        model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
+        System.out.println(listeArticleVendufiltre);
 
         return "view-gestion-encheres";
     }
