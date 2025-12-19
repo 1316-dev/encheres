@@ -10,7 +10,7 @@ import fr.enchere.dto.ArticleVenduDto;
 import fr.enchere.dto.RetraitDto;
 
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
+
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
+
 import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -39,7 +40,7 @@ public class EnchereController {
     private final UtilisateurService utilisateurService;
     private final ArticleVenduService articleVenduService;
     private final CategorieService categorieService;
-    private EnchereService enchereService;
+    private final EnchereService enchereService;
 
     public EnchereController(UtilisateurService utilisateurService, ArticleVenduService articleVenduService, CategorieService categorieService, EnchereService enchereService) {
         this.utilisateurService = utilisateurService;
@@ -123,6 +124,7 @@ public class EnchereController {
         }
         List<ArticleVenduDto> listeArticleVendu = articleVenduService.AfficherListeArticleVendu();
         model.addAttribute("listeArticleVendu", listeArticleVendu);
+        model.addAttribute("radioMemorise","achats");
 
         return "view-gestion-encheres";
     }
@@ -171,23 +173,25 @@ public class EnchereController {
                                   HttpServletRequest request,
                                   @RequestParam(name = "typeRecherche", required = false) String typeRecherche,
                                   @RequestParam(name = "groupeVentes", required = false) String[] choixCheckBoxVentes,
+                                  @RequestParam(name = "groupeAchats", required = false)String [] choixCheckBoxAchats,
                                   Principal principal) {
 
         if (!(model.containsAttribute("articleVenduDto"))) {
             model.addAttribute("articleVenduDto", new ArticleVenduDto());
         }
         // On récupère la valeur du bouton radio coché
-
         String choixRadioAchatVente = request.getParameter("typeRecherche");
 
 
-
+        // on récupère une liste des choix checkbox
         choixCheckBoxVentes = request.getParameterValues("groupeVentes");
+        choixCheckBoxAchats = request.getParameterValues("groupeAchats");
 
 
         String vendeur = principal.getName();
+        int acheteurID = utilisateurService.findUserByUsername(vendeur).getNoUtilisateur();
 
-        List<ArticleVenduDto> listeArticleVendufiltre = articleVenduService.GestionMesVentes(choixRadioAchatVente,choixCheckBoxVentes,vendeur,no_categorie,lettreRecherche);
+        List<ArticleVenduDto> listeArticleVendufiltre = articleVenduService.GestionMesVentes(choixRadioAchatVente,choixCheckBoxVentes,choixCheckBoxAchats,vendeur,no_categorie,lettreRecherche, acheteurID);
 
         model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
         model.addAttribute("radioMemorise",choixRadioAchatVente);
