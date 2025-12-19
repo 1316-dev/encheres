@@ -22,5 +22,6 @@ public interface ArticleVenduService {
     void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur);
 
 
-
+    //TEST LENA
+    boolean utilisateurADesVentes(int noUtilisateur);
 }

@@ -21,6 +21,9 @@
         <div th:if="${supError}" class="alert alert-warning text-center mt-4">
             <h2 th:text="${supError}"></h2>
         </div>
+        <div th:if="${success}" class="alert alert-success text-center mt-4">
+            <h2 th:text="${success}"></h2>
+        </div>
         <!--fin test-->
 
         <form th:action="@{/encheresCategorie}" method="get" th:object="${articleVenduDto}">

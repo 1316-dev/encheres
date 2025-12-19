@@ -1,5 +1,6 @@
 package fr.enchere.controller;
 
+import fr.enchere.bll.ArticleVenduService;
 import fr.enchere.bll.UtilisateurService;
 import fr.enchere.bo.Utilisateur;
 
@@ -24,13 +25,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UtilisateurController {
 
 
+    private final ArticleVenduService articleVenduService;
     private PasswordEncoder passwordEncoder;
 
     private UtilisateurService utilisateurService;
 
-    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
+    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder, ArticleVenduService articleVenduService) {
         this.utilisateurService = utilisateurService;
         this.passwordEncoder = passwordEncoder;
+        this.articleVenduService = articleVenduService;
     }
 
     @GetMapping({"/connexion"})
@@ -223,8 +226,8 @@ public class UtilisateurController {
         Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
         System.out.println(utilisateur.getArticleVendu().size());
         //test
-        if (utilisateur.getArticleVendu() != null && !utilisateur.getArticleVendu().isEmpty() ) {
-
+        // TEST JDBC : on interroge la BDD
+        if (articleVenduService.utilisateurADesVentes(utilisateur.getNoUtilisateur())) {
             redirectAttr.addFlashAttribute(
                     "supError",
                     "Ventes en cours suppression impossible"
