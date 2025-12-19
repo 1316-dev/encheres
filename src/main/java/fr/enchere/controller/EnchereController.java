@@ -13,10 +13,13 @@ import fr.enchere.dto.RetraitDto;
 
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.security.Principal;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +38,13 @@ public class EnchereController {
     private final UtilisateurService utilisateurService;
     private final ArticleVenduService articleVenduService;
     private final CategorieService categorieService;
+    private EnchereService enchereService;
 
-    public EnchereController(UtilisateurService utilisateurService, ArticleVenduService articleVenduService, CategorieService categorieService) {
+    public EnchereController(UtilisateurService utilisateurService, ArticleVenduService articleVenduService, CategorieService categorieService, EnchereService enchereService) {
         this.utilisateurService = utilisateurService;
         this.articleVenduService = articleVenduService;
         this.categorieService = categorieService;
+        this.enchereService = enchereService;
     }
 
     @GetMapping({"/vendre"})
@@ -101,13 +107,10 @@ public class EnchereController {
         return "redirect:/encheres";
     }
 
-    @GetMapping("/detail-vente")
-    public String afficherDetailVente(@RequestParam(name="id") int id, Model model) {
-
-        ArticleVendu article = articleVenduService.findArticleById(id);
-
+    @GetMapping("/detail-vente/{articleId}")
+    public String afficherDetailVente(@PathVariable int articleId, Model model) {
+        ArticleVendu article = articleVenduService.findArticleById(articleId);
         model.addAttribute("article", article);
-
         return "view-details-vente";
     }
 
@@ -137,5 +140,21 @@ public class EnchereController {
         System.out.println(listeArticleVendufiltre);
 
         return "view-gestion-encheres";
+    }
+
+    @PostMapping("/detail-vente/{articleId}")
+    public String creerEnchere(@PathVariable int articleId, @RequestParam int montant, @AuthenticationPrincipal UserDetails user) {
+        //Construction d'une enchere pour création
+        //Initialisation date de l'enchère
+        LocalDateTime dateEnchere = LocalDateTime.now();
+        //Récupération de l'article
+        ArticleVendu article = articleVenduService.findArticleById(articleId);
+        //Récupération du créateur de l'enchere connecté
+        Utilisateur utilisateur = utilisateurService.findUserByUsername(user.getUsername());
+
+        Enchere enchere = new Enchere(dateEnchere, montant, article, utilisateur);
+        enchereService.creerEnchere(enchere);
+
+        return "redirect:/detail-vente/" + articleId;
     }
 }

@@ -126,11 +126,8 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         parameters.addValue("date_debut_encheres", articleVendu.getDateDebutEnchere());
         parameters.addValue("date_fin_encheres", articleVendu.getDateFinEnchere());
         parameters.addValue("prix_initial", articleVendu.getMiseAPrix());
-        System.out.println(utilisateur.getNoUtilisateur());
         parameters.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
         parameters.addValue("noCategorie", articleVendu.getCategorieArticle().getNoCategorie());
-
-
 
         namedParameterJdbcTemplate.update(sql, parameters, keyholder, new String[]{"no_article"});
         articleVendu.setNoArticle(keyholder.getKey().intValue());

@@ -22,6 +22,36 @@ public class UtilisateurDto {
     private int credit;
     private boolean administrateur;
 
+    //Ajout pour gestion mdp
+
+    public String getMdpActuel() {
+        return mdpActuel;
+    }
+
+    public void setMdpActuel(String mdpActuel) {
+        this.mdpActuel = mdpActuel;
+    }
+
+    public String getMdpNouveau() {
+        return mdpNouveau;
+    }
+
+    public void setMdpNouveau(String mdpNouveau) {
+        this.mdpNouveau = mdpNouveau;
+    }
+
+    public String getMdpConfirmation() {
+        return mdpConfirmation;
+    }
+
+    public void setMdpConfirmation(String mdpConfirmation) {
+        this.mdpConfirmation = mdpConfirmation;
+    }
+
+    private String mdpActuel;
+    private String mdpNouveau;
+    private String mdpConfirmation;
+
 
     private List<ArticleVendu> articleVendu=new ArrayList<>();
     private List<Enchere>enchere=new ArrayList<>();

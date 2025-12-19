@@ -119,7 +119,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
             String sql = "update utilisateurs set "
                     + "pseudo=?, nom=?, prenom=?, email=?, telephone=?, "
-                    + "rue=?, code_postal=?, ville=?"
+                    + "rue=?, code_postal=?, ville=?, mot_de_passe=?"
                     + "where no_utilisateur=?";
 
                int rows = jdbcTemplate.update(sql, ps -> {
@@ -131,7 +131,8 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
                     ps.setString(6, utilisateur.getRue());
                     ps.setString(7, utilisateur.getCodePostal());
                     ps.setString(8, utilisateur.getVille());
-                    ps.setInt(9, utilisateur.getNoUtilisateur());
+                   ps.setString(9, utilisateur.getMotDePasse());
+                    ps.setInt(10, utilisateur.getNoUtilisateur());
                 });
 
           if(rows ==0){ new UtilisateurNotFound(utilisateur.getPseudo());
