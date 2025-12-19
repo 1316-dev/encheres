@@ -129,9 +129,13 @@
                             <select id="listeAdresse" th:class="dropdown"
                                     th:field="${utilisateur.listeAdresseDeRetrait}"
                                     class="form-control col-3">
-                                <option th:each="lieuRetrait : ${@retraitServiceImpl.findRetraitByNoUtilisateur(utilisateur.getNoUtilisateur())}"
+                                <option th:each="lieuRetrait, iterStat : ${@retraitServiceImpl.findRetraitByNoUtilisateur(utilisateur.getNoUtilisateur())}"
                                         th:text="${lieuRetrait.rue + ' ' + lieuRetrait.cp + ' ' + lieuRetrait.ville }"
-                                        th:value="${lieuRetrait}">
+                                        th:data-rue="${lieuRetrait.rue}"
+                                        th:data-cp="${lieuRetrait.cp}"
+                                        th:data-ville="${lieuRetrait.ville}"
+                                        th:value="${lieuRetrait}"
+                                >
                                 </option>
                             </select>
                         </div>
@@ -142,6 +146,7 @@
                                        class="form-control w-75 mx-auto text-center"
                                        pattern="^[a-zA-Z0-9 ]+$"
                                        required
+                                       value=""
                                        th:field="${retraitDto.rue}"
                                         >
                             <div style="color: red;"
@@ -158,7 +163,7 @@
                                        class="form-control w-75 mx-auto text-center"
                                        pattern="^[a-zA-Z0-9 ]+$"
                                        required
-
+                                       value=""
                                        th:field="${retraitDto.cp}"
                                 >
                             <div style="color: red;"
@@ -176,6 +181,7 @@
                                        class="form-control w-75 mx-auto text-center"
 
                                        th:field="${retraitDto.ville}"
+                                       value=""
                                 >
                             <div style="color: red;"
                                  class="text-center"
@@ -215,7 +221,26 @@
         </div>
     </div>
 </main>
+<script th:inline="javascript">
+    document.querySelector('select').addEventListener('change', function() {
+        // On récupère l'option sélectionnée
+        let selectedOption = this.options[this.selectedIndex];
 
+        let $inputRue = document.getElementById('inputRue');
+        let $inputCP = document.getElementById('inputCP');
+        let $inputVille = document.getElementById('inputVille');
+
+        // On accède aux données via dataset
+        let rue = selectedOption.dataset.rue;
+        let cp = selectedOption.dataset.cp;
+        let ville = selectedOption.dataset.ville;
+
+        if (rue) $inputRue.value = rue;
+        if (cp) $inputCP.value = cp;
+        if (ville) $inputVille.value = ville;
+
+    });
+</script>
 
 
 </body>
