@@ -114,7 +114,7 @@
                 <p class="card-text">
                     Vendeur : <span th:text="${article.vendeur}"></span>
                 </p>
-                <a th:href="@{/detail-vente(id=${article.getNoArticle()})}" class="btn btn-primary">Détail Vente</a>
+                <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary">Détail Vente</a>
             </div>
         </div>
     </div>

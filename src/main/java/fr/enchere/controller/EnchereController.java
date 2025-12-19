@@ -2,12 +2,10 @@ package fr.enchere.controller;
 
 import fr.enchere.bll.ArticleVenduService;
 import fr.enchere.bll.CategorieService;
+import fr.enchere.bll.EnchereService;
 import fr.enchere.bll.UtilisateurService;
-import fr.enchere.bo.ArticleVendu;
+import fr.enchere.bo.*;
 
-import fr.enchere.bo.Categorie;
-import fr.enchere.bo.Retrait;
-import fr.enchere.bo.Utilisateur;
 import fr.enchere.dto.ArticleVenduDto;
 import fr.enchere.dto.RetraitDto;
 
