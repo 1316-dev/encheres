@@ -77,9 +77,11 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
     }
 
     @Override
-    public List<ArticleVenduDto> listeMesAchats(String vendeur,int no_categorie, String recherche) {
-
-        return List.of();
+    public List<ArticleVenduDto> listeMesAchats(int acheteurID,int no_categorie, String recherche) {
+        List<ArticleVenduDto> listeMesAchatsFiltrees = null;
+        String sql = "SELECT * FROM gestionEncheresMesAchats WHERE acheteur = ? AND date_debut_encheres <= getdate() AND date_fin_encheres >= getdate() AND nom_article LIKE ?";
+        listeMesAchatsFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),acheteurID,"%"+recherche+"%");
+        return listeMesAchatsFiltrees;
     }
 
 
@@ -93,7 +95,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
                 for (String valeur : choixCheckBoxVentes) {
                     if (valeur.equals("enCours")) {
                         // L'utilisateur a coché "Mes ventes en cours"
-                        String sql = "SELECT * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_debut_encheres <= getdate() AND date_fin_encheres >= getdate() AND nom_article LIKE ?";
+                        String sql = "SELECT  * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_debut_encheres <= getdate() AND date_fin_encheres >= getdate() AND nom_article LIKE ?";
                         listeMesVentesFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%");
                     }
                     if (valeur.equals("nonDebutees")) {

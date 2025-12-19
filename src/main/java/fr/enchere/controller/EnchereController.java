@@ -123,6 +123,7 @@ public class EnchereController {
         }
         List<ArticleVenduDto> listeArticleVendu = articleVenduService.AfficherListeArticleVendu();
         model.addAttribute("listeArticleVendu", listeArticleVendu);
+        model.addAttribute("radioMemorise","achats");
 
         return "view-gestion-encheres";
     }
@@ -193,8 +194,9 @@ public class EnchereController {
 
 
         String vendeur = principal.getName();
+        int acheteurID = utilisateurService.findUserByUsername(vendeur).getNoUtilisateur();
 
-        List<ArticleVenduDto> listeArticleVendufiltre = articleVenduService.GestionMesVentes(choixRadioAchatVente,choixCheckBoxVentes,vendeur,no_categorie,lettreRecherche);
+        List<ArticleVenduDto> listeArticleVendufiltre = articleVenduService.GestionMesVentes(choixRadioAchatVente,choixCheckBoxVentes,vendeur,no_categorie,lettreRecherche, acheteurID);
 
         model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
         model.addAttribute("radioMemorise",choixRadioAchatVente);
