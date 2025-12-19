@@ -122,7 +122,8 @@ public class EnchereController {
         Utilisateur utilisateur = utilisateurService.findUserByUsername(user.getUsername());
 
         Enchere enchere = new Enchere(dateEnchere, montant, article, utilisateur);
-        //Gérer erreurs : enchère trop basse
+
+        //Gestion des erreurs dans le service
         enchereService.creerEnchere(enchere);
 
         redirectAttributes.addFlashAttribute(

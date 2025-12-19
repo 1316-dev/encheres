@@ -17,4 +17,6 @@ public interface ArticleVenduService {
     List<ArticleVenduDto> AfficherListeArticleVenduFiltree(int no_categorie, String recherche);
 
     void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur);
+
+
 }
