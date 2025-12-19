@@ -17,6 +17,12 @@
     <h1 class="mt-4 m-3">Liste des enchères</h1>
 
     <div class="row">
+        <!--test-->
+        <div th:if="${supError}" class="alert alert-warning text-center mt-4">
+            <h2 th:text="${supError}"></h2>
+        </div>
+        <!--fin test-->
+
         <form th:action="@{/encheresCategorie}" method="get" th:object="${articleVenduDto}">
             <div class="row">
             <div class="col-3 m-3">
