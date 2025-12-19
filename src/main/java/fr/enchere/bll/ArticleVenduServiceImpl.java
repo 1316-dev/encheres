@@ -39,17 +39,21 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
         return articleVenduRepository.listeArticleFiltree(no_categorie,recherche);
     }
 
+
+
     @Override
     public void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
         articleVenduRepository.createArticle(articleVendu, retrait,utilisateur);
     }
 
     @Override
-    public List<ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBoxVentes, String vendeur, int no_categorie, String recherche) {
+    public List<ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBoxVentes, String [] choixCheckBoxAchats, String vendeur, int no_categorie, String recherche, int acheteurID) {
 
         List<ArticleVenduDto> listeArticleVendufiltre = new ArrayList<>();
 
         if (choixRadio.equals("achats")) {
+            listeArticleVendufiltre = articleVenduRepository.listeMesAchats(acheteurID,no_categorie,recherche, choixCheckBoxAchats);
+            System.out.println("achat" + acheteurID);
 
         } else if (choixRadio.equals("ventes")) {
             listeArticleVendufiltre = articleVenduRepository.listeMesVentes(vendeur,no_categorie,recherche,choixCheckBoxVentes);
