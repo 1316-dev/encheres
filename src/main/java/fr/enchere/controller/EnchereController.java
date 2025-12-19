@@ -9,6 +9,7 @@ import fr.enchere.bo.*;
 import fr.enchere.dto.ArticleVenduDto;
 import fr.enchere.dto.RetraitDto;
 
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -47,8 +48,8 @@ public class EnchereController {
 
     @GetMapping({"/vendre"})
     public String vendreUnArticle(Model model, Principal principal) {
-        ArticleVenduDto articleVenduDto =(ArticleVenduDto) model.getAttribute("articleVenduDto");
-        if(articleVenduDto==null){
+        ArticleVenduDto articleVenduDto = (ArticleVenduDto) model.getAttribute("articleVenduDto");
+        if (articleVenduDto == null) {
             model.addAttribute("articleVenduDto", new ArticleVenduDto());
 
         }
@@ -66,11 +67,12 @@ public class EnchereController {
         return "view-vendre-article";
 
     }
+
     @PostMapping({"/encheres"})
     public String creerArticle(@Valid @ModelAttribute("articleVenduDto") ArticleVenduDto articleVenduDto,
                                BindingResult resultat, // Suit l'article
                                //@Valid @ModelAttribute("retraitDto")
-                                   RetraitDto retraitDto,
+                               RetraitDto retraitDto,
                                //BindingResult resultatRetrait, // Suit le retrait
                                Model model,
                                Principal principal) {
@@ -87,14 +89,14 @@ public class EnchereController {
             return "view-vendre-article";
         }
 
-        ArticleVendu articleVendu= new ArticleVendu();
+        ArticleVendu articleVendu = new ArticleVendu();
         BeanUtils.copyProperties(articleVenduDto, articleVendu);
 
         Categorie categorie = categorieService.findCategorieById(articleVenduDto.getNoCategorie());
 
         articleVendu.setCategorieArticle(categorie);
 
-        Retrait retrait= new Retrait();
+        Retrait retrait = new Retrait();
         BeanUtils.copyProperties(retraitDto, retrait);
 
         String pseudo = principal.getName();
@@ -124,18 +126,18 @@ public class EnchereController {
     }
 
     @GetMapping("/encheresFiltrees")
-    public String filtrerVenteParCategorie(@RequestParam(name = "noCategorie") int no_categorie,@RequestParam(name="lettreRecherche") String lettreRecherche, Model model) {
+    public String filtrerVenteParCategorie(@RequestParam(name = "noCategorie") int no_categorie, @RequestParam(name = "lettreRecherche") String lettreRecherche, Model model) {
         if (!(model.containsAttribute("articleVenduDto"))) {
             model.addAttribute("articleVenduDto", new ArticleVenduDto());
         }
-        List <ArticleVenduDto> listeArticleVendufiltre = new ArrayList<>();
+        List<ArticleVenduDto> listeArticleVendufiltre = new ArrayList<>();
         if (no_categorie == 1) {
-            listeArticleVendufiltre= articleVenduService.AfficherlisteArticleVenduByNom(lettreRecherche);
+            listeArticleVendufiltre = articleVenduService.AfficherlisteArticleVenduByNom(lettreRecherche);
         } else {
             listeArticleVendufiltre = articleVenduService.AfficherListeArticleVenduFiltree(no_categorie, lettreRecherche);
         }
         model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
-        System.out.println(listeArticleVendufiltre);
+
 
         return "view-gestion-encheres";
     }
@@ -155,4 +157,46 @@ public class EnchereController {
 
         return "redirect:/detail-vente/" + articleId;
     }
+
+    //################################
+    // Page Gestion Encheres
+    //################################
+
+    @GetMapping("/gestionEncheresFiltrees")
+    public String gestionEncheres(@RequestParam(name = "noCategorie") int no_categorie,
+                                  @RequestParam(name = "lettreRecherche") String lettreRecherche,
+                                  Model model,
+                                  HttpServletRequest request,
+                                  Principal principal) {
+
+        if (!(model.containsAttribute("articleVenduDto"))) {
+            model.addAttribute("articleVenduDto", new ArticleVenduDto());
+        }
+        // On récupère la valeur du bouton radio coché
+        String choix = request.getParameter("typeRecherche");
+        List<ArticleVenduDto> listeArticleVendufiltre = new ArrayList<>();
+
+        String vendeur = principal.getName();
+        System.out.println(vendeur);
+
+            if (choix.equals("achats")) {
+
+            } else if (choix.equals("ventes")) {
+                if (no_categorie == 1) {
+                    listeArticleVendufiltre = articleVenduService.AfficherMesVentes(vendeur, lettreRecherche);
+                } else {
+                    listeArticleVendufiltre = articleVenduService.AfficherMesVentesFiltrees(vendeur, no_categorie, lettreRecherche);
+                }
+            }
+
+            model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
+
+            System.out.println(listeArticleVendufiltre);
+
+
+
+        return "view-gestion-encheres";
+    }
 }
+
+

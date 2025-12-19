@@ -39,7 +39,18 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
     }
 
     @Override
+    public List<ArticleVenduDto> AfficherMesVentesFiltrees(String vendeur, int no_categorie, String recherche) {
+        return articleVenduRepository.listeMesVentesFiltrees(vendeur,no_categorie,recherche);
+    }
+
+    @Override
+    public List<ArticleVenduDto> AfficherMesVentes(String vendeur, String recherche) {
+        return articleVenduRepository.listeMesVentes(vendeur,recherche);
+    }
+
+    @Override
     public void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
         articleVenduRepository.createArticle(articleVendu, retrait,utilisateur);
     }
+
 }

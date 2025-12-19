@@ -41,7 +41,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
             articleVenduDto.setNomArticle(rs.getString("nom_article"));
             articleVenduDto.setMiseAPrix(rs.getInt("prix_initial"));
             articleVenduDto.setDateFinEnchere(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
-            articleVenduDto.setVendeur(rs.getString("Vendeur"));
+            articleVenduDto.setVendeur(rs.getString("vendeur"));
             articleVenduDto.setNoCategorie(rs.getInt("no_categorie"));
 
 
@@ -49,14 +49,6 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         }
     }
 
-    @Override
-    public ArticleVendu findArticleById(int id) {
-        String sql ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie FROM Articles_Vendus WHERE no_article = ?";
-
-        ArticleVendu article = jdbcTemplate.queryForObject(sql, new ArticleBORowMapper(), id);
-
-        return article;
-    }
 
     @Override
     public List<ArticleVenduDto> listeArticleVendu() {
@@ -80,6 +72,30 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         String sql = "select * from dbo.afficherVentesEnCours where no_categorie = ? AND nom_article LIKE ? and date_fin_encheres > getdate()";
 
         List<ArticleVenduDto> ListeArticleFiltreCategorie = jdbcTemplate.query(sql,new ArticleVenduRowMapper(), no_categorie,"%"+recherche+"%");
+
+        return ListeArticleFiltreCategorie;
+    }
+
+    @Override
+    public List<ArticleVenduDto> listeMesAchats(String vendeur,int no_categorie, String recherche) {
+
+        return List.of();
+    }
+
+    @Override
+    public List<ArticleVenduDto> listeMesVentes(String vendeur, String recherche) {
+        String sql = "select * from dbo.afficherVentesEnCours where  vendeur = ? AND nom_article LIKE ?";
+
+        List<ArticleVenduDto> ListeArticleFiltreCategorie = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%");
+
+        return ListeArticleFiltreCategorie;
+    }
+
+    @Override
+    public List<ArticleVenduDto> listeMesVentesFiltrees(String vendeur,int no_categorie, String recherche) {
+        String sql = "select * from dbo.afficherVentesEnCours where  vendeur = ? AND no_categorie = ? AND nom_article LIKE ?";
+
+        List<ArticleVenduDto> ListeArticleFiltreCategorie = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur, no_categorie,"%"+recherche+"%");
 
         return ListeArticleFiltreCategorie;
     }
@@ -110,6 +126,15 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
             return articleVendu;
         }
+    }
+
+    @Override
+    public ArticleVendu findArticleById(int id) {
+        String sql ="SELECT no_article, nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial, prix_vente, no_utilisateur, no_categorie FROM Articles_Vendus WHERE no_article = ?";
+
+        ArticleVendu article = jdbcTemplate.queryForObject(sql, new ArticleBORowMapper(), id);
+
+        return article;
     }
 
     @Override
@@ -145,6 +170,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         parametersRetrait.addValue("no_utilisateur", utilisateur.getNoUtilisateur());
         namedParameterJdbcTemplate.update(sql2, parametersRetrait);
 
-
     }
+
+
 }
