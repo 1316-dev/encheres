@@ -18,7 +18,13 @@
                 <p class="label">Catégorie : </p>
                 <p class="value" th:text="${@categorieServiceImpl.findCategorieById(article.categorieArticle.getNoCategorie()).libelle}"></p>
                 <p class="label">Meilleure offre :</p>
-                <p class="value" th:text="${article.getPrixVente()}"></p>
+                <p class="value">
+                    <!-- thif et th unless prix de vente = 0, afficher première mise à prix-->
+                    <span th:if="${article.getPrixVente()==0}" th:text="${article.getMiseAPrix()}"></span>
+                    <span th:unless="${article.getPrixVente()==0}" th:text="${article.getPrixVente()+ ' points'}"></span>
+                    par
+                    <span><!--th:text="${article.getLastEnchere().utilisateur.pseudo}">--></span>
+                </p>
                 <p class="label">Mise à prix :</p>
                 <p class="value" th:text="${article.getMiseAPrix() + ' points'}"></p>
             <p class="label">Fin de l'enchère le</p>
@@ -36,17 +42,23 @@
                 <p class="value" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}"></p>
 
         </div>
+        <div th:if="${#authentication.name}!=${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}">
+            <form th:action="@{/detail-vente/{id}(id=${article.getNoArticle()})}" method="POST" class="border rounded p-4 shadow">
+                <label for="inputEnchere">Ma proposition</label>
+                <input type="number"
+                       id="inputEnchere"
+                       name="montant"
+                       th:min="${article.getMiseAPrix() + 1}"
+                       th:placeholder="${article.getMiseAPrix() + 1}"
+                       required />
+                <button type="submit">Enchérir</button>
+            </form>
 
-        <form th:action="@{/detail-vente/{id}(id=${article.getNoArticle()})}" method="POST" class="border rounded p-4 shadow">
-            <label for="inputEnchere">Ma proposition</label>
-            <input type="number"
-                   id="inputEnchere"
-                   name="montant"
-                   th:min="${article.getMiseAPrix() + 1}"
-                   th:placeholder="${article.getMiseAPrix() + 1}"
-                    required />
-            <button type="submit">Enchérir</button>
-        </form>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-success">
+            <span th:text="${successMessage}"></span>
+        </div>
     </main>
 </body>
 </html>

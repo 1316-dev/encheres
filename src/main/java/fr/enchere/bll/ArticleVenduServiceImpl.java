@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class ArticleVenduServiceImpl implements ArticleVenduService{
+public class ArticleVenduServiceImpl implements ArticleVenduService {
 
     private final ArticleVenduRepository articleVenduRepository;
 
@@ -21,7 +21,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 
     @Override
     public ArticleVendu findArticleById(int id) {
-       return articleVenduRepository.findArticleById(id);
+        return articleVenduRepository.findArticleById(id);
     }
 
     @Override
@@ -30,31 +30,19 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
     }
 
     @Override
-    public List <ArticleVenduDto> AfficherlisteArticleVenduByNom(String recherche) {
+    public List<ArticleVenduDto> AfficherlisteArticleVenduByNom(String recherche) {
         return articleVenduRepository.listeArticleVenduByNom(recherche);
     }
 
     @Override
     public List<ArticleVenduDto> AfficherListeArticleVenduFiltree(int no_categorie, String recherche) {
-        return articleVenduRepository.listeArticleFiltree(no_categorie,recherche);
+        return articleVenduRepository.listeArticleFiltree(no_categorie, recherche);
     }
 
     @Override
     public void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
-        articleVenduRepository.createArticle(articleVendu, retrait,utilisateur);
+        articleVenduRepository.createArticle(articleVendu, retrait, utilisateur);
     }
 
-    @Override
-    public List<ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBoxVentes, String vendeur, int no_categorie, String recherche) {
-
-        List<ArticleVenduDto> listeArticleVendufiltre = new ArrayList<>();
-
-        if (choixRadio.equals("achats")) {
-
-        } else if (choixRadio.equals("ventes")) {
-            listeArticleVendufiltre = articleVenduRepository.listeMesVentes(vendeur,no_categorie,recherche,choixCheckBoxVentes);
-        }
-
-        return listeArticleVendufiltre;
-    }
 }
+

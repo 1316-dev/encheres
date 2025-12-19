@@ -59,18 +59,18 @@ VALUES
     (2, 'Canapé', 'Canapé 3 places',
      GETDATE(), -- Date et heure actuelle de début pour le test revoir pour fin
      DATEADD(day, 10, GETDATE()), -- Finit dans exactement 10 jours à la même heure
-     500, NULL, 1, 2),
+     500, NULL, 2, 3),
 
     (3, 'Vélo', 'Vélo de course',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 1, 2)
+     500, NULL, 3, 5)
 
 SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 
 /*A VOIR POUR AUTOGENERER A PARTIR ADRESSE VENDEUR */
 /* RETRAITS */
-INSERT INTO RETRAITS (no_article, rue, code_postal, ville,no_utilisateur)
+INSERT INTO RETRAITS (no_article, rue, code_postal, ville, no_utilisateur)
 VALUES
     (1, '10 rue Victor Hugo', '75001', 'Paris',1),
     (2, '5 avenue de France', '69000', 'Lyon',2),
