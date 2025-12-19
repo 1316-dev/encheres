@@ -17,7 +17,7 @@ public interface ArticleVenduService {
     List<ArticleVenduDto> AfficherListeArticleVenduFiltree(int no_categorie, String recherche);
 
 
-    List <ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBox, String vendeur,int no_categorie, String recherche, int acheteurID);
+    List <ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBox, String [] choixCheckBoxAchats, String vendeur,int no_categorie, String recherche, int acheteurID);
 
     void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur);
 

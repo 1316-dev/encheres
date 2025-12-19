@@ -47,12 +47,12 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
     }
 
     @Override
-    public List<ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBoxVentes, String vendeur, int no_categorie, String recherche, int acheteurID) {
+    public List<ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBoxVentes, String [] choixCheckBoxAchats, String vendeur, int no_categorie, String recherche, int acheteurID) {
 
         List<ArticleVenduDto> listeArticleVendufiltre = new ArrayList<>();
 
         if (choixRadio.equals("achats")) {
-            listeArticleVendufiltre = articleVenduRepository.listeMesAchats(acheteurID,no_categorie,recherche);
+            listeArticleVendufiltre = articleVenduRepository.listeMesAchats(acheteurID,no_categorie,recherche, choixCheckBoxAchats);
             System.out.println("achat" + acheteurID);
 
         } else if (choixRadio.equals("ventes")) {
