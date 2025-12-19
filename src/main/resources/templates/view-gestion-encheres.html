@@ -35,7 +35,13 @@
             </div>
                 <div class="row">
                     <div class="form-check col-3 m-3">
-                        <input class="form-check-input" type="radio" id="radioAchats" th:name="typeRecherche" value="achats" checked>
+                        <input class="form-check-input"
+                               type="radio"
+                               id="radioAchats"
+                               th:name="typeRecherche"
+                               value="achats"
+                               th:checked="${radioMemorise == 'achats'}"
+                        >
                         <label class="form-check-label" for="radioAchats">
                             Achats
                         </label>
@@ -61,7 +67,12 @@
                         </div>
                     </div>
                     <div class="form-check col-3 m-3">
-                        <input class="form-check-input" type="radio" id="radioVentes" name="typeRecherche" value="ventes">
+                        <input class="form-check-input"
+                               type="radio"
+                               id="radioVentes"
+                               th:name="typeRecherche"
+                               value="ventes"
+                               th:checked="${radioMemorise == 'ventes'}">
                         <label class="form-check-label" for="radioVentes">
                             Mes Ventes
                         </label>

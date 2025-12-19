@@ -10,6 +10,7 @@ import fr.enchere.dto.ArticleVenduDto;
 import fr.enchere.dto.RetraitDto;
 
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -167,6 +168,8 @@ public class EnchereController {
                                   @RequestParam(name = "lettreRecherche") String lettreRecherche,
                                   Model model,
                                   HttpServletRequest request,
+                                  @RequestParam(name = "typeRecherche", required = false) String typeRecherche,
+                                  @RequestParam(name = "groupeVentes", required = false) String[] choixCheckBoxVentes,
                                   Principal principal) {
 
         if (!(model.containsAttribute("articleVenduDto"))) {
@@ -175,18 +178,19 @@ public class EnchereController {
         // On récupère la valeur du bouton radio coché
 
         String choixRadioAchatVente = request.getParameter("typeRecherche");
-        String[] choixCheckBoxVentes = request.getParameterValues("groupeVentes");
 
+
+
+        choixCheckBoxVentes = request.getParameterValues("groupeVentes");
 
 
         String vendeur = principal.getName();
 
-
         List<ArticleVenduDto> listeArticleVendufiltre = articleVenduService.GestionMesVentes(choixRadioAchatVente,choixCheckBoxVentes,vendeur,no_categorie,lettreRecherche);
 
         model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
+        model.addAttribute("radioMemorise",choixRadioAchatVente);
 
-        System.out.println(listeArticleVendufiltre);
 
 
 
