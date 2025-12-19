@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -19,15 +20,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 @Controller
 public class UtilisateurController {
 
+
+
     @GetMapping({"/connexion"})
     public String connexion() {
         return "view-connexion";
     }
-
+    private PasswordEncoder passwordEncoder;
     private UtilisateurService utilisateurService;
 
-    public UtilisateurController(UtilisateurService utilisateurService) {
+    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
         this.utilisateurService = utilisateurService;
+        this.passwordEncoder= passwordEncoder;
     }
 
 
@@ -56,7 +60,7 @@ public class UtilisateurController {
         return "redirect:/view-list-encheres?pseudo=" + utilisateur.getPseudo();
     }
 
-    @GetMapping("/monProfil")
+    /*@GetMapping("/monProfil")
     public String afficherProfil(@RequestParam(name = "pseudo") String identifiant, Model model) {
         Utilisateur utilisateur = this.utilisateurService.findUserByUsername(identifiant);
         UtilisateurDto utilisateurDto = new UtilisateurDto();
@@ -70,23 +74,50 @@ public class UtilisateurController {
         utilisateurDto.setVille(utilisateur.getVille());
         model.addAttribute("utilisateurDto", utilisateurDto);
         return "/view-mon-profil";
+    }*/
+    @GetMapping("/monProfil")
+    public String monProfil(Authentication authentication, Model model) {
+
+        Utilisateur utilisateur =
+                utilisateurService.findUserByUsername(authentication.getName());
+
+        UtilisateurDto utilisateurDto = new UtilisateurDto();
+        utilisateurDto.setPseudo(utilisateur.getPseudo());
+        utilisateurDto.setNom(utilisateur.getNom());
+        utilisateurDto.setPrenom(utilisateur.getPrenom());
+        utilisateurDto.setEmail(utilisateur.getEmail());
+        utilisateurDto.setTelephone(utilisateur.getTelephone());
+        utilisateurDto.setRue(utilisateur.getRue());
+        utilisateurDto.setCodePostal(utilisateur.getCodePostal());
+        utilisateurDto.setVille(utilisateur.getVille());
+
+        model.addAttribute("utilisateurDto", utilisateurDto);
+
+        return "view-mon-profil";
+    }
+    @GetMapping("/modifier")
+    public String modifierProfil(Authentication authentication, Model model) {
+
+        // Récupération de l'utilisateur connecté
+        Utilisateur utilisateur = utilisateurService.findUserByUsername(authentication.getName());
+
+        // Création du DTO pour le formulaire
+        UtilisateurDto utilisateurDto = new UtilisateurDto();
+        utilisateurDto.setPseudo(utilisateur.getPseudo());
+        utilisateurDto.setNom(utilisateur.getNom());
+        utilisateurDto.setPrenom(utilisateur.getPrenom());
+        utilisateurDto.setEmail(utilisateur.getEmail());
+        utilisateurDto.setTelephone(utilisateur.getTelephone());
+        utilisateurDto.setRue(utilisateur.getRue());
+        utilisateurDto.setCodePostal(utilisateur.getCodePostal());
+        utilisateurDto.setVille(utilisateur.getVille());
+
+        // Ajout du DTO au modèle
+        model.addAttribute("utilisateurDto", utilisateurDto);
+
+        return "view-modifier-profil";
     }
 
-    @GetMapping("/modifier")
-    public String ModifierProfil(@RequestParam(name = "pseudo") String identifiant, Model model) {
-        Utilisateur utilisateurProfil = this.utilisateurService.findUserByUsername(identifiant);
-        UtilisateurDto utilisateurDto = new UtilisateurDto();
-        utilisateurDto.setPseudo(utilisateurProfil.getPseudo());
-        utilisateurDto.setNom(utilisateurProfil.getNom());
-        utilisateurDto.setPrenom(utilisateurProfil.getPrenom());
-        utilisateurDto.setEmail(utilisateurProfil.getEmail());
-        utilisateurDto.setTelephone(utilisateurProfil.getTelephone());
-        utilisateurDto.setRue(utilisateurProfil.getRue());
-        utilisateurDto.setCodePostal(utilisateurProfil.getCodePostal());
-        utilisateurDto.setVille(utilisateurProfil.getVille());
-        model.addAttribute("utilisateurDto", utilisateurDto);
-        return "/view-modifier-profil";
-    }
 
 
     @PostMapping("/modifier")
@@ -101,7 +132,7 @@ public class UtilisateurController {
             redirectAttr.addFlashAttribute(
                     "org.springframework.validation.BindingResult.utilisateurDto", resultat);
             redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
-            return "redirect:/profil";
+            return "redirect:/modifier?pseudo=" + utilisateurDto.getPseudo();
         }
 
         Utilisateur utilisateur =
@@ -110,8 +141,61 @@ public class UtilisateurController {
         boolean pseudoModifie =
                 !utilisateur.getPseudo().equals(utilisateurDto.getPseudo());
 
-        BeanUtils.copyProperties(utilisateurDto, utilisateur,
-                "noUtilisateur", "motDePasse");
+        // Copier le profil (hors mot de passe)
+        BeanUtils.copyProperties(
+                utilisateurDto,
+                utilisateur,
+                "noUtilisateur", "motDePasse"
+        );
+
+       //gestion mdp
+        if (utilisateurDto.getMdpActuel() != null && !utilisateurDto.getMdpActuel().isBlank()) {
+
+            if (!passwordEncoder.matches(
+                    utilisateurDto.getMdpActuel(),
+                    utilisateur.getMotDePasse())) {
+
+                redirectAttr.addFlashAttribute(
+                        "error",
+                        "Le mot de passe actuel est incorrect"
+                );
+                return "redirect:/modifier?pseudo=" + utilisateurDto.getPseudo();
+            }
+
+            if (utilisateurDto.getMdpNouveau() == null
+                    || utilisateurDto.getMdpNouveau().isBlank()) {
+
+                redirectAttr.addFlashAttribute(
+                        "error",
+                        "Le nouveau mot de passe est obligatoire"
+                );
+                return "redirect:/modifier?pseudo=" + utilisateurDto.getPseudo();
+            }
+
+            if (!utilisateurDto.getMdpNouveau()
+                    .equals(utilisateurDto.getMdpConfirmation())) {
+
+                redirectAttr.addFlashAttribute(
+                        "error",
+                        "La confirmation du mot de passe ne correspond pas"
+                );
+                return "redirect:/modifier?pseudo=" + utilisateurDto.getPseudo();
+            }
+
+            utilisateur.setMotDePasse(
+                    passwordEncoder.encode(utilisateurDto.getMdpNouveau())
+            );
+
+            redirectAttr.addFlashAttribute(
+                    "success",
+                    "Mot de passe modifié avec succès"
+            );
+        } else {
+            redirectAttr.addFlashAttribute(
+                    "success",
+                    "Profil mis à jour"
+            );
+        }
 
         utilisateurService.updateProfil(utilisateur);
 
@@ -120,9 +204,10 @@ public class UtilisateurController {
             return "redirect:/connexion?pseudoModifie";
         }
 
-        redirectAttr.addFlashAttribute("success", "Profil mis à jour");
-        return "redirect:/monProfil?pseudo=" + utilisateur.getPseudo();
+        return "redirect:/monProfil";
     }
+
+
 
     @PostMapping("/supprimer")
     public String supprimerCompte(Authentication authentication,

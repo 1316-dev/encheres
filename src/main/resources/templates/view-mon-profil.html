@@ -10,7 +10,9 @@
 
 <header data-th-replace="~{fragments/entete :: frag-entete }"></header>
 
+
 <main class="container mt-5">
+
     <div class="row justify-content-between">
         <div class="col-lg-8">
 
@@ -19,68 +21,69 @@
                 <h1 class="text-center mb-4">Mon profil</h1>
 
 
-                <div class="row">
+                <div class="col-md-6">
 
-                    <div class="col-md-6">
+                    <div class="row mb-3">
+                        <div class="col-4 text-end fw-bold">Pseudo :</div>
+                        <div class="col-8 text-start" th:text="${utilisateurDto.pseudo}"></div>
+                    </div>
 
-                        <div class="row mb-3">
-                            <div class="col-4 text-end fw-bold">Pseudo :</div>
-                            <div class="col-8 text-start" th:text="${utilisateurDto.pseudo}"></div>
-                        </div>
-
-                        <div class="row mb-3">
-                            <div class="col-4 text-end fw-bold">Nom :</div>
-                            <div class="col-8 text-start" th:text="${utilisateurDto.nom}"></div>
-                        </div>
+                    <div class="row mb-3">
+                        <div class="col-4 text-end fw-bold">Nom :</div>
+                        <div class="col-8 text-start" th:text="${utilisateurDto.nom}"></div>
+                    </div>
 
 
-                        <div class="row mb-3">
-                            <div class="col-4 text-end fw-bold">Prénom :</div>
-                            <div class="col-8 text-start" th:text="${utilisateurDto.prenom}"></div>
-                        </div>
+                    <div class="row mb-3">
+                        <div class="col-4 text-end fw-bold">Prénom :</div>
+                        <div class="col-8 text-start" th:text="${utilisateurDto.prenom}"></div>
+                    </div>
 
-                        <div class="row mb-3">
-                            <div class="col-4 text-end fw-bold">Email :</div>
-                            <div class="col-8 text-start" th:text="${utilisateurDto.email}"></div>
-                        </div>
+                    <div class="row mb-3">
+                        <div class="col-4 text-end fw-bold">Email :</div>
+                        <div class="col-8 text-start" th:text="${utilisateurDto.email}"></div>
+                    </div>
 
-                        <div class="row mb-3">
-                            <div class="col-4 text-end fw-bold">Téléphone :</div>
-                            <div class="col-8 text-start" th:text="${utilisateurDto.telephone}"></div>
-                        </div>
+                    <div class="row mb-3">
+                        <div class="col-4 text-end fw-bold">Téléphone :</div>
+                        <div class="col-8 text-start" th:text="${utilisateurDto.telephone}"></div>
+                    </div>
 
-                        <div class="row mb-3">
-                            <div class="col-4 text-end fw-bold">Rue :</div>
-                            <div class="col-8 text-start" th:text="${utilisateurDto.rue}"></div>
-                        </div>
-
-
-                        <div class="row mb-3">
-                            <div class="col-4 text-end fw-bold">Code postal :</div>
-                            <div class="col-8 text-start" th:text="${utilisateurDto.codePostal}"></div>
-                        </div>
+                    <div class="row mb-3">
+                        <div class="col-4 text-end fw-bold">Rue :</div>
+                        <div class="col-8 text-start" th:text="${utilisateurDto.rue}"></div>
+                    </div>
 
 
-                        <div class="row mb-3">
-                            <div class="col-4 text-end fw-bold">Ville :</div>
-                            <div class="col-8 text-start" th:text="${utilisateurDto.ville}"></div>
-                        </div>
+                    <div class="row mb-3">
+                        <div class="col-4 text-end fw-bold">Code postal :</div>
+                        <div class="col-8 text-start" th:text="${utilisateurDto.codePostal}"></div>
+                    </div>
 
+
+                    <div class="row mb-3">
+                        <div class="col-4 text-end fw-bold">Ville :</div>
+                        <div class="col-8 text-start" th:text="${utilisateurDto.ville}"></div>
                     </div>
 
                 </div>
-
-
                 <div class="text-center mt-4">
                     <a th:href="@{/modifier(pseudo=${#authentication.name})}" class="btn btn-outline-light px-4">
                         Modifier
                     </a>
                 </div>
+                <div th:if="${success}" class="alert alert-success text-center mt-4">
+                    <h2 th:text="${success}"></h2>
+                </div>
+
             </div>
+
+
         </div>
 
     </div>
-    </div>
+
+
 </main>
 
 </body>
