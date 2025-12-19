@@ -118,15 +118,23 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
                 for (String valeur : choixCheckBoxVentes) {
                     if (valeur.equals("enCours")) {
                         // L'utilisateur a coché "Mes ventes en cours"
+                        String sql = "SELECT  * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_debut_encheres <= getdate() AND date_fin_encheres >= getdate() AND nom_article LIKE ? AND no_categorie = ?";
+                        listeMesVentesFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%", no_categorie);
                     }
                     if (valeur.equals("nonDebutees")) {
                         // L'utilisateur a coché "Ventes non débutées"
+                        String sql = "SELECT * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_debut_encheres > getdate() AND nom_article LIKE ? AND no_categorie = ?";
+                        listeMesVentesFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%", no_categorie);
                     }
-                    // ... etc
-                }
-            } else {
-                String sql = "select * from dbo.gestionEncheresMesVentes where  vendeur = ? AND no_categorie = ? AND nom_article LIKE ?";
-                listeMesVentesFiltrees = jdbcTemplate.query(sql, new ArticleVenduRowMapper(), vendeur, no_categorie, "%" + recherche + "%");
+                    if (valeur.equals("terminees")) {
+                        // L'utilisateur a coché "Ventes terminées"
+                        String sql = "SELECT * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_fin_encheres < getdate() AND nom_article LIKE ? AND no_categorie = ?";
+                        listeMesVentesFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%", no_categorie);
+                    }
+            } }
+            else {
+                String sql = "select * from dbo.gestionEncheresMesVentes where  vendeur = ?  AND nom_article LIKE ? AND no_categorie = ?";
+                listeMesVentesFiltrees = jdbcTemplate.query(sql, new ArticleVenduRowMapper(), vendeur, "%" + recherche + "%", no_categorie);
             }
         }
 
