@@ -32,6 +32,7 @@ CREATE TABLE UTILISATEURS (
 ALTER TABLE UTILISATEURS ADD constraint utilisateur_pk PRIMARY KEY (no_utilisateur)
 ALTER TABLE UTILISATEURS ADD constraint utilisateurEmail_uq UNIQUE(email)
 ALTER TABLE UTILISATEURS ADD constraint utilisateurPseudo_uq UNIQUE(pseudo)
+
 CREATE TABLE ARTICLES_VENDUS (
                                  no_article                    INTEGER IDENTITY(1,1) NOT NULL,
                                  nom_article                   VARCHAR(30) NOT NULL,
@@ -61,8 +62,8 @@ ALTER TABLE RETRAITS
         ON UPDATE no action
 ALTER TABLE RETRAITS
     ADD CONSTRAINT retrait_utilisateur_fk FOREIGN KEY ( no_utilisateur ) REFERENCES  UTILISATEURS (no_utilisateur)
-        ON DELETE NO ACTION
-        ON UPDATE no action
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 
 CREATE TABLE ENCHERES(
                          no_enchere  INTEGER IDENTITY(1,1) NOT NULL,
@@ -74,8 +75,8 @@ CREATE TABLE ENCHERES(
 ALTER TABLE ENCHERES ADD constraint enchere_pk PRIMARY KEY ( no_enchere)
 ALTER TABLE ENCHERES
     ADD CONSTRAINT encheres_utilisateur_fk FOREIGN KEY ( no_utilisateur ) REFERENCES UTILISATEURS ( no_utilisateur )
-        ON DELETE NO ACTION
-        ON UPDATE no action
+        ON DELETE CASCADE
+        ON UPDATE CASCADE
 ALTER TABLE ENCHERES
     ADD CONSTRAINT encheres_no_article_fk FOREIGN KEY ( no_article ) REFERENCES ARTICLES_VENDUS ( no_article )
         ON DELETE NO ACTION
@@ -89,5 +90,5 @@ ALTER TABLE ARTICLES_VENDUS
 ALTER TABLE ARTICLES_VENDUS
     ADD CONSTRAINT ventes_utilisateur_fk FOREIGN KEY ( no_utilisateur )
         REFERENCES utilisateurs ( no_utilisateur )
-        ON DELETE NO ACTION
-        ON UPDATE no action
+        ON DELETE CASCADE
+        ON UPDATE CASCADE

@@ -140,8 +140,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         }
 
 
-    
-    // test en cours blocage sql
+
         @Override
         public void deleteUtilisateur(int noUtilisateur){
 

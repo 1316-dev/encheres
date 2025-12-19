@@ -48,6 +48,9 @@ INSERT INTO ARTICLES_VENDUS
  date_debut_encheres, date_fin_encheres,
  prix_initial, prix_vente, no_utilisateur, no_categorie)
 VALUES
+
+
+
     (1, 'PC Portable', 'PC gamer Asus 32Go RAM',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
@@ -61,7 +64,8 @@ VALUES
     (3, 'Vélo', 'Vélo de course',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 1, 2),
+     500, NULL, 3, 2)
+
 
 SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 

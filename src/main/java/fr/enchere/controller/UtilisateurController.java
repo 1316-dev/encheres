@@ -21,17 +21,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 public class UtilisateurController {
 
 
-
     @GetMapping({"/connexion"})
     public String connexion() {
         return "view-connexion";
     }
+
     private PasswordEncoder passwordEncoder;
     private UtilisateurService utilisateurService;
 
     public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
         this.utilisateurService = utilisateurService;
-        this.passwordEncoder= passwordEncoder;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -95,6 +95,7 @@ public class UtilisateurController {
 
         return "view-mon-profil";
     }
+
     @GetMapping("/modifier")
     public String modifierProfil(Authentication authentication, Model model) {
 
@@ -117,7 +118,6 @@ public class UtilisateurController {
 
         return "view-modifier-profil";
     }
-
 
 
     @PostMapping("/modifier")
@@ -148,7 +148,7 @@ public class UtilisateurController {
                 "noUtilisateur", "motDePasse"
         );
 
-       //gestion mdp
+        //gestion mdp
         if (utilisateurDto.getMdpActuel() != null && !utilisateurDto.getMdpActuel().isBlank()) {
 
             if (!passwordEncoder.matches(
@@ -208,19 +208,33 @@ public class UtilisateurController {
     }
 
 
-
     @PostMapping("/supprimer")
-    public String supprimerCompte(Authentication authentication,
-                                  HttpServletRequest request,
-                                  RedirectAttributes redirectAttributes) {
+    public String supprimerCompte(
 
+            Authentication authentication,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttr
+    ) {
         String pseudo = authentication.getName();
         Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
+        System.out.println(utilisateur.getArticleVendu().size());
+        //test
+        if (utilisateur.getArticleVendu() != null && !utilisateur.getArticleVendu().isEmpty() ) {
+
+            redirectAttr.addFlashAttribute(
+                    "supError",
+                    "Ventes en cours suppression impossible"
+            );
+            return "redirect:/encheres";
+        }
+
+        //fin test
+
 
         utilisateurService.supprimerUtilisateur(utilisateur.getNoUtilisateur());
 
         request.getSession().invalidate();
-        redirectAttributes.addFlashAttribute("success", "Votre compte a été supprimé avec succès");
+        redirectAttr.addFlashAttribute("success", "Votre compte a été supprimé avec succès");
 
         return "redirect:/encheres";
 

@@ -35,4 +35,6 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     public void updateProfil(Utilisateur utilisateur) {
         utilisateurRepository.updateUtilisateur(utilisateur);
     }
+
+
 }
