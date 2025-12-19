@@ -173,25 +173,20 @@ public class EnchereController {
             model.addAttribute("articleVenduDto", new ArticleVenduDto());
         }
         // On récupère la valeur du bouton radio coché
-        String choix = request.getParameter("typeRecherche");
-        List<ArticleVenduDto> listeArticleVendufiltre = new ArrayList<>();
+
+        String choixRadioAchatVente = request.getParameter("typeRecherche");
+        String[] choixCheckBoxVentes = request.getParameterValues("groupeVentes");
+
+
 
         String vendeur = principal.getName();
-        System.out.println(vendeur);
 
-            if (choix.equals("achats")) {
 
-            } else if (choix.equals("ventes")) {
-                if (no_categorie == 1) {
-                    listeArticleVendufiltre = articleVenduService.AfficherMesVentes(vendeur, lettreRecherche);
-                } else {
-                    listeArticleVendufiltre = articleVenduService.AfficherMesVentesFiltrees(vendeur, no_categorie, lettreRecherche);
-                }
-            }
+        List<ArticleVenduDto> listeArticleVendufiltre = articleVenduService.GestionMesVentes(choixRadioAchatVente,choixCheckBoxVentes,vendeur,no_categorie,lettreRecherche);
 
-            model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
+        model.addAttribute("listeArticleVendu", listeArticleVendufiltre);
 
-            System.out.println(listeArticleVendufiltre);
+        System.out.println(listeArticleVendufiltre);
 
 
 

@@ -18,11 +18,7 @@ public interface ArticleVenduRepository {
 
     List <ArticleVenduDto> listeMesAchats(String vendeur,int no_categorie, String recherche);
 
-    List <ArticleVenduDto> listeMesVentesFiltrees(String vendeur,int no_categorie, String recherche);
-
-    List <ArticleVenduDto> listeMesVentes(String vendeur, String recherche);
-
-
+    List <ArticleVenduDto> listeMesVentes(String vendeur,int no_categorie, String recherche, String [] choixCheckBoxVentes);
 
 
     ArticleVendu findArticleById(int id);

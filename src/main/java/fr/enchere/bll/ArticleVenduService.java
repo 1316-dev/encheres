@@ -16,11 +16,11 @@ public interface ArticleVenduService {
 
     List<ArticleVenduDto> AfficherListeArticleVenduFiltree(int no_categorie, String recherche);
 
-    List <ArticleVenduDto> AfficherMesVentesFiltrees(String vendeur,int no_categorie, String recherche);
 
-    List <ArticleVenduDto> AfficherMesVentes(String vendeur, String recherche);
+    List <ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBox, String vendeur,int no_categorie, String recherche);
 
     void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur);
+
 
 
 }
