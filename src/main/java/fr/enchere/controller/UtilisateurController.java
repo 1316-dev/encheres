@@ -2,6 +2,7 @@ package fr.enchere.controller;
 
 import fr.enchere.bll.UtilisateurService;
 import fr.enchere.bo.Utilisateur;
+
 import fr.enchere.dto.UtilisateurDto;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -17,23 +18,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+
+
 @Controller
 public class UtilisateurController {
 
 
+    private PasswordEncoder passwordEncoder;
+
+    private UtilisateurService utilisateurService;
+
+    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
+        this.utilisateurService = utilisateurService;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     @GetMapping({"/connexion"})
     public String connexion() {
         return "view-connexion";
     }
-    private PasswordEncoder passwordEncoder;
-    private UtilisateurService utilisateurService;
-
-    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
-        this.utilisateurService = utilisateurService;
-        this.passwordEncoder= passwordEncoder;
-    }
-
 
     @GetMapping({"/inscription"})
     public String inscription(Model model) {
@@ -44,6 +47,7 @@ public class UtilisateurController {
         return "view-creer-compte";
 
     }
+
 
     @PostMapping({"/inscription"})
     public String creerUtilisateur(@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr) {
@@ -95,6 +99,7 @@ public class UtilisateurController {
 
         return "view-mon-profil";
     }
+
     @GetMapping("/modifier")
     public String modifierProfil(Authentication authentication, Model model) {
 
@@ -117,7 +122,6 @@ public class UtilisateurController {
 
         return "view-modifier-profil";
     }
-
 
 
     @PostMapping("/modifier")
@@ -148,7 +152,7 @@ public class UtilisateurController {
                 "noUtilisateur", "motDePasse"
         );
 
-       //gestion mdp
+        //gestion mdp
         if (utilisateurDto.getMdpActuel() != null && !utilisateurDto.getMdpActuel().isBlank()) {
 
             if (!passwordEncoder.matches(
@@ -208,19 +212,33 @@ public class UtilisateurController {
     }
 
 
-
     @PostMapping("/supprimer")
-    public String supprimerCompte(Authentication authentication,
-                                  HttpServletRequest request,
-                                  RedirectAttributes redirectAttributes) {
+    public String supprimerCompte(
 
+            Authentication authentication,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttr
+    ) {
         String pseudo = authentication.getName();
         Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
+        System.out.println(utilisateur.getArticleVendu().size());
+        //test
+        if (utilisateur.getArticleVendu() != null && !utilisateur.getArticleVendu().isEmpty() ) {
+
+            redirectAttr.addFlashAttribute(
+                    "supError",
+                    "Ventes en cours suppression impossible"
+            );
+            return "redirect:/encheres";
+        }
+
+        //fin test
+
 
         utilisateurService.supprimerUtilisateur(utilisateur.getNoUtilisateur());
 
         request.getSession().invalidate();
-        redirectAttributes.addFlashAttribute("success", "Votre compte a été supprimé avec succès");
+        redirectAttr.addFlashAttribute("success", "Votre compte a été supprimé avec succès");
 
         return "redirect:/encheres";
 

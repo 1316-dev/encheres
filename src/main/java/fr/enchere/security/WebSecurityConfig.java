@@ -5,8 +5,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -27,7 +25,7 @@ public class WebSecurityConfig {
                 )
                 //.formLogin(Customizer.withDefaults())
                 .formLogin((form) -> form.loginPage("/connexion")
-                .defaultSuccessUrl("/encheres", true)
+                .defaultSuccessUrl("/gestion-encheres", true)
                         //.failureUrl("/login?error") // redirect to error page
                 .loginProcessingUrl("/login")
                         .usernameParameter("login")
