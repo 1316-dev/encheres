@@ -19,6 +19,9 @@ public class EnchereServiceImpl implements EnchereService {
 
     @Override
     public void creerEnchere(Enchere ench) {
+        //Gestion métier
+        //Transaction
+
         //Ajouter l'appel à la fonction du repository
         enchereRepository.creerEnchere(ench);
     }

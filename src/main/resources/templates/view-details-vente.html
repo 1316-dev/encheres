@@ -36,17 +36,23 @@
                 <p class="value" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}"></p>
 
         </div>
+        <div th:if="${#authentication.name}!=${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}">
+            <form th:action="@{/detail-vente/{id}(id=${article.getNoArticle()})}" method="POST" class="border rounded p-4 shadow">
+                <label for="inputEnchere">Ma proposition</label>
+                <input type="number"
+                       id="inputEnchere"
+                       name="montant"
+                       th:min="${article.getMiseAPrix() + 1}"
+                       th:placeholder="${article.getMiseAPrix() + 1}"
+                       required />
+                <button type="submit">Enchérir</button>
+            </form>
 
-        <form th:action="@{/detail-vente/{id}(id=${article.getNoArticle()})}" method="POST" class="border rounded p-4 shadow">
-            <label for="inputEnchere">Ma proposition</label>
-            <input type="number"
-                   id="inputEnchere"
-                   name="montant"
-                   th:min="${article.getMiseAPrix() + 1}"
-                   th:placeholder="${article.getMiseAPrix() + 1}"
-                    required />
-            <button type="submit">Enchérir</button>
-        </form>
+        </div>
+
+        <div th:if="${successMessage}" class="alert alert-success">
+            <span th:text="${successMessage}"></span>
+        </div>
     </main>
 </body>
 </html>
