@@ -205,5 +205,15 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
     }
 
+    //test lena
 
+    @Override
+    public int countArticlesVendusParUtilisateur(int noUtilisateur) {
+
+        String sql = "select count(*) from ARTICLES_VENDUS WHERE no_utilisateur = ? ";
+
+        return jdbcTemplate.queryForObject(sql, Integer.class, noUtilisateur);
+
+
+    }
 }

@@ -44,6 +44,9 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
         articleVenduRepository.createArticle(articleVendu, retrait,utilisateur);
     }
 
+
+
+
     @Override
     public List<ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBoxVentes, String vendeur, int no_categorie, String recherche) {
 
@@ -56,5 +59,11 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
         }
 
         return listeArticleVendufiltre;
+    }
+
+    //TEST LENA
+    @Override
+    public boolean utilisateurADesVentes(int noUtilisateur) {
+        return articleVenduRepository.countArticlesVendusParUtilisateur(noUtilisateur) > 0;
     }
 }
