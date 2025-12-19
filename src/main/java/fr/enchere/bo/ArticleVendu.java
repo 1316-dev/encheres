@@ -57,10 +57,7 @@ public class ArticleVendu {
         this.lieuRetrait = lieuRetrait;
         this.listeEncheres = listeEncheres;
     }
-    //Méthodes
-    public Enchere getLastEnchere(){
-        return listeEncheres.getLast();
-    }
+
     //Getters et setters
 
     public int getNoArticle() {

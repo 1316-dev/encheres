@@ -146,7 +146,7 @@ public class EnchereController {
     }
 
     @PostMapping("/detail-vente/{articleId}")
-    public String creerEnchere(@PathVariable int articleId, @RequestParam int montant, @AuthenticationPrincipal UserDetails user, RedirectAttributes redirectAttributes) {
+    public String creerEnchere(@PathVariable int articleId, @RequestParam int montant, @AuthenticationPrincipal UserDetails user) {
         //Construction d'une enchere pour création
         //Initialisation date de l'enchère
         LocalDateTime dateEnchere = LocalDateTime.now();
@@ -156,14 +156,7 @@ public class EnchereController {
         Utilisateur utilisateur = utilisateurService.findUserByUsername(user.getUsername());
 
         Enchere enchere = new Enchere(dateEnchere, montant, article, utilisateur);
-
-        //Gestion des erreurs dans le service
         enchereService.creerEnchere(enchere);
-
-        redirectAttributes.addFlashAttribute(
-                "successMessage",
-                "Votre enchère a bien été enregistrée ✔"
-        );
 
         return "redirect:/detail-vente/" + articleId;
     }
