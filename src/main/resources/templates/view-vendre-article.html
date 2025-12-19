@@ -124,13 +124,13 @@
                         <h3 class="mt-3 text-center">Lieu de Retrait</h3>
 
 
-                        <div class="row mb-3" th:object="${utilisateur}">
+                        <div class="row mb-3">
                             <label for="listeAdresse" class="form mb-1">Liste Adresse enregistrée :</label>
-                            <select id="listeAdresse"
-                                    th:field="*{listeAdresseDeRetrait}"
+                            <select id="listeAdresse" th:class="dropdown"
+                                    th:field="${utilisateur.listeAdresseDeRetrait}"
                                     class="form-control col-3">
-                                <option th:each="lieuRetrait : *{listeAdresseDeRetrait}"
-                                        th:text="${lieuRetrait.rue + lieuRetrait.cp +lieuRetrait.ville }"
+                                <option th:each="lieuRetrait : ${@retraitServiceImpl.findRetraitByNoUtilisateur(utilisateur.getNoUtilisateur())}"
+                                        th:text="${lieuRetrait.rue + ' ' + lieuRetrait.cp + ' ' + lieuRetrait.ville }"
                                         th:value="${lieuRetrait}">
                                 </option>
                             </select>

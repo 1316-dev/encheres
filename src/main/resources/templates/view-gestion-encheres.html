@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Enchères</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+<header th:replace="~{fragments/entete :: frag-entete}">
+</header>
+<main class="container">
+
+
+    <h1 class="mt-4 m-3">Liste des enchères</h1>
+    <div class="row">
+        <form th:action="@{/gestionEncheresFiltrees}" method="get" th:object="${articleVenduDto}">
+            <div class="row">
+            <div class="col-3 m-3">
+                <Label  for="lettreRecherche" class="form mb-1">Filtres : </Label>
+                <input type="text" name="lettreRecherche" id="lettreRecherche" class="form-control col-3">
+            </div>
+            <div class="col-3 m-3">
+                <label for="noCategorie" class="form mb-1">Catégorie :</label>
+                <select id="noCategorie"
+                    th:field="*{noCategorie}"
+                    class="form-control col-3">
+                    <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
+                        th:text="${categorie.libelle}"
+                        th:value="${categorie.noCategorie}">
+                    </option>
+                </select>
+            </div>
+                <div class="row">
+                    <div class="form-check col-3 m-3">
+                        <input class="form-check-input"
+                               type="radio"
+                               id="radioAchats"
+                               th:name="typeRecherche"
+                               value="achats"
+                               th:checked="${radioMemorise == 'achats'}"
+                        >
+                        <label class="form-check-label" for="radioAchats">
+                            Achats
+                        </label>
+                        <div id="groupeAchats">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="1" id="encheresOuvertes">
+                                <label class="form-check-label" for="encheresOuvertes">
+                                    Enchères ouvertes
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="2" id="mesEncheres">
+                                <label class="form-check-label" for="mesEncheres">
+                                    Mes enchères
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="3" id="encheresRemportees">
+                                <label class="form-check-label" for="encheresRemportees">
+                                    Mes enchères remportées
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-check col-3 m-3">
+                        <input class="form-check-input"
+                               type="radio"
+                               id="radioVentes"
+                               th:name="typeRecherche"
+                               value="ventes"
+                               th:checked="${radioMemorise == 'ventes'}">
+                        <label class="form-check-label" for="radioVentes">
+                            Mes Ventes
+                        </label>
+                        <div id="groupeVentes">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="groupeVentes" value="enCours" id="mesVentesEnCours">
+                                <label class="form-check-label" for="mesVentesEnCours">
+                                    Mes Ventes en cours
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="groupeVentes" value="nonDebutees" id="mesVentesNonDebutes">
+                                <label class="form-check-label" for="mesVentesNonDebutes">
+                                    Ventes non débutées
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="groupeVentes" value="terminees" id="mesVentesTerminees">
+                                <label class="form-check-label" for="mesVentesTerminees">
+                                    Ventes terminées
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-3 mt-4 mb-3">
+                <input type="submit" value="Rechercher" class="btn btn-primary m-3">
+                </div>
+        </form>
+    </div>
+
+    <div class="row">
+        <div class="card col-3 m-3" style="width: 18rem;" th:each="article : ${listeArticleVendu}">
+            <!--<img src="..." class="card-img-top" alt="...">-->
+            <div class="card-body " >
+                <h3 class="card-title" th:text="${article.nomArticle}"></h3>
+                <p class="card-text">
+                    Mise à prix : <span th:text="${article.miseAPrix}"></span> crédit
+                </p>
+
+                <p class="card-text">
+                    Fin de l'enchère le
+                    <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
+                    à
+                    <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
+                </p>
+
+
+                <p class="card-text">
+                    Vendeur : <span th:text="${article.vendeur}"></span>
+                </p>
+                <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary">Détail Vente</a>
+            </div>
+        </div>
+    </div>
+
+</main>
+<script th:inline="javascript">
+    document.addEventListener('DOMContentLoaded', function() {
+        const radioAchats = document.getElementById('radioAchats');
+        const radioVentes = document.getElementById('radioVentes');
+        const inputsAchats = document.querySelectorAll('#groupeAchats input');
+        const inputsVentes = document.querySelectorAll('#groupeVentes input');
+
+        function toggleFiltres() {
+            const isAchats = radioAchats.checked;
+            inputsAchats.forEach(i => i.disabled = !isAchats);
+            inputsVentes.forEach(i => i.disabled = isAchats);
+        }
+
+        // Écouter les changements
+        radioAchats.addEventListener('change', toggleFiltres);
+        radioVentes.addEventListener('change', toggleFiltres);
+
+        // Exécuter une fois au chargement pour l'état initial
+        toggleFiltres();
+    });
+</script>
+</body>
+</html>
