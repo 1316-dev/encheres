@@ -14,12 +14,14 @@ public interface ArticleVenduRepository {
 
     List <ArticleVenduDto> listeArticleVenduByNom(String recherche);
 
+
     List <ArticleVenduDto> listeArticleFiltree(int no_categorie, String recherche);
 
     List <ArticleVenduDto> listeMesAchats(int acheteurID,int no_categorie, String recherche, String [] choixCheckBoxAchats);
 
     List <ArticleVenduDto> listeMesVentes(String vendeur,int no_categorie, String recherche, String [] choixCheckBoxVentes);
 
+    List <ArticleVenduDto> listeArticleVenduByVendeur(String pseudoVendeur);
 
     ArticleVendu findArticleById(int id);
     void createArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur);

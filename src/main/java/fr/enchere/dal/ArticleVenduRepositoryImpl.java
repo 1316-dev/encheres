@@ -62,10 +62,17 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
     @Override
     public List<ArticleVenduDto> listeArticleVenduByNom(String recherche) {
         String sql = "select * from dbo.afficherVentesEnCours where nom_article LIKE ? and date_fin_encheres > getdate()";
-        System.out.println(sql);
+
         List<ArticleVenduDto> ListeArticleFiltreCategorie = jdbcTemplate.query(sql,new ArticleVenduRowMapper(), "%"+recherche+"%");
 
         return ListeArticleFiltreCategorie;
+    }
+
+    @Override
+    public List<ArticleVenduDto> listeArticleVenduByVendeur(String pseudoVendeur) {
+        String sql = "select * from dbo.afficherVentesEnCours where vendeur = ? and date_fin_encheres > getdate()";
+        List<ArticleVenduDto> ListeArticleFiltreParVendeur = jdbcTemplate.query(sql,new ArticleVenduRowMapper(), pseudoVendeur);
+        return ListeArticleFiltreParVendeur;
     }
 
     @Override

@@ -30,7 +30,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
     }
 
     @Override
-    public List <ArticleVenduDto> AfficherlisteArticleVenduByNom(String recherche) {
+    public List<ArticleVenduDto> AfficherlisteArticleVenduByNom(String recherche) {
         return articleVenduRepository.listeArticleVenduByNom(recherche);
     }
 
@@ -39,12 +39,16 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
         return articleVenduRepository.listeArticleFiltree(no_categorie,recherche);
     }
 
-
+    @Override
+    public List<ArticleVenduDto> listeArticleVenduByVendeur(String pseudoVendeur) {
+        return articleVenduRepository.listeArticleVenduByVendeur(pseudoVendeur);
+    }
 
     @Override
     public void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
         articleVenduRepository.createArticle(articleVendu, retrait,utilisateur);
     }
+
 
 
 
@@ -56,7 +60,6 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 
         if (choixRadio.equals("achats")) {
             listeArticleVendufiltre = articleVenduRepository.listeMesAchats(acheteurID,no_categorie,recherche, choixCheckBoxAchats);
-            System.out.println("achat" + acheteurID);
 
         } else if (choixRadio.equals("ventes")) {
             listeArticleVendufiltre = articleVenduRepository.listeMesVentes(vendeur,no_categorie,recherche,choixCheckBoxVentes);
