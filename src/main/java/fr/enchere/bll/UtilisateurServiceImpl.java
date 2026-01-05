@@ -44,6 +44,14 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     public void updateProfil(Utilisateur utilisateur) {
         utilisateurRepository.updateUtilisateur(utilisateur);
     }
+    @Override
+    public boolean existsByPseudo(String pseudo) {
+        return utilisateurRepository.existsByPseudo(pseudo);
+    }
 
+    @Override
+    public boolean existsByEmail(String email){
+        return utilisateurRepository.existsByEmail(email);
+    }
 
 }

@@ -9,4 +9,8 @@ public interface UtilisateurService {
     Utilisateur findUserById(int id);
     void supprimerUtilisateur(int noUtilisateur);
     void updateProfil(Utilisateur utilisateur);
+
+
+    boolean existsByEmail(String email);
+    boolean existsByPseudo(String pseudo);
 }
