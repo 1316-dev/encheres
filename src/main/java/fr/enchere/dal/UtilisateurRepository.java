@@ -13,4 +13,6 @@ public interface UtilisateurRepository {
    void updateUtilisateur(Utilisateur utilisateur);
 
     void deleteUtilisateur(int noUtilisateur);
+
+    boolean existsByEmail(String email);
 }

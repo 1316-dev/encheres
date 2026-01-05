@@ -6,6 +6,7 @@ import fr.enchere.bo.Utilisateur;
 
 import fr.enchere.dto.ArticleVenduDto;
 import fr.enchere.dto.UtilisateurDto;
+import fr.enchere.exception.EmailDejaUtiliseException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -52,18 +53,35 @@ public class UtilisateurController {
 
 
     @PostMapping({"/inscription"})
-    public String creerUtilisateur(@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr) {
+    public String creerUtilisateur(@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr, @RequestParam("confirmation") String confirmation) {
+
+
+        // Vérification de la correspondance des mots de passe
+        if (!utilisateurDto.getMotDePasse().equals(confirmation)) {
+            resultat.rejectValue("motDePasse", "motdepasse.diff", "Les mots de passe ne correspondent pas");
+        }
 
         if (resultat.hasErrors()) {
             redirectAttr.addFlashAttribute("org.springframework.validation.BindingResult.utilisateurDto", resultat);
             redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
-            return "redirect:/view-list-encheres";
+            return "redirect:/inscription";
         }
-        Utilisateur utilisateur = new Utilisateur();
-        BeanUtils.copyProperties(utilisateurDto, utilisateur);
 
-        utilisateurService.creerUtilisateur(utilisateur);
-        return "redirect:/view-list-encheres?pseudo=" + utilisateur.getPseudo();
+        try {
+            Utilisateur utilisateur = new Utilisateur();
+            BeanUtils.copyProperties(utilisateurDto, utilisateur);
+
+            utilisateurService.creerUtilisateur(utilisateur);
+
+        } catch (EmailDejaUtiliseException e) {
+            resultat.rejectValue("email","email.existe","Cet Email est déjà utilisé");
+
+            redirectAttr.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.utilisateurDto", resultat);
+            redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
+            return "redirect:/inscription";
+        }
+        return "redirect:/view-list-encheres?pseudo=" + utilisateurDto.getPseudo();
     }
 
     @GetMapping("/monProfil")
@@ -81,6 +99,7 @@ public class UtilisateurController {
         utilisateurDto.setRue(utilisateur.getRue());
         utilisateurDto.setCodePostal(utilisateur.getCodePostal());
         utilisateurDto.setVille(utilisateur.getVille());
+        utilisateurDto.setCredit(utilisateur.getCredit());
 
         model.addAttribute("utilisateurDto", utilisateurDto);
 
