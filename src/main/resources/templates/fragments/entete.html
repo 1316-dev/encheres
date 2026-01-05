@@ -4,10 +4,6 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
         <div class="container">
 
-            <!-- LOGO / TITRE
-            <a class="navbar-brand fw-bold" th:href="@{/encheres}">
-                Enchère
-            </a>-->
             <!-- LOGO + TITRE (clic = accueil) -->
             <a class="navbar-brand d-flex align-items-center"
                th:href="@{/encheres}">
@@ -50,7 +46,6 @@
                     <li sec:authorize="isAnonymous()" class="nav-item">
                         <a class="nav-link" th:href="@{/connexion}">Se connecter</a>
                     </li>
-
 
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <a class="nav-link" th:href="@{/vendre}">

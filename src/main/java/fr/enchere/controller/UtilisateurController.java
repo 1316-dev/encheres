@@ -67,21 +67,6 @@ public class UtilisateurController {
         return "redirect:/view-list-encheres?pseudo=" + utilisateur.getPseudo();
     }
 
-    /*@GetMapping("/monProfil")
-    public String afficherProfil(@RequestParam(name = "pseudo") String identifiant, Model model) {
-        Utilisateur utilisateur = this.utilisateurService.findUserByUsername(identifiant);
-        UtilisateurDto utilisateurDto = new UtilisateurDto();
-        utilisateurDto.setPseudo(utilisateur.getPseudo());
-        utilisateurDto.setNom(utilisateur.getNom());
-        utilisateurDto.setPrenom(utilisateur.getPrenom());
-        utilisateurDto.setEmail(utilisateur.getEmail());
-        utilisateurDto.setTelephone(utilisateur.getTelephone());
-        utilisateurDto.setRue(utilisateur.getRue());
-        utilisateurDto.setCodePostal(utilisateur.getCodePostal());
-        utilisateurDto.setVille(utilisateur.getVille());
-        model.addAttribute("utilisateurDto", utilisateurDto);
-        return "/view-mon-profil";
-    }*/
     @GetMapping("/monProfil")
     public String monProfil(Authentication authentication, Model model) {
 
@@ -225,8 +210,7 @@ public class UtilisateurController {
         String pseudo = authentication.getName();
         Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
         System.out.println(utilisateur.getArticleVendu().size());
-        //test
-        // TEST JDBC : on interroge la BDD
+
         if (articleVenduService.utilisateurADesVentes(utilisateur.getNoUtilisateur())) {
             redirectAttr.addFlashAttribute(
                     "supError",
@@ -234,9 +218,6 @@ public class UtilisateurController {
             );
             return "redirect:/encheres";
         }
-
-        //fin test
-
 
         utilisateurService.supprimerUtilisateur(utilisateur.getNoUtilisateur());
 
