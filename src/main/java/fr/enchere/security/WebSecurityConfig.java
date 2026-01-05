@@ -32,10 +32,11 @@ public class WebSecurityConfig {
                 .permitAll() )
                 .logout(logout -> logout
                         .logoutUrl("/logout")
-                        .logoutSuccessUrl("/")
+                        .logoutSuccessUrl("/?logout")
                         .invalidateHttpSession(true)
                         .clearAuthentication(true)
                         .deleteCookies("JSESSIONID")
+
                 );
         /*
                 .logout(logout -> logout
