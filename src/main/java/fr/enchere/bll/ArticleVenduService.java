@@ -12,7 +12,7 @@ public interface ArticleVenduService {
     ArticleVendu findArticleById(int id);
     List<ArticleVenduDto> AfficherListeArticleVendu();
 
-    List <ArticleVenduDto> AfficherlisteArticleVenduByNom(String recherche);
+    List<ArticleVenduDto> AfficherlisteArticleVenduByNom(String recherche);
 
     List<ArticleVenduDto> AfficherListeArticleVenduFiltree(int no_categorie, String recherche);
 
@@ -21,6 +21,7 @@ public interface ArticleVenduService {
 
     void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur);
 
+    List<ArticleVenduDto> listeArticleVenduByVendeur(String pseudoVendeur);
 
     //TEST LENA
     boolean utilisateurADesVentes(int noUtilisateur);
