@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Repository
@@ -34,6 +35,27 @@ public class EnchereRepositoryImpl implements EnchereRepository {
         Enchere enchere = jdbcTemplate.queryForObject(sql,new EnchereRepositoryImpl.EnchereRowMapper(),id);
         return enchere;
 
+    }
+
+    //Pour trouver toutes les enchères en cours sur un produit
+    @Override
+    public List<Enchere> findByProduitId(int id) {
+        String sql = "select no_enchere, date_enchere, montant_enchere, no_article, no_utilisateur from ENCHERES where no_article = ?";
+        return jdbcTemplate.query(sql,new EnchereRepositoryImpl.EnchereRowMapper(),id);
+    }
+
+    //Trouver la meilleure enchere sur un produit
+    @Override
+    public Enchere findBestEnchere(int id) {
+        String sql = "select no_enchere, date_enchere, montant_enchere, no_article, no_utilisateur from ENCHERES where no_article = ? AND montant_enchere = (SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ?)";
+        return jdbcTemplate.queryForObject(sql,new EnchereRepositoryImpl.EnchereRowMapper(),id,id);
+    }
+
+    //Pour trouver toutes les enchères d'un utilisateur
+    @Override
+    public List<Enchere> findByUtilisateurId(int id) {
+        String sql = "select no_enchere, date_enchere, montant_enchere, no_article, no_utilisateur from ENCHERES where no_utilisateur = ?";
+        return jdbcTemplate.query(sql,new EnchereRepositoryImpl.EnchereRowMapper(),id);
     }
 
     @Override

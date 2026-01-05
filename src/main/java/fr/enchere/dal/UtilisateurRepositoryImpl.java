@@ -5,6 +5,7 @@ import fr.enchere.exception.UtilisateurNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.support.KeyHolder;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -108,6 +110,19 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
     }
 
+    @Override
+    public void updateCredits(int id, int montant){
+        String  sql = "UPDATE Utilisateurs SET credit = ? WHERE no_utilisateur = ?";
+
+        PreparedStatementSetter pss = new PreparedStatementSetter() {
+            @Override public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setInt(1, montant);
+                ps.setInt(2, id);
+            }
+        };
+
+        jdbcTemplate.update(sql, pss);
+    }
 
     @Override
     public void updateUtilisateur(Utilisateur utilisateur) {
