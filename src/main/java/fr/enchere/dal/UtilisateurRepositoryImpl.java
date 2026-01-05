@@ -113,7 +113,19 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
     }
 
+    @Override
+    public void updateCredits(int id, int montant){
+        String  sql = "UPDATE Utilisateurs SET credit = ? WHERE no_utilisateur = ?";
 
+        PreparedStatementSetter pss = new PreparedStatementSetter() {
+            @Override public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setInt(1, montant);
+                ps.setInt(2, id);
+            }
+        };
+
+        jdbcTemplate.update(sql, pss);
+    }
         @Override
         public void updateUtilisateur(Utilisateur utilisateur) {
 

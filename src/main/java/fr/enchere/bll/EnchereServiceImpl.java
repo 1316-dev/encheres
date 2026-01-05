@@ -79,21 +79,15 @@ public class EnchereServiceImpl implements EnchereService {
         }
 
         //SI TOUT OK
-        //débiter acheteur
-        System.out.println("credit ancien acheteur" + previousBidder.getCredit());
-        //currentBidder.setCredit(creditAcheteur - currentBid);
-        //recréditer acheteur précédent
-        //previousBidder.setCredit(previousBidder.getCredit() + lastPrice);
-
-        //Fonction update à ajouter à ArticleVenduRepository
         //Mise à jour du prix de vente
         articleVenduRepository.updatePrixVente(article.getNoArticle(), currentBid);
-        //Fonction update à ajouter à UtilisateurRepository
-        //MaJ des credits
 
+        //MaJ des credits acheteur
+        utilisateurRepository.updateCredits(currentBidder.getNoUtilisateur(), currentBidder.getCredit() - currentBid);
+        //MaJ des crédits ancien acheteur
+        utilisateurRepository.updateCredits(previousBidder.getNoUtilisateur(), previousBidder.getCredit() + lastPrice);
 
-        System.out.println("Enchere créée :" + currentEnchere);
         //Ajouter l'appel à la fonction du repository
-        //enchereRepository.creerEnchere(currentEnchere);
+        enchereRepository.creerEnchere(currentEnchere);
     }
 }

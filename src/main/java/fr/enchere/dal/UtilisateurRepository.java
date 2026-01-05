@@ -13,4 +13,5 @@ public interface UtilisateurRepository {
    void updateUtilisateur(Utilisateur utilisateur);
 
     void deleteUtilisateur(int noUtilisateur);
+    void updateCredits(int id, int montant);
 }
