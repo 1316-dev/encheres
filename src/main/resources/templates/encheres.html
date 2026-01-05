@@ -17,37 +17,35 @@
     <h1 class="mt-4 m-3">Liste des enchères</h1>
 
     <div class="row">
-        <!--test-->
+
         <div th:if="${supError}" class="alert alert-warning text-center mt-4">
             <h2 th:text="${supError}"></h2>
         </div>
         <div th:if="${success}" class="alert alert-success text-center mt-4">
             <h2 th:text="${success}"></h2>
         </div>
-        <!--fin test-->
 
         <form th:action="@{/encheresCategorie}" method="get" th:object="${articleVenduDto}">
             <div class="row">
-            <div class="col-3 m-3">
-                <Label  for="lettreRecherche" class="form mb-1">Filtres : </Label>
-                <input type="text" name="lettreRecherche" id="lettreRecherche" class="form-control col-3">
-            </div>
-            <div class="col-3 m-3">
-                <label for="noCategorie" class="form mb-1">Catégorie :</label>
-                <select id="noCategorie"
-                    th:field="*{noCategorie}"
-                    class="form-control col-3">
-                    <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
-                        th:text="${categorie.libelle}"
-                        th:value="${categorie.noCategorie}">
-                    </option>
-                </select>
-            </div>
+                <div class="col-3 m-3">
+                    <Label for="lettreRecherche" class="form mb-1">Filtres : </Label>
+                    <input type="text" name="lettreRecherche" id="lettreRecherche" class="form-control col-3">
+                </div>
+                <div class="col-3 m-3">
+                    <label for="noCategorie" class="form mb-1">Catégorie :</label>
+                    <select id="noCategorie"
+                            th:field="*{noCategorie}"
+                            class="form-control col-3">
+                        <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
+                                th:text="${categorie.libelle}"
+                                th:value="${categorie.noCategorie}">
+                        </option>
+                    </select>
+                </div>
                 <div class="col-3 mt-4 mb-3">
-                <input type="submit" value="Rechercher" class="btn btn-primary m-3">
+                    <input type="submit" value="Rechercher" class="btn btn-primary m-3">
                 </div>
             </div>
-
 
         </form>
     </div>
@@ -55,7 +53,7 @@
     <div class="row">
         <div class="card col-3 m-3" style="width: 18rem;" th:each="article : ${listeArticleVendu}">
             <!--<img src="..." class="card-img-top" alt="...">-->
-            <div class="card-body " >
+            <div class="card-body ">
                 <h3 class="card-title" th:text="${article.nomArticle}"></h3>
                 <p class="card-text">
                     Mise à prix : <span th:text="${article.miseAPrix}"></span> crédit
@@ -72,7 +70,8 @@
                 <p class="card-text">
                     Vendeur : <span th:text="${article.vendeur}"></span>
                 </p>
-                <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary" sec:authorize="isAuthenticated()">Détail Vente</a>
+                <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary"
+                   sec:authorize="isAuthenticated()">Détail Vente</a>
             </div>
         </div>
     </div>
