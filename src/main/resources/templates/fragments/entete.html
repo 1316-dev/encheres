@@ -4,9 +4,21 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
         <div class="container">
 
-            <!-- LOGO / TITRE -->
+            <!-- LOGO / TITRE
             <a class="navbar-brand fw-bold" th:href="@{/encheres}">
                 Enchère
+            </a>-->
+            <!-- LOGO + TITRE (clic = accueil) -->
+            <a class="navbar-brand d-flex align-items-center"
+               th:href="@{/encheres}">
+
+                <img th:src="@{/images/logo.png}"
+                     alt="Logo Enchères"
+                     width="80"
+                     height="80"
+                     class="me-2">
+
+                <span class="fw-bold">Enchère</span>
             </a>
 
             <!-- BOUTON MOBILE -->
