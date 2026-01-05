@@ -68,7 +68,13 @@
 
 
                 <p class="card-text">
-                    Vendeur : <span th:text="${article.vendeur}"></span>
+                    Vendeur :
+                    <span th:text="${article.vendeur}" sec:authorize="isAnonymous()"></span>
+                    <a
+                        th:href="@{/profilVendeur/{pseudo}(pseudo=${article.vendeur})}"
+                        th:text="${article.vendeur}" class="link-offset-2 link-underline link-underline-opacity-75"
+                        sec:authorize="isAuthenticated()"
+                    ></a>
                 </p>
                 <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary"
                    sec:authorize="isAuthenticated()">Détail Vente</a>

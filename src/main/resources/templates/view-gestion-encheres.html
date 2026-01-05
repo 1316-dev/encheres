@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="fr"
-      xmlns:th="http://www.thymeleaf.org">
+      xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Enchères</title>
@@ -123,7 +123,13 @@
 
 
                 <p class="card-text">
-                    Vendeur : <span th:text="${article.vendeur}"></span>
+                    Vendeur :
+                    <span th:text="${article.vendeur}" sec:authorize="isAnonymous()"></span>
+                    <a
+                            th:href="@{/profilVendeur/{pseudo}(pseudo=${article.vendeur})}"
+                            th:text="${article.vendeur}" class="link-offset-2 link-underline link-underline-opacity-75"
+                            sec:authorize="isAuthenticated()"
+                    ></a>
                 </p>
                 <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary">Détail Vente</a>
             </div>

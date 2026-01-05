@@ -2,6 +2,7 @@ package fr.enchere.bll;
 
 import fr.enchere.bo.Utilisateur;
 import fr.enchere.dal.UtilisateurRepository;
+import fr.enchere.exception.EmailDejaUtiliseException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +15,11 @@ public class UtilisateurServiceImpl implements UtilisateurService{
     }
 
     @Override
-    public void creerUtilisateur(Utilisateur utilisateur){utilisateurRepository.saveUtilisateur(utilisateur);}
+    public void creerUtilisateur(Utilisateur utilisateur){
+        if (utilisateurRepository.existsByEmail(utilisateur.getEmail())){
+            throw new EmailDejaUtiliseException("Cet email est déjà utilisé");
+        }
+        utilisateurRepository.saveUtilisateur(utilisateur);}
 
     @Override
     public Utilisateur findUserByUsername(String pseudo) {
