@@ -20,10 +20,11 @@
                 <p class="label">Meilleure offre :</p>
                 <p class="value">
                     <!-- thif et th unless prix de vente = 0, afficher première mise à prix-->
-                    <span th:if="${article.getPrixVente()==0}" th:text="${article.getMiseAPrix()}"></span>
+                    <span th:if="${article.getPrixVente()==0}" th:text="${article.getMiseAPrix() + ' puntos'}"></span>
                     <span th:unless="${article.getPrixVente()==0}" th:text="${article.getPrixVente()+ ' points'}"></span>
                     par
-                    <span th:text="${@enchereServiceImpl.findBestBidder(article.getNoArticle())}"></span>
+                    <span th:if="${article.getPrixVente()==0}" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}"></span>
+                    <span th:unless="${article.getPrixVente()==0}" th:text="${@enchereServiceImpl.findBestBidder(article.getNoArticle())}"></span>
                 </p>
                 <p class="label">Mise à prix :</p>
                 <p class="value" th:text="${article.getMiseAPrix() + ' points'}"></p>

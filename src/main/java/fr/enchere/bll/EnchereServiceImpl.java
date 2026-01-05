@@ -44,12 +44,10 @@ public class EnchereServiceImpl implements EnchereService {
         int currentBid = currentEnchere.getMontantEnchere();
         Utilisateur currentBidder = currentEnchere.getUtilisateur();
 
-
         //récupérer utilisateur ayant fait l'enchere la plus haute
-        Enchere previousEnchere = enchereRepository.findBestEnchere(article.getNoArticle());
-        Utilisateur previousBidder = utilisateurRepository.findUserById(previousEnchere.getUtilisateur().getNoUtilisateur());
-
         Utilisateur vendeur = article.getUtilisateur();
+        Utilisateur previousBidder;
+
 
         //Transaction à mettre en place
         //Gestion métier
@@ -82,10 +80,17 @@ public class EnchereServiceImpl implements EnchereService {
         //Mise à jour du prix de vente
         articleVenduRepository.updatePrixVente(article.getNoArticle(), currentBid);
 
+        //Vérification si une enchère précédente existe
+        if(!enchereRepository.findByProduitId(article.getNoArticle()).isEmpty())
+        {
+            Enchere previousEnchere = enchereRepository.findBestEnchere(article.getNoArticle());
+            previousBidder = utilisateurRepository.findUserById(previousEnchere.getUtilisateur().getNoUtilisateur());
+            //MaJ des crédits ancien acheteur
+            utilisateurRepository.updateCredits(previousBidder.getNoUtilisateur(), previousBidder.getCredit() + lastPrice);
+        }
         //MaJ des credits acheteur
         utilisateurRepository.updateCredits(currentBidder.getNoUtilisateur(), currentBidder.getCredit() - currentBid);
-        //MaJ des crédits ancien acheteur
-        utilisateurRepository.updateCredits(previousBidder.getNoUtilisateur(), previousBidder.getCredit() + lastPrice);
+
 
         //Ajouter l'appel à la fonction du repository
         enchereRepository.creerEnchere(currentEnchere);
