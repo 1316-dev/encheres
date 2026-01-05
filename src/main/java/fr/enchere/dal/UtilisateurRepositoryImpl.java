@@ -1,23 +1,18 @@
 package fr.enchere.dal;
 
-import fr.enchere.bo.Categorie;
 import fr.enchere.bo.Utilisateur;
 import fr.enchere.exception.UtilisateurNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Repository;
 import org.springframework.jdbc.support.KeyHolder;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -152,8 +147,16 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
                 throw new UtilisateurNotFound("Utilisateur non trouvé pour suppression");
             }
         }
+// test
+    @Override
+    public boolean existsByEmail(String email) {
 
+        String sql = "SELECT COUNT(*) FROM utilisateurs WHERE email = ?";
 
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, email);
+
+        return count != null && count > 0;
+    }
 
     }
 

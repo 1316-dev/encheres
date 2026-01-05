@@ -66,6 +66,10 @@
                         <div class="col-8 text-start" th:text="${utilisateurDto.ville}"></div>
                     </div>
 
+                    <div class="row mb-3">
+                        <div class="col-4 text-end fw-bold">Crédit :</div>
+                        <div class="col-8 text-start" th:text="${utilisateurDto.credit}"></div>
+                    </div>
                 </div>
                 <div class="text-center mt-4">
                     <a th:href="@{/modifier(pseudo=${#authentication.name})}" class="btn btn-outline-light px-4">
