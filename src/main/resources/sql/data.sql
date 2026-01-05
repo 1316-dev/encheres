@@ -54,7 +54,7 @@ VALUES
     (1, 'PC Portable', 'PC gamer Asus 32Go RAM',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 1, 2),
+     500, 550, 1, 2),
 
     (2, 'Canapé', 'Canapé 3 places',
      GETDATE(), -- Date et heure actuelle de début pour le test revoir pour fin
@@ -70,7 +70,7 @@ SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 
 /*A VOIR POUR AUTOGENERER A PARTIR ADRESSE VENDEUR */
 /* RETRAITS */
-INSERT INTO RETRAITS (no_article, rue, code_postal, ville,no_utilisateur)
+INSERT INTO RETRAITS (no_article, rue, code_postal, ville, no_utilisateur)
 VALUES
     (1, '10 rue Victor Hugo', '75001', 'Paris',1),
     (2, '5 avenue de France', '69000', 'Lyon',2),

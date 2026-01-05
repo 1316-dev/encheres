@@ -18,7 +18,6 @@ public class ArticleVendu {
     private Categorie categorieArticle;
     private Utilisateur utilisateur;
     private Retrait lieuRetrait;
-    private List<Enchere> listeEncheres;
 
     public ArticleVendu() {
     }
@@ -55,8 +54,9 @@ public class ArticleVendu {
         this.categorieArticle = categorieArticle;
         this.utilisateur = utilisateur;
         this.lieuRetrait = lieuRetrait;
-        this.listeEncheres = listeEncheres;
     }
+    //Méthodes
+
 
     //Getters et setters
 
@@ -141,13 +141,7 @@ public class ArticleVendu {
         this.lieuRetrait = lieuRetrait;
     }
 
-    public List<Enchere> getEncheres() {
-        return listeEncheres;
-    }
 
-    public void setEncheres(List<Enchere> encheres) {
-        this.listeEncheres = encheres;
-    }
 
     public Categorie getCategorieArticle() {
 
@@ -158,13 +152,7 @@ public class ArticleVendu {
         this.categorieArticle = categorieArticle;
     }
 
-    public List<Enchere> getListeEncheres() {
-        return listeEncheres;
-    }
 
-    public void setListeEncheres(List<Enchere> listeEncheres) {
-        this.listeEncheres = listeEncheres;
-    }
 
     @Override
     public String toString() {
@@ -180,7 +168,6 @@ public class ArticleVendu {
                 ", categorieArticle=" + categorieArticle +
                 ", utilisateur=" + utilisateur +
                 ", lieuRetrait=" + lieuRetrait +
-                ", listeEncheres=" + listeEncheres +
                 '}';
     }
 
@@ -188,11 +175,11 @@ public class ArticleVendu {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ArticleVendu that = (ArticleVendu) o;
-        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && prixVente == that.prixVente && etatVente == that.etatVente && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(description, that.description) && Objects.equals(dateDebutEnchere, that.dateDebutEnchere) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(categorieArticle, that.categorieArticle) && Objects.equals(utilisateur, that.utilisateur) && Objects.equals(lieuRetrait, that.lieuRetrait) && Objects.equals(listeEncheres, that.listeEncheres);
+        return noArticle == that.noArticle && miseAPrix == that.miseAPrix && prixVente == that.prixVente && etatVente == that.etatVente && Objects.equals(nomArticle, that.nomArticle) && Objects.equals(description, that.description) && Objects.equals(dateDebutEnchere, that.dateDebutEnchere) && Objects.equals(dateFinEnchere, that.dateFinEnchere) && Objects.equals(categorieArticle, that.categorieArticle) && Objects.equals(utilisateur, that.utilisateur) && Objects.equals(lieuRetrait, that.lieuRetrait);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(noArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, prixVente, etatVente, categorieArticle, utilisateur, lieuRetrait, listeEncheres);
+        return Objects.hash(noArticle, nomArticle, description, dateDebutEnchere, dateFinEnchere, miseAPrix, prixVente, etatVente, categorieArticle, utilisateur, lieuRetrait);
     }
 }

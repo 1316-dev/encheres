@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 
 import java.security.Principal;
@@ -144,7 +145,7 @@ public class EnchereController {
     }
 
     @PostMapping("/detail-vente/{articleId}")
-    public String creerEnchere(@PathVariable int articleId, @RequestParam int montant, @AuthenticationPrincipal UserDetails user) {
+    public String creerEnchere(@PathVariable int articleId, @RequestParam int montant, @AuthenticationPrincipal UserDetails user, RedirectAttributes redirectAttributes) {
         //Construction d'une enchere pour création
         //Initialisation date de l'enchère
         LocalDateTime dateEnchere = LocalDateTime.now();
@@ -154,7 +155,13 @@ public class EnchereController {
         Utilisateur utilisateur = utilisateurService.findUserByUsername(user.getUsername());
 
         Enchere enchere = new Enchere(dateEnchere, montant, article, utilisateur);
+        //Gestion des erreurs dans le service
         enchereService.creerEnchere(enchere);
+        //TODO condition d'affichage de la validation
+        redirectAttributes.addFlashAttribute(
+                "successMessage",
+                "Votre enchère a bien été enregistrée ✔"
+        );
 
         return "redirect:/detail-vente/" + articleId;
     }

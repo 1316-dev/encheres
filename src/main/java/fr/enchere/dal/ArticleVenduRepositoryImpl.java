@@ -8,6 +8,7 @@ import fr.enchere.bo.Utilisateur;
 import fr.enchere.dto.ArticleVenduDto;
 
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.PreparedStatementSetter;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -15,6 +16,7 @@ import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.jdbc.support.KeyHolder;
 import org.springframework.stereotype.Repository;
 
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -168,6 +170,20 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         ArticleVendu article = jdbcTemplate.queryForObject(sql, new ArticleBORowMapper(), id);
 
         return article;
+    }
+
+    @Override
+    public void updatePrixVente(int idArticle, int prix){
+        String  sql = "UPDATE Articles_Vendus SET prix_vente = ? WHERE no_article = ?";
+
+        PreparedStatementSetter pss = new PreparedStatementSetter() {
+            @Override public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setInt(1, prix);
+                ps.setInt(2, idArticle);
+            }
+        };
+
+        jdbcTemplate.update(sql, pss);
     }
 
     @Override

@@ -23,4 +23,5 @@ public interface ArticleVenduRepository {
 
     ArticleVendu findArticleById(int id);
     void createArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur);
+    void updatePrixVente(int idArticle, int prix);
 }
