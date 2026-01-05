@@ -15,4 +15,5 @@ public interface UtilisateurRepository {
     void deleteUtilisateur(int noUtilisateur);
 
     boolean existsByEmail(String email);
+    boolean existsByPseudo(String pseudo);
 }
