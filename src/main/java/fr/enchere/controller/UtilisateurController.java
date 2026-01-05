@@ -110,147 +110,121 @@ public class UtilisateurController {
 
         return "view-mon-profil";
     }
-
     @GetMapping("/modifier")
-    public String modifierProfil(Authentication authentication, Model model) {
+    public String modifierProfil(Authentication authentication, Model model) { {
 
-        // Récupération de l'utilisateur connecté
-        Utilisateur utilisateur = utilisateurService.findUserByUsername(authentication.getName());
+        if (!model.containsAttribute("utilisateurDto")) {
 
-        // Création du DTO pour le formulaire
-        UtilisateurDto utilisateurDto = new UtilisateurDto();
-        utilisateurDto.setPseudo(utilisateur.getPseudo());
-        utilisateurDto.setNom(utilisateur.getNom());
-        utilisateurDto.setPrenom(utilisateur.getPrenom());
-        utilisateurDto.setEmail(utilisateur.getEmail());
-        utilisateurDto.setTelephone(utilisateur.getTelephone());
-        utilisateurDto.setRue(utilisateur.getRue());
-        utilisateurDto.setCodePostal(utilisateur.getCodePostal());
-        utilisateurDto.setVille(utilisateur.getVille());
 
-        // Ajout du DTO au modèle
-        model.addAttribute("utilisateurDto", utilisateurDto);
+            Utilisateur utilisateur =
+                    utilisateurService.findUserByUsername(authentication.getName());
 
+            UtilisateurDto utilisateurDto = new UtilisateurDto();
+
+            utilisateurDto.setPseudo(utilisateur.getPseudo());
+            utilisateurDto.setNom(utilisateur.getNom());
+            utilisateurDto.setPrenom(utilisateur.getPrenom());
+            utilisateurDto.setEmail(utilisateur.getEmail());
+            utilisateurDto.setTelephone(utilisateur.getTelephone());
+            utilisateurDto.setRue(utilisateur.getRue());
+            utilisateurDto.setCodePostal(utilisateur.getCodePostal());
+            utilisateurDto.setVille(utilisateur.getVille());
+
+            model.addAttribute("utilisateurDto", utilisateurDto);
+
+        }
         return "view-modifier-profil";
     }
-
-
+}
     @PostMapping("/modifier")
     public String enregistrementModifProfil(
-            @Valid @ModelAttribute UtilisateurDto utilisateurDto,
+            @ModelAttribute ("utilisateurDto") UtilisateurDto utilisateurDto,
             BindingResult resultat,
             RedirectAttributes redirectAttr,
             Authentication authentication,
             HttpServletRequest request) {
 
+        Utilisateur utilisateur =
+                utilisateurService.findUserByUsername(authentication.getName());
+
+        boolean pseudoModifie = !utilisateur.getPseudo().equals(utilisateurDto.getPseudo());
+        boolean emailModifie = !utilisateur.getEmail().equals(utilisateurDto.getEmail());
+
+        // Unicité pseudo
+        if (pseudoModifie && utilisateurService.existsByPseudo(utilisateurDto.getPseudo())) {
+            resultat.rejectValue("pseudo", "pseudo.existe", "Ce pseudo est déjà utilisé");
+        }
+
+        // Unicité email
+        if (emailModifie && utilisateurService.existsByEmail(utilisateurDto.getEmail())) {
+            resultat.rejectValue("email", "email.existe", "Cet email est déjà utilisé");
+        }
+
+        // Mot de passe actuel obligatoire
+        if (utilisateurDto.getMdpActuel() == null || utilisateurDto.getMdpActuel().isBlank()) {
+            resultat.rejectValue(
+                    "mdpActuel",
+                    "mdpActuel.obligatoire",
+                    "Le mot de passe actuel est obligatoire"
+            );
+        }
+        // Vérification mot de passe actuel
+        else if (!passwordEncoder.matches(
+                utilisateurDto.getMdpActuel(),
+                utilisateur.getMotDePasse())) {
+
+            resultat.rejectValue(
+                    "mdpActuel",
+                    "mdpActuel.incorrect",
+                    "Le mot de passe actuel est incorrect"
+            );
+        }
+
+        // Nouveau mot de passe (facultatif)
+        if (utilisateurDto.getMdpNouveau() != null && !utilisateurDto.getMdpNouveau().isBlank()) {
+            if (!utilisateurDto.getMdpNouveau()
+                    .equals(utilisateurDto.getMdpConfirmation())) {
+
+                resultat.rejectValue(
+                        "mdpConfirmation",
+                        "mdpConfirmation.diff",
+                        "La confirmation du mot de passe ne correspond pas"
+                );
+            }
+        }
+
+        // S'il y a la moindre erreur → redirect avec BindingResult
         if (resultat.hasErrors()) {
             redirectAttr.addFlashAttribute(
                     "org.springframework.validation.BindingResult.utilisateurDto", resultat);
             redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
-            return "redirect:/modifier?pseudo=" + utilisateurDto.getPseudo();
+            return "redirect:/modifier";
         }
 
-        Utilisateur utilisateur =
-                utilisateurService.findUserByUsername(authentication.getName());
+        // Mise à jour profil
+        BeanUtils.copyProperties(utilisateurDto, utilisateur, "noUtilisateur", "motDePasse");
 
-        boolean pseudoModifie =
-                !utilisateur.getPseudo().equals(utilisateurDto.getPseudo());
-
-        // Copier le profil (hors mot de passe)
-        BeanUtils.copyProperties(
-                utilisateurDto,
-                utilisateur,
-                "noUtilisateur", "motDePasse"
-        );
-
-        //gestion mdp
-        if (utilisateurDto.getMdpActuel() != null && !utilisateurDto.getMdpActuel().isBlank()) {
-
-            if (!passwordEncoder.matches(
-                    utilisateurDto.getMdpActuel(),
-                    utilisateur.getMotDePasse())) {
-
-                redirectAttr.addFlashAttribute(
-                        "error",
-                        "Le mot de passe actuel est incorrect"
-                );
-                return "redirect:/modifier?pseudo=" + utilisateurDto.getPseudo();
-            }
-
-            if (utilisateurDto.getMdpNouveau() == null
-                    || utilisateurDto.getMdpNouveau().isBlank()) {
-
-                redirectAttr.addFlashAttribute(
-                        "error",
-                        "Le nouveau mot de passe est obligatoire"
-                );
-                return "redirect:/modifier?pseudo=" + utilisateurDto.getPseudo();
-            }
-
-            if (!utilisateurDto.getMdpNouveau()
-                    .equals(utilisateurDto.getMdpConfirmation())) {
-
-                redirectAttr.addFlashAttribute(
-                        "error",
-                        "La confirmation du mot de passe ne correspond pas"
-                );
-                return "redirect:/modifier?pseudo=" + utilisateurDto.getPseudo();
-            }
-
+        // Mise à jour du mot de passe si fourni
+        if (utilisateurDto.getMdpNouveau() != null && !utilisateurDto.getMdpNouveau().isBlank()) {
             utilisateur.setMotDePasse(
                     passwordEncoder.encode(utilisateurDto.getMdpNouveau())
-            );
-
-            redirectAttr.addFlashAttribute(
-                    "success",
-                    "Mot de passe modifié avec succès"
-            );
-        } else {
-            redirectAttr.addFlashAttribute(
-                    "success",
-                    "Profil mis à jour"
             );
         }
 
         utilisateurService.updateProfil(utilisateur);
 
+        // Déconnexion si pseudo modifié
         if (pseudoModifie) {
             request.getSession().invalidate();
             return "redirect:/connexion?pseudoModifie";
         }
 
+        redirectAttr.addFlashAttribute("success", "Profil mis à jour avec succès");
         return "redirect:/monProfil";
     }
 
 
-    @PostMapping("/supprimer")
-    public String supprimerCompte(
 
-            Authentication authentication,
-            HttpServletRequest request,
-            RedirectAttributes redirectAttr
-    ) {
-        String pseudo = authentication.getName();
-        Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
-        System.out.println(utilisateur.getArticleVendu().size());
-
-        if (articleVenduService.utilisateurADesVentes(utilisateur.getNoUtilisateur())) {
-            redirectAttr.addFlashAttribute(
-                    "supError",
-                    "Ventes en cours suppression impossible"
-            );
-            return "redirect:/encheres";
-        }
-
-        utilisateurService.supprimerUtilisateur(utilisateur.getNoUtilisateur());
-
-        request.getSession().invalidate();
-        redirectAttr.addFlashAttribute("success", "Votre compte a été supprimé avec succès");
-
-        return "redirect:/encheres";
-
-
-    }
 
     @GetMapping("/profilVendeur/{pseudo}")
     public String profilVendeur(@PathVariable String pseudo, Model model) {
@@ -267,5 +241,62 @@ public class UtilisateurController {
         model.addAttribute("listeArticleVendeur", listeArticleVendeur);
 
         return "view-profil-vendeur";
+    }
+    // Sup en cours
+    @PostMapping("/supprimer")
+    public String supprimerCompte(
+            @ModelAttribute("utilisateurDto") UtilisateurDto utilisateurDto,
+            BindingResult resultat,
+            Authentication authentication,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttr
+    ) {
+
+        Utilisateur utilisateur = utilisateurService.findUserByUsername(authentication.getName());
+
+
+        // Mot de passe actuel obligatoire
+        if (utilisateurDto.getMdpActuel() == null || utilisateurDto.getMdpActuel().isBlank()) {
+            resultat.rejectValue(
+                    "mdpActuel",
+                    "mdpActuel.obligatoire",
+                    "Le mot de passe actuel est obligatoire"
+            );
+        }
+        // Vérification mot de passe actuel
+        else if (!passwordEncoder.matches(
+                utilisateurDto.getMdpActuel(),
+                utilisateur.getMotDePasse())) {
+
+            resultat.rejectValue(
+                    "mdpActuel",
+                    "mdpActuel.incorrect",
+                    "Le mot de passe actuel est incorrect"
+            );
+        }
+       // Erreurs → retour formulaire
+        if (resultat.hasErrors()) {
+            redirectAttr.addFlashAttribute(
+                    "org.springframework.validation.BindingResult.utilisateurDto", resultat);
+            redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
+            return "redirect:/modifier";
+        }
+        if (articleVenduService.utilisateurADesVentes(utilisateur.getNoUtilisateur())) {
+
+            redirectAttr.addFlashAttribute(
+                    "supError",
+                    "Ventes en cours suppression impossible"
+            );
+            return "redirect:/encheres";
+        }
+
+        utilisateurService.supprimerUtilisateur(utilisateur.getNoUtilisateur());
+
+        request.getSession().invalidate();
+        redirectAttr.addFlashAttribute("success", "Votre compte a été supprimé avec succès");
+
+        return "redirect:/encheres";
+
+
     }
 }
