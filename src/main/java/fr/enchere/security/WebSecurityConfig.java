@@ -26,7 +26,7 @@ public class WebSecurityConfig {
                 //.formLogin(Customizer.withDefaults())
                 .formLogin((form) -> form.loginPage("/connexion")
                 .defaultSuccessUrl("/gestion-encheres", true)
-                        //.failureUrl("/login?error") // redirect to error page
+                         //.failureUrl("/login?error") // redirect to error page
                 .loginProcessingUrl("/login")
                         .usernameParameter("login")
                 .permitAll() )
