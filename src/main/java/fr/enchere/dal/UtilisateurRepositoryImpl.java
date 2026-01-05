@@ -31,10 +31,10 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public Utilisateur findUserById(int id){
+    public Utilisateur findUserById(int id) {
 
         String sql = "select no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur from utilisateurs where no_utilisateur = ?";
-        Utilisateur user = jdbcTemplate.queryForObject(sql,new UtilisateurRepositoryImpl.UserRowMapper(),id);
+        Utilisateur user = jdbcTemplate.queryForObject(sql, new UtilisateurRepositoryImpl.UserRowMapper(), id);
         return user;
     }
 
@@ -109,45 +109,45 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
     }
 
 
-        @Override
-        public void updateUtilisateur(Utilisateur utilisateur) {
+    @Override
+    public void updateUtilisateur(Utilisateur utilisateur) {
 
-            String sql = "update utilisateurs set "
-                    + "pseudo=?, nom=?, prenom=?, email=?, telephone=?, "
-                    + "rue=?, code_postal=?, ville=?, mot_de_passe=?"
-                    + "where no_utilisateur=?";
+        String sql = "update utilisateurs set "
+                + "pseudo=?, nom=?, prenom=?, email=?, telephone=?, "
+                + "rue=?, code_postal=?, ville=?, mot_de_passe=?"
+                + "where no_utilisateur=?";
 
-               int rows = jdbcTemplate.update(sql, ps -> {
-                    ps.setString(1, utilisateur.getPseudo());
-                    ps.setString(2, utilisateur.getNom());
-                    ps.setString(3, utilisateur.getPrenom());
-                    ps.setString(4, utilisateur.getEmail());
-                    ps.setString(5, utilisateur.getTelephone());
-                    ps.setString(6, utilisateur.getRue());
-                    ps.setString(7, utilisateur.getCodePostal());
-                    ps.setString(8, utilisateur.getVille());
-                   ps.setString(9, utilisateur.getMotDePasse());
-                    ps.setInt(10, utilisateur.getNoUtilisateur());
-                });
+        int rows = jdbcTemplate.update(sql, ps -> {
+            ps.setString(1, utilisateur.getPseudo());
+            ps.setString(2, utilisateur.getNom());
+            ps.setString(3, utilisateur.getPrenom());
+            ps.setString(4, utilisateur.getEmail());
+            ps.setString(5, utilisateur.getTelephone());
+            ps.setString(6, utilisateur.getRue());
+            ps.setString(7, utilisateur.getCodePostal());
+            ps.setString(8, utilisateur.getVille());
+            ps.setString(9, utilisateur.getMotDePasse());
+            ps.setInt(10, utilisateur.getNoUtilisateur());
+        });
 
-          if(rows ==0){ new UtilisateurNotFound(utilisateur.getPseudo());
-            }
+        if (rows == 0) {
+            new UtilisateurNotFound(utilisateur.getPseudo());
         }
+    }
 
 
+    @Override
+    public void deleteUtilisateur(int noUtilisateur) {
 
-        @Override
-        public void deleteUtilisateur(int noUtilisateur){
+        String sql = "DELETE FROM utilisateurs WHERE no_utilisateur = ?";
 
-            String sql = "DELETE FROM utilisateurs WHERE no_utilisateur = ?";
+        int rows = jdbcTemplate.update(sql, noUtilisateur);
 
-            int rows = jdbcTemplate.update(sql, noUtilisateur);
-
-            if (rows == 0) {
-                throw new UtilisateurNotFound("Utilisateur non trouvé pour suppression");
-            }
+        if (rows == 0) {
+            throw new UtilisateurNotFound("Utilisateur non trouvé pour suppression");
         }
-// test
+    }
+
     @Override
     public boolean existsByEmail(String email) {
 
@@ -158,7 +158,15 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         return count != null && count > 0;
     }
 
+    @Override
+    public boolean existsByPseudo(String pseudo) {
+        String sql = "SELECT COUNT(*) FROM utilisateurs WHERE pseudo = ?";
+
+        Integer count = jdbcTemplate.queryForObject(sql, Integer.class, pseudo);
+
+        return count != null && count > 0;
     }
+}
 
 
 

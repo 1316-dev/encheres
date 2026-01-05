@@ -7,6 +7,7 @@ import fr.enchere.bo.Utilisateur;
 import fr.enchere.dto.ArticleVenduDto;
 import fr.enchere.dto.UtilisateurDto;
 import fr.enchere.exception.EmailDejaUtiliseException;
+import fr.enchere.exception.PseudoDejaUtiliseException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -72,17 +73,21 @@ public class UtilisateurController {
             BeanUtils.copyProperties(utilisateurDto, utilisateur);
 
             utilisateurService.creerUtilisateur(utilisateur);
+            // Si tout va bien, redirection vers la page des enchères
+            return "redirect:/view-list-encheres?pseudo=" + utilisateurDto.getPseudo();
 
         } catch (EmailDejaUtiliseException e) {
-            resultat.rejectValue("email","email.existe","Cet Email est déjà utilisé");
+            resultat.rejectValue("email", "email.existe", "Cet Email est déjà utilisé");
 
-            redirectAttr.addFlashAttribute(
-                    "org.springframework.validation.BindingResult.utilisateurDto", resultat);
-            redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
-            return "redirect:/inscription";
+        } catch (PseudoDejaUtiliseException e) {
+            resultat.rejectValue("pseudo", "pseudo.existe", "Ce pseudo est déjà utilisé");
         }
-        return "redirect:/view-list-encheres?pseudo=" + utilisateurDto.getPseudo();
+        redirectAttr.addFlashAttribute(
+                "org.springframework.validation.BindingResult.utilisateurDto", resultat);
+        redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
+        return "redirect:/inscription";
     }
+
 
     @GetMapping("/monProfil")
     public String monProfil(Authentication authentication, Model model) {
@@ -258,7 +263,7 @@ public class UtilisateurController {
         utilisateurDto.setVille(utilisateur.getVille());
         model.addAttribute("utilisateurDto", utilisateurDto);
 
-        List< ArticleVenduDto> listeArticleVendeur = articleVenduService.listeArticleVenduByVendeur(pseudo);
+        List<ArticleVenduDto> listeArticleVendeur = articleVenduService.listeArticleVenduByVendeur(pseudo);
         model.addAttribute("listeArticleVendeur", listeArticleVendeur);
 
         return "view-profil-vendeur";

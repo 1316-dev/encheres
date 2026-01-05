@@ -118,6 +118,9 @@
                     <div class="text-danger text-center" th:if="${#fields.hasErrors('motDePasse')}">
                         <small th:errors="*{motDePasse}"></small>
                     </div>
+                    <div class="text-danger text-center" th:if="${#fields.hasErrors('pseudo')}">
+                        <small th:errors="*{pseudo}"></small>
+                    </div>
                 </div>
 
             </form>
