@@ -4,9 +4,17 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark shadow">
         <div class="container">
 
-            <!-- LOGO / TITRE -->
-            <a class="navbar-brand fw-bold" th:href="@{/encheres}">
-                Enchère
+            <!-- LOGO + TITRE (clic = accueil) -->
+            <a class="navbar-brand d-flex align-items-center"
+               th:href="@{/encheres}">
+
+                <img th:src="@{/images/logo.png}"
+                     alt="Logo Enchères"
+                     width="80"
+                     height="80"
+                     class="me-2">
+
+                <span class="fw-bold">Enchère</span>
             </a>
 
             <!-- BOUTON MOBILE -->
@@ -39,32 +47,29 @@
                         <a class="nav-link" th:href="@{/connexion}">Se connecter</a>
                     </li>
 
-
                     <li class="nav-item" sec:authorize="isAuthenticated()">
                         <a class="nav-link" th:href="@{/vendre}">
                             Vendre un article
                         </a>
                     </li>
 
-                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                  <!--  <li class="nav-item" sec:authorize="isAuthenticated()">
                         <a class="nav-link" th:href="@{/monProfil(pseudo=${#authentication.name})}">
                             Mon profil
                         </a>
-                    </li>
+                    </li>-->
 
-                    <li class="nav-item dropdown" sec:authorize="isAuthenticated()">
-                        <a class="nav-link dropdown-toggle text-warning"
-                           href="#"
-                           role="button"
-                           data-bs-toggle="dropdown"
-                           aria-expanded="false">
+                    <li class="nav-item" sec:authorize="isAuthenticated()">
+                        <a class="nav-link text-warning"
+                           th:href="@{/monProfil(pseudo=${#authentication.name})}"
+                        >
                             <span sec:authentication="name"></span>
                         </a>
                     </li>
                     <!-- Logout -->
                     <li sec:authorize="isAuthenticated()">
                         <form th:action="@{/logout}" method="post" class="logout-form dropdown-item text-danger">
-                            <button type="submit" class="logout-link">Déconnexion</button>
+                            <button type="submit" class="btn btn-outline-light">Déconnexion</button>
                         </form>
                     </li>
 

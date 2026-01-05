@@ -13,5 +13,8 @@ public interface UtilisateurRepository {
    void updateUtilisateur(Utilisateur utilisateur);
 
     void deleteUtilisateur(int noUtilisateur);
+
+    boolean existsByEmail(String email);
+    boolean existsByPseudo(String pseudo);
     void updateCredits(int id, int montant);
 }

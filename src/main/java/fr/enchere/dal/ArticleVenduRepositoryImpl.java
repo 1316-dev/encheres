@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -63,10 +64,17 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
     @Override
     public List<ArticleVenduDto> listeArticleVenduByNom(String recherche) {
         String sql = "select * from dbo.afficherVentesEnCours where nom_article LIKE ? and date_fin_encheres > getdate()";
-        System.out.println(sql);
+
         List<ArticleVenduDto> ListeArticleFiltreCategorie = jdbcTemplate.query(sql,new ArticleVenduRowMapper(), "%"+recherche+"%");
 
         return ListeArticleFiltreCategorie;
+    }
+
+    @Override
+    public List<ArticleVenduDto> listeArticleVenduByVendeur(String pseudoVendeur) {
+        String sql = "select * from dbo.afficherVentesEnCours where vendeur = ? and date_fin_encheres > getdate()";
+        List<ArticleVenduDto> ListeArticleFiltreParVendeur = jdbcTemplate.query(sql,new ArticleVenduRowMapper(), pseudoVendeur);
+        return ListeArticleFiltreParVendeur;
     }
 
     @Override
@@ -79,34 +87,84 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
     }
 
     @Override
-    public List<ArticleVenduDto> listeMesAchats(String vendeur,int no_categorie, String recherche) {
+    public List<ArticleVenduDto> listeMesAchats(int acheteurID,int no_categorie, String recherche, String [] choixCheckBoxAchats) {
+        List<ArticleVenduDto> listeMesAchatsFiltrees = new ArrayList<>();
+        /*String sql = "SELECT * FROM gestionEncheresMesAchats WHERE acheteur = ? AND date_debut_encheres <= getdate() AND date_fin_encheres >= getdate() AND nom_article LIKE ?";
+        listeMesAchatsFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),acheteurID,"%"+recherche+"%");*/
 
-        return List.of();
+        if (no_categorie == 1) {
+            if (choixCheckBoxAchats != null) {
+                for (String valeur : choixCheckBoxAchats) {
+                    if (valeur.equals("encheresOuvertes")) {
+                        // L'utilisateur a coché "encheresOuvertes"
+                        String sql = "select * from dbo.afficherVentesEnCours where nom_article LIKE ? and date_fin_encheres > getdate()";
+                        listeMesAchatsFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(), "%"+recherche+"%"));
+                    }
+                    if (valeur.equals("mesEncheres")) {
+                        // L'utilisateur a coché "mesEncheres"
+                        String sql = "SELECT * FROM gestionEncheresMesAchats WHERE acheteur = ? AND date_fin_encheres > getdate() AND nom_article LIKE ?";
+                        listeMesAchatsFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),acheteurID,"%"+recherche+"%"));
+                    }
+                    if (valeur.equals("encheresRemportees")) {
+                        // L'utilisateur a coché "encheresRemportees"
+                        String sql = "SELECT * FROM gestionEncheresMesAchats WHERE acheteur = ? AND date_fin_encheres < getdate() AND nom_article LIKE ?";
+                        listeMesAchatsFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),acheteurID,"%"+recherche+"%"));
+                    }
+                } }else {
+                // Aucune case n'est cochée
+                String sql = "select * from dbo.gestionEncheresMesAchats where  acheteur = ? AND nom_article LIKE ?";
+                listeMesAchatsFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),acheteurID,"%"+recherche+"%");
+            }
+        } else {
+            if (choixCheckBoxAchats != null) {
+                for (String valeur : choixCheckBoxAchats) {
+                    if (valeur.equals("encheresOuvertes")) {
+                        // L'utilisateur a coché "encheresOuvertes"
+                        String sql = "select * from dbo.afficherVentesEnCours where no_categorie = ? AND nom_article LIKE ? and date_fin_encheres > getdate()";
+                        listeMesAchatsFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(), no_categorie,"%"+recherche+"%"));
+                    }
+                    if (valeur.equals("mesEncheres")) {
+                        // L'utilisateur a coché "mesEncheres"
+                        String sql = "SELECT * FROM gestionEncheresMesAchats WHERE acheteur = ? AND date_fin_encheres > getdate() AND nom_article LIKE ? AND no_categorie = ?";
+                        listeMesAchatsFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),acheteurID,"%"+recherche+"%", no_categorie));
+                    }
+                    if (valeur.equals("encheresRemportees")) {
+                        // L'utilisateur a coché "encheresRemportees"
+                        String sql = "SELECT * FROM gestionEncheresMesAchats WHERE acheteur = ? AND date_fin_encheres < getdate() AND nom_article LIKE ? AND no_categorie = ?";
+                        listeMesAchatsFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),acheteurID,"%"+recherche+"%", no_categorie));
+                    }
+                } }
+            else {
+                String sql = "select * from dbo.gestionEncheresMesVentes where  acheteur = ?  AND nom_article LIKE ? AND no_categorie = ?";
+                listeMesAchatsFiltrees = jdbcTemplate.query(sql, new ArticleVenduRowMapper(), acheteurID, "%" + recherche + "%", no_categorie);
+            }
+        }
+        return listeMesAchatsFiltrees;
     }
 
 
     @Override
-    public List<ArticleVenduDto> listeMesVentes(String vendeur,int no_categorie, String recherche, String [] choixCheckBoxVentes ) {
+    public List<ArticleVenduDto> listeMesVentes(String vendeur,int no_categorie, String recherche, String [] choixCheckBoxVentes) {
 
-        List<ArticleVenduDto> listeMesVentesFiltrees = null;
+        List<ArticleVenduDto> listeMesVentesFiltrees = new ArrayList<>();
 
         if (no_categorie == 1) {
             if (choixCheckBoxVentes != null) {
                 for (String valeur : choixCheckBoxVentes) {
                     if (valeur.equals("enCours")) {
                         // L'utilisateur a coché "Mes ventes en cours"
-                        String sql = "SELECT * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_debut_encheres <= getdate() AND date_fin_encheres >= getdate() AND nom_article LIKE ?";
-                        listeMesVentesFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%");
+                        String sql = "SELECT  * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_debut_encheres <= getdate() AND date_fin_encheres >= getdate() AND nom_article LIKE ?";
+                        listeMesVentesFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%"));
                     }
                     if (valeur.equals("nonDebutees")) {
                         // L'utilisateur a coché "Ventes non débutées"
                         String sql = "SELECT * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_debut_encheres > getdate() AND nom_article LIKE ?";
-                        listeMesVentesFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%");
+                        listeMesVentesFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%"));
                     }
                     if (valeur.equals("terminees")) {
                         // L'utilisateur a coché "Ventes terminées"
                         String sql = "SELECT * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_fin_encheres < getdate() AND nom_article LIKE ?";
-                        listeMesVentesFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%");
+                        listeMesVentesFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%"));
                 }
             } }else {
                 // Aucune case n'est cochée
@@ -118,19 +176,25 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
                 for (String valeur : choixCheckBoxVentes) {
                     if (valeur.equals("enCours")) {
                         // L'utilisateur a coché "Mes ventes en cours"
+                        String sql = "SELECT  * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_debut_encheres <= getdate() AND date_fin_encheres >= getdate() AND nom_article LIKE ? AND no_categorie = ?";
+                        listeMesVentesFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%", no_categorie));
                     }
                     if (valeur.equals("nonDebutees")) {
                         // L'utilisateur a coché "Ventes non débutées"
+                        String sql = "SELECT * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_debut_encheres > getdate() AND nom_article LIKE ? AND no_categorie = ?";
+                        listeMesVentesFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%", no_categorie));
                     }
-                    // ... etc
-                }
-            } else {
-                String sql = "select * from dbo.gestionEncheresMesVentes where  vendeur = ? AND no_categorie = ? AND nom_article LIKE ?";
-                listeMesVentesFiltrees = jdbcTemplate.query(sql, new ArticleVenduRowMapper(), vendeur, no_categorie, "%" + recherche + "%");
+                    if (valeur.equals("terminees")) {
+                        // L'utilisateur a coché "Ventes terminées"
+                        String sql = "SELECT * FROM gestionEncheresMesVentes WHERE vendeur = ? AND date_fin_encheres < getdate() AND nom_article LIKE ? AND no_categorie = ?";
+                        listeMesVentesFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),vendeur,"%"+recherche+"%", no_categorie));
+                    }
+            } }
+            else {
+                String sql = "select * from dbo.gestionEncheresMesVentes where  vendeur = ?  AND nom_article LIKE ? AND no_categorie = ?";
+                listeMesVentesFiltrees = jdbcTemplate.query(sql, new ArticleVenduRowMapper(), vendeur, "%" + recherche + "%", no_categorie);
             }
         }
-
-
 
         return listeMesVentesFiltrees;
     }
@@ -221,5 +285,15 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
     }
 
+    //test lena
 
+    @Override
+    public int countArticlesVendusParUtilisateur(int noUtilisateur) {
+
+        String sql = "select count(*) from ARTICLES_VENDUS WHERE no_utilisateur = ? ";
+
+        return jdbcTemplate.queryForObject(sql, Integer.class, noUtilisateur);
+
+
+    }
 }

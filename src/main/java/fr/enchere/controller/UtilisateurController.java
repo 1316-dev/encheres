@@ -1,9 +1,13 @@
 package fr.enchere.controller;
 
+import fr.enchere.bll.ArticleVenduService;
 import fr.enchere.bll.UtilisateurService;
 import fr.enchere.bo.Utilisateur;
 
+import fr.enchere.dto.ArticleVenduDto;
 import fr.enchere.dto.UtilisateurDto;
+import fr.enchere.exception.EmailDejaUtiliseException;
+import fr.enchere.exception.PseudoDejaUtiliseException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import org.springframework.beans.BeanUtils;
@@ -12,25 +16,25 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
 
 
 @Controller
 public class UtilisateurController {
 
 
+    private final ArticleVenduService articleVenduService;
     private PasswordEncoder passwordEncoder;
 
     private UtilisateurService utilisateurService;
 
-    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder) {
+    public UtilisateurController(UtilisateurService utilisateurService, PasswordEncoder passwordEncoder, ArticleVenduService articleVenduService) {
         this.utilisateurService = utilisateurService;
         this.passwordEncoder = passwordEncoder;
+        this.articleVenduService = articleVenduService;
     }
 
     @GetMapping({"/connexion"})
@@ -50,35 +54,41 @@ public class UtilisateurController {
 
 
     @PostMapping({"/inscription"})
-    public String creerUtilisateur(@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr) {
+    public String creerUtilisateur(@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr, @RequestParam("confirmation") String confirmation) {
+
+
+        // Vérification de la correspondance des mots de passe
+        if (!utilisateurDto.getMotDePasse().equals(confirmation)) {
+            resultat.rejectValue("motDePasse", "motdepasse.diff", "Les mots de passe ne correspondent pas");
+        }
 
         if (resultat.hasErrors()) {
             redirectAttr.addFlashAttribute("org.springframework.validation.BindingResult.utilisateurDto", resultat);
             redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
-            return "redirect:/view-list-encheres";
+            return "redirect:/inscription";
         }
-        Utilisateur utilisateur = new Utilisateur();
-        BeanUtils.copyProperties(utilisateurDto, utilisateur);
 
-        utilisateurService.creerUtilisateur(utilisateur);
-        return "redirect:/view-list-encheres?pseudo=" + utilisateur.getPseudo();
+        try {
+            Utilisateur utilisateur = new Utilisateur();
+            BeanUtils.copyProperties(utilisateurDto, utilisateur);
+
+            utilisateurService.creerUtilisateur(utilisateur);
+            // Si tout va bien, redirection vers la page des enchères
+            return "redirect:/view-list-encheres?pseudo=" + utilisateurDto.getPseudo();
+
+        } catch (EmailDejaUtiliseException e) {
+            resultat.rejectValue("email", "email.existe", "Cet Email est déjà utilisé");
+
+        } catch (PseudoDejaUtiliseException e) {
+            resultat.rejectValue("pseudo", "pseudo.existe", "Ce pseudo est déjà utilisé");
+        }
+        redirectAttr.addFlashAttribute(
+                "org.springframework.validation.BindingResult.utilisateurDto", resultat);
+        redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
+        return "redirect:/inscription";
     }
 
-    /*@GetMapping("/monProfil")
-    public String afficherProfil(@RequestParam(name = "pseudo") String identifiant, Model model) {
-        Utilisateur utilisateur = this.utilisateurService.findUserByUsername(identifiant);
-        UtilisateurDto utilisateurDto = new UtilisateurDto();
-        utilisateurDto.setPseudo(utilisateur.getPseudo());
-        utilisateurDto.setNom(utilisateur.getNom());
-        utilisateurDto.setPrenom(utilisateur.getPrenom());
-        utilisateurDto.setEmail(utilisateur.getEmail());
-        utilisateurDto.setTelephone(utilisateur.getTelephone());
-        utilisateurDto.setRue(utilisateur.getRue());
-        utilisateurDto.setCodePostal(utilisateur.getCodePostal());
-        utilisateurDto.setVille(utilisateur.getVille());
-        model.addAttribute("utilisateurDto", utilisateurDto);
-        return "/view-mon-profil";
-    }*/
+
     @GetMapping("/monProfil")
     public String monProfil(Authentication authentication, Model model) {
 
@@ -94,6 +104,7 @@ public class UtilisateurController {
         utilisateurDto.setRue(utilisateur.getRue());
         utilisateurDto.setCodePostal(utilisateur.getCodePostal());
         utilisateurDto.setVille(utilisateur.getVille());
+        utilisateurDto.setCredit(utilisateur.getCredit());
 
         model.addAttribute("utilisateurDto", utilisateurDto);
 
@@ -222,18 +233,14 @@ public class UtilisateurController {
         String pseudo = authentication.getName();
         Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
         System.out.println(utilisateur.getArticleVendu().size());
-        //test
-        if (utilisateur.getArticleVendu() != null && !utilisateur.getArticleVendu().isEmpty() ) {
 
+        if (articleVenduService.utilisateurADesVentes(utilisateur.getNoUtilisateur())) {
             redirectAttr.addFlashAttribute(
                     "supError",
                     "Ventes en cours suppression impossible"
             );
             return "redirect:/encheres";
         }
-
-        //fin test
-
 
         utilisateurService.supprimerUtilisateur(utilisateur.getNoUtilisateur());
 
@@ -243,5 +250,22 @@ public class UtilisateurController {
         return "redirect:/encheres";
 
 
+    }
+
+    @GetMapping("/profilVendeur/{pseudo}")
+    public String profilVendeur(@PathVariable String pseudo, Model model) {
+
+        Utilisateur utilisateur =
+                utilisateurService.findUserByUsername(pseudo);
+        System.out.println(utilisateur);
+        UtilisateurDto utilisateurDto = new UtilisateurDto();
+        utilisateurDto.setPseudo(utilisateur.getPseudo());
+        utilisateurDto.setVille(utilisateur.getVille());
+        model.addAttribute("utilisateurDto", utilisateurDto);
+
+        List<ArticleVenduDto> listeArticleVendeur = articleVenduService.listeArticleVenduByVendeur(pseudo);
+        model.addAttribute("listeArticleVendeur", listeArticleVendeur);
+
+        return "view-profil-vendeur";
     }
 }
