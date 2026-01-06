@@ -22,6 +22,8 @@ public interface ArticleVenduService {
     void creerArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur);
 
     List<ArticleVenduDto> listeArticleVenduByVendeur(String pseudoVendeur);
+    void cloturerVente(ArticleVendu articleVendu);
+    boolean articleEstVendu(int id);
 
     //TEST LENA
     boolean utilisateurADesVentes(int noUtilisateur);

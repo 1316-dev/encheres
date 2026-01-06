@@ -55,9 +55,9 @@ public class EnchereServiceImpl implements EnchereService {
         //Transaction à mettre en place
         //Gestion métier
         //Vérifier l'état de vente de l'article (si false, enchère impossible)
-        if(!article.isEtatVente()){
+        if(article.isEtatVente()){
             System.out.println("Vente cloturée");
-           // throw new EnchereTermineeException();
+           throw new EnchereTermineeException();
         }
 
         //Un utilisateur ne peut enchérir sur un article créée par lui

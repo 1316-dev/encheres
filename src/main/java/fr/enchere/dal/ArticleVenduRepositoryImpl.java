@@ -237,12 +237,34 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
     }
 
     @Override
+    public boolean existsByIdAndEtatVenteTrue(int id) {
+
+        String sql = "SELECT CASE WHEN EXISTS (SELECT 1 FROM Articles_Vendus WHERE no_article = ? AND etat_vente = 1) THEN 1 ELSE 0 END";
+        Integer result = jdbcTemplate.queryForObject(sql, new Object[]{id}, Integer.class);
+
+        return result != null && result == 1;
+    }
+
+    @Override
     public void updatePrixVente(int idArticle, int prix){
-        String  sql = "UPDATE Articles_Vendus SET prix_vente = ? WHERE no_article = ?";
+        String  sql = "UPDATE Articles_Vendus SET etat_vente = ? WHERE no_article = ?";
 
         PreparedStatementSetter pss = new PreparedStatementSetter() {
             @Override public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setInt(1, prix);
+                ps.setInt(2, idArticle);
+            }
+        };
+
+        jdbcTemplate.update(sql, pss);
+    }
+
+    @Override
+    public void updateEtatVente(int idArticle, boolean etatVente) {
+        String sql = "UPDATE Articles_Vendus SET prix_vente = ? WHERE no_article = ?";
+        PreparedStatementSetter pss = new PreparedStatementSetter() {
+            @Override public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setInt(1, etatVente ? 1 : 0);
                 ps.setInt(2, idArticle);
             }
         };

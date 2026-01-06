@@ -50,8 +50,18 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
     }
 
 
+    @Override
+    public void cloturerVente(ArticleVendu articleVendu) {
+        if (articleVendu.isEtatVente()) return;
+        //récupérer enchereGagnante
+        //modifier etatVente à true
+        articleVenduRepository.updateEtatVente(articleVendu.getNoArticle(), true);
+    }
 
-
+    @Override
+    public boolean articleEstVendu(int id) {
+        return articleVenduRepository.existsByIdAndEtatVenteTrue(id);
+    }
 
     @Override
     public List<ArticleVenduDto> GestionMesVentes(String choixRadio, String[] choixCheckBoxVentes, String [] choixCheckBoxAchats, String vendeur, int no_categorie, String recherche, int acheteurID) {
