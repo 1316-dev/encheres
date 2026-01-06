@@ -6,6 +6,9 @@ import fr.enchere.bo.Utilisateur;
 import fr.enchere.dal.ArticleVenduRepository;
 import fr.enchere.dal.EnchereRepository;
 import fr.enchere.dal.UtilisateurRepository;
+import fr.enchere.exception.CreditsInsuffisantsException;
+import fr.enchere.exception.EnchereTermineeException;
+import fr.enchere.exception.EnchereTropBasseException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -54,6 +57,7 @@ public class EnchereServiceImpl implements EnchereService {
         //Vérifier l'état de vente de l'article (si false, enchère impossible)
         if(!article.isEtatVente()){
             System.out.println("Vente cloturée");
+           // throw new EnchereTermineeException();
         }
 
         //Un utilisateur ne peut enchérir sur un article créée par lui
@@ -65,6 +69,7 @@ public class EnchereServiceImpl implements EnchereService {
         if(currentBid > creditAcheteur) {
             //Crédits insuffisants !
             System.out.println("Crédits insuffisants");
+            throw new CreditsInsuffisantsException();
         }
 
         //Récupérer le dernier montant d'enchere sur l'article
@@ -72,8 +77,8 @@ public class EnchereServiceImpl implements EnchereService {
 
         //Vérifier le montant de l'enchere VS la dernière enchère
         if(currentBid <= lastPrice) {
-            //Pas assez !
             System.out.println("Le montant de l'enchère doit dépasser le précédent prix");
+            throw new EnchereTropBasseException();
         }
 
         //SI TOUT OK
@@ -81,6 +86,7 @@ public class EnchereServiceImpl implements EnchereService {
         articleVenduRepository.updatePrixVente(article.getNoArticle(), currentBid);
 
         //Vérification si une enchère précédente existe
+        //Optional à faire ?
         if(!enchereRepository.findByProduitId(article.getNoArticle()).isEmpty())
         {
             Enchere previousEnchere = enchereRepository.findBestEnchere(article.getNoArticle());
