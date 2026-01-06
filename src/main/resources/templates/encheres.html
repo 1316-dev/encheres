@@ -11,7 +11,12 @@
 
 <header th:replace="~{fragments/entete :: frag-entete}">
 </header>
-<main class="container mt-5">
+<div class="text-center">
+    <div th:if="${param.logout}" class="text-success">
+        Vous avez été déconnecté avec succès.
+    </div>
+</div>
+<main class="container">
 
 <div class="border rounded p-4 shadow">
     <h1 class="mt-4 m-3 text-center text-warning">Liste des enchères</h1>

@@ -19,4 +19,9 @@ public class RetraitServiceImpl implements RetraitService{
     public List<Retrait> findRetraitByNoUtilisateur(int no_utilisateur) {
         return retraitRepository.findRetraitByNoUtilisateur(no_utilisateur);
     }
+
+    @Override
+    public List<Retrait> findRetraitByNoArticle(int no_article) {
+        return retraitRepository.findRetraitByNoArticle(no_article);
+    }
 }

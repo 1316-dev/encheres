@@ -56,8 +56,8 @@
                 <div class="row mb-3">
                     <div class="col-6 text-end fw-bold">Retrait :</div>
                     <div class="col-6 text-start">
-                        <span th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getRue()}"></span>,
-                        <span th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getCodePostal() + ', ' + @utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getVille()}"></span>
+                        <span th:each="lieuRetrait : ${@retraitServiceImpl.findRetraitByNoArticle(articleId)}"
+                              th:text="${lieuRetrait.rue + ' ' + lieuRetrait.cp + ' ' + lieuRetrait.ville }"></span>
                     </div>
                 </div>
 

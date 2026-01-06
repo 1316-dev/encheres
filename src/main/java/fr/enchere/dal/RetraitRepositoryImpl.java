@@ -44,4 +44,13 @@ public class RetraitRepositoryImpl implements RetraitRepository{
         return retraits;
 
     }
+
+    @Override
+    public List<Retrait> findRetraitByNoArticle(int no_article) {
+        String sql = "select DISTINCT rue, code_postal, ville from retraits where no_article = ?";
+        List<Retrait> retraits = jdbcTemplate.query(sql,new RetraitRepositoryImpl.RetraitRowMapper(),no_article);
+
+        return retraits;
+
+    }
 }

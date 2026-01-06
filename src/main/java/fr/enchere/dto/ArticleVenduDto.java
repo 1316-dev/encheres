@@ -11,7 +11,7 @@ import java.util.Objects;
 public class ArticleVenduDto {
 
         private int noArticle;
-        @Pattern(regexp = "^[a-zA-Z0-9 ]+$", message = "Le titre ne doit pas contenir de caractères spéciaux.")
+        @Pattern(regexp = "^[a-zA-Z0-9 \\u00C0-\\u00FF]+$", message = "Le titre ne doit pas contenir de caractères spéciaux.")
         @Size(min = 5, max = 30, message = "Le titre doit faire entre 5 et 30 caractères.")
         @NotBlank
         private String nomArticle;
