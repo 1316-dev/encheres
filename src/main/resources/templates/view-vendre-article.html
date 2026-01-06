@@ -27,7 +27,8 @@
                         <label for="nomArticle" class="form-label text-center w-100">Nom de l'article</label>
                         <input type="text" id="nomArticle"
                                class="form-control w-75 mx-auto text-center"
-                               pattern="^[a-zA-Z0-9 ]+$"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF]+$"
+                               title="Lettres, chiffres et accents uniquement"
                                required
                                data-th-errorclass="is-invalid"
                                th:field="*{nomArticle}">
