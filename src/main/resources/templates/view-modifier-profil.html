@@ -18,12 +18,10 @@
     <div class="row justify-content-center">
         <div class="col-lg-8">
 
-            <!-- FORMULAIRE-->
             <form th:object="${utilisateurDto}"
                   method="post"
                   class="border rounded p-4 shadow">
 
-                <!-- Ajout pour suppression-->
                 <input type="hidden"
                        th:name="${_csrf.parameterName}"
                        th:value="${_csrf.token}">
@@ -32,7 +30,6 @@
 
                 <div class="row">
 
-                    <!-- Pseudo -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">Pseudo</label>
                         <input type="text"
@@ -43,7 +40,6 @@
                              th:errors="*{pseudo}"></div>
                     </div>
 
-                    <!-- Nom -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">Nom</label>
                         <input type="text"
@@ -53,7 +49,6 @@
                              th:errors="*{nom}"></div>
                     </div>
 
-                    <!-- Prénom -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">Prénom</label>
                         <input type="text"
@@ -63,7 +58,6 @@
                              th:errors="*{prenom}"></div>
                     </div>
 
-                    <!-- Email -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">Email</label>
                         <input type="email"
@@ -74,7 +68,6 @@
                              th:errors="*{email}"></div>
                     </div>
 
-                    <!-- Téléphone -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">Téléphone</label>
                         <input type="tel"
@@ -84,7 +77,6 @@
                              th:errors="*{telephone}"></div>
                     </div>
 
-                    <!-- Rue -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">Rue</label>
                         <input type="text"
@@ -94,7 +86,6 @@
                              th:errors="*{rue}"></div>
                     </div>
 
-                    <!-- Code postal -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">Code postal</label>
                         <input type="text"
@@ -104,7 +95,6 @@
                              th:errors="*{codePostal}"></div>
                     </div>
 
-                    <!-- Ville -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">Ville</label>
                         <input type="text"
@@ -114,7 +104,6 @@
                              th:errors="*{ville}"></div>
                     </div>
 
-                    <!-- Mot de passe actuel -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">
                             Mot de passe actuel
@@ -126,7 +115,6 @@
                              th:errors="*{mdpActuel}"></div>
                     </div>
 
-                    <!-- Nouveau mot de passe -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">
                             Nouveau mot de passe
@@ -138,7 +126,6 @@
                              th:errors="*{mdpNouveau}"></div>
                     </div>
 
-                    <!-- Confirmation -->
                     <div class="col-md-6 mb-3">
                         <label class="form-label text-center w-100">
                             Confirmation mot de passe
@@ -152,7 +139,6 @@
 
                 </div>
 
-                <!-- Messages globaux -->
                 <div th:if="${success}"
                      class="alert alert-success text-center"
                      th:text="${success}"></div>
@@ -161,7 +147,6 @@
                      class="alert alert-danger text-center"
                      th:text="${error}"></div>
 
-                <!-- Boutons -->
                 <div class="row mt-4">
                     <div class="col-md-4 text-center">
                         <button type="submit"

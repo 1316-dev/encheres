@@ -2,93 +2,86 @@
 <html lang="fr" xmlns:th="http://www.thymeleaf.org" data-bs-theme="dark">
 <head>
     <meta charset="UTF-8">
-    <title>Enchères - Mon Profil</title>
+    <title>Mon Profil - Enchères</title>
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
 </head>
 
 <body>
 
-<header data-th-replace="~{fragments/entete :: frag-entete }"></header>
-
+<header th:replace="~{fragments/entete :: frag-entete}"></header>
 
 <main class="container mt-5">
-
-    <div class="row row justify-content-center">
+    <div class="row justify-content-center">
         <div class="col-lg-8">
 
             <div class="border rounded p-4 shadow">
 
                 <h1 class="text-center mb-4">Mon profil</h1>
 
+                <div class="row">
 
-                <div class="col-md-6">
-
-                    <div class="row mb-3">
-                        <div class="col-4 text-end fw-bold">Pseudo :</div>
-                        <div class="col-8 text-start" th:text="${utilisateurDto.pseudo}"></div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-center w-100 fw-bold">Pseudo</label>
+                        <div class="form-control w-75 mx-auto" th:text="${utilisateurDto.pseudo}" readonly></div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-4 text-end fw-bold">Nom :</div>
-                        <div class="col-8 text-start" th:text="${utilisateurDto.nom}"></div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-center w-100 fw-bold">Nom</label>
+                        <div class="form-control w-75 mx-auto" th:text="${utilisateurDto.nom}" readonly></div>
                     </div>
 
-
-                    <div class="row mb-3">
-                        <div class="col-4 text-end fw-bold">Prénom :</div>
-                        <div class="col-8 text-start" th:text="${utilisateurDto.prenom}"></div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-center w-100 fw-bold">Prénom</label>
+                        <div class="form-control w-75 mx-auto" th:text="${utilisateurDto.prenom}" readonly></div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-4 text-end fw-bold">Email :</div>
-                        <div class="col-8 text-start" th:text="${utilisateurDto.email}"></div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-center w-100 fw-bold">Email</label>
+                        <div class="form-control w-75 mx-auto" th:text="${utilisateurDto.email}" readonly></div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-4 text-end fw-bold">Téléphone :</div>
-                        <div class="col-8 text-start" th:text="${utilisateurDto.telephone}"></div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-center w-100 fw-bold">Téléphone</label>
+                        <div class="form-control w-75 mx-auto" th:text="${utilisateurDto.telephone}" readonly></div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-4 text-end fw-bold">Rue :</div>
-                        <div class="col-8 text-start" th:text="${utilisateurDto.rue}"></div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-center w-100 fw-bold">Rue</label>
+                        <div class="form-control w-75 mx-auto" th:text="${utilisateurDto.rue}" readonly></div>
                     </div>
 
-
-                    <div class="row mb-3">
-                        <div class="col-4 text-end fw-bold">Code postal :</div>
-                        <div class="col-8 text-start" th:text="${utilisateurDto.codePostal}"></div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-center w-100 fw-bold">Code postal</label>
+                        <div class="form-control w-75 mx-auto" th:text="${utilisateurDto.codePostal}" readonly></div>
                     </div>
 
-
-                    <div class="row mb-3">
-                        <div class="col-4 text-end fw-bold">Ville :</div>
-                        <div class="col-8 text-start" th:text="${utilisateurDto.ville}"></div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-center w-100 fw-bold">Ville</label>
+                        <div class="form-control w-75 mx-auto" th:text="${utilisateurDto.ville}" readonly></div>
                     </div>
 
-                    <div class="row mb-3">
-                        <div class="col-4 text-end fw-bold">Crédit :</div>
-                        <div class="col-8 text-start" th:text="${utilisateurDto.credit}"></div>
+                    <div class="col-md-6 mb-3">
+                        <label class="form-label text-center w-100 fw-bold">Crédit</label>
+                        <div class="form-control w-75 mx-auto" th:text="${utilisateurDto.credit}" readonly></div>
                     </div>
+
                 </div>
+
                 <div class="text-center mt-4">
-                    <a th:href="@{/modifier(pseudo=${#authentication.name})}" class="btn btn-outline-light px-4">
-                        Modifier
+                    <a th:href="@{/modifier(pseudo=${#authentication.name})}" class="btn btn-secondary px-4">
+                        Modifier mon profil
                     </a>
                 </div>
-                <div th:if="${success}" class="alert alert-success text-center mt-4">
-                    <h2 th:text="${success}"></h2>
-                </div>
-                <div th:if="${error}" class="alert alert-error text-center mt-4">
-                    <h2 th:text="${error}"></h2>
-                </div>
+
+                <div th:if="${success}" class="alert alert-success text-center mt-4" th:text="${success}"></div>
+                <div th:if="${error}" class="alert alert-danger text-center mt-4" th:text="${error}"></div>
+
             </div>
 
         </div>
-
     </div>
-
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
