@@ -7,6 +7,11 @@
 </head>
 <body>
 <header data-th-replace="~{fragments/entete :: frag-entete }"></header>
+<div class="text-center">
+    <div th:if="${param.expired}" class="text-warning">
+        Votre session a expiré pour cause d'inactivité. Veuillez vous reconnecter.
+    </div>
+</div>
 <main class="container mt-5 ">
     <div class="row justify-content-center">
         <div class="col-lg-8 text-center">
@@ -23,7 +28,7 @@
 
 
             <div class="text-center m-1">
-                <input type="checkbox" id="cbSouvenir" name="remember"/>
+                <input type="checkbox" id="cbSouvenir" name="remember-me"/>
                 <label for="cbSouvenir" class="m-2">Se souvenir de moi</label>
                 <a href="" class="m-2">Mot de passe oublié</a>
             </div>
