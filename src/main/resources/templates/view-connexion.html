@@ -9,7 +9,7 @@
 
 <header data-th-replace="~{fragments/entete :: frag-entete }"></header>
 <div class="text-center">
-    <div th:if="${param.expired}" class="text-warning">
+    <div th:if="${param.expired}" class="alert alert-warning">
         Votre session a expiré pour cause d'inactivité. Veuillez vous reconnecter.
     </div>
 </div>
