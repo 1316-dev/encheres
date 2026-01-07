@@ -3,6 +3,7 @@ package fr.enchere.dal;
 import fr.enchere.bo.Utilisateur;
 import fr.enchere.exception.UtilisateurNotFound;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.PreparedStatementSetter;
@@ -33,12 +34,18 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         this.namedParameterJdbcTemplate = namedParameterJdbcTemplate;
     }
 
-    public Utilisateur findUserById(int id) {
+    public Utilisateur findUserById(int noUtlisateur) {
 
         String sql = "select no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur from utilisateurs where no_utilisateur = ?";
-        Utilisateur user = jdbcTemplate.queryForObject(sql, new UtilisateurRepositoryImpl.UserRowMapper(), id);
-        return user;
+
+        try {
+            return jdbcTemplate.queryForObject(sql, new UserRowMapper(), noUtlisateur);
+        } catch ( EmptyResultDataAccessException e) {
+            throw new UtilisateurNotFound("Utilisateur avec l'id " + noUtlisateur + " introuvable");
+        }
+
     }
+
 
     @Override
     public Utilisateur findUserByUsername(String pseudo) {
@@ -57,7 +64,7 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
         String sql = "select no_utilisateur, pseudo, nom, prenom, email, telephone, rue, code_postal, ville, mot_de_passe, credit, administrateur from utilisateurs where pseudo = ? OR email = ?";
         Utilisateur user = null;
         try {
-            user = jdbcTemplate.queryForObject(sql, new UtilisateurRepositoryImpl.UserRowMapper(), pseudo, pseudo);
+            user = jdbcTemplate.queryForObject(sql, new UtilisateurRepositoryImpl.UserRowMapper(), pseudo, mail);
         } catch (EmptyResultDataAccessException ex) {
             throw new UtilisateurNotFound("Utilisateur non trouvé");
         }
@@ -181,6 +188,8 @@ public class UtilisateurRepositoryImpl implements UtilisateurRepository {
 
         return count != null && count > 0;
     }
+
+
 }
 
 
