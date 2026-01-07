@@ -27,7 +27,6 @@ public class AccueilController {
         }
         List <ArticleVenduDto> listeArticleVendu = articleVenduService.AfficherListeArticleVendu();
         model.addAttribute("listeArticleVendu", listeArticleVendu);
-
         return "encheres";
     }
 

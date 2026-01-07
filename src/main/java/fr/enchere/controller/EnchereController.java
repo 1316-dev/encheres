@@ -76,11 +76,18 @@ public class EnchereController {
     public String creerArticle(@Valid @ModelAttribute("articleVenduDto") ArticleVenduDto articleVenduDto,
                                BindingResult resultat, // Suit l'article
                                //@Valid @ModelAttribute("retraitDto")
-                               RetraitDto retraitDto,
+                               @ModelAttribute("retraitDto") RetraitDto retraitDto,
                                //BindingResult resultatRetrait, // Suit le retrait
                                Model model,
                                Principal principal) {
-        //todo valid sur retraitDto
+
+        if (articleVenduDto.getDateDebutEnchere() != null && articleVenduDto.getDateFinEnchere() != null) {
+            if (articleVenduDto.getDateFinEnchere().isBefore(articleVenduDto.getDateDebutEnchere())) {
+                resultat.rejectValue("dateFinEnchere", "error.dateFinEnchere",
+                        "La date de fin doit être après la date de début.");
+            }
+        }
+
         if (resultat.hasErrors() /*|| resultatRetrait.hasErrors()*/) {
 
             Utilisateur utilisateur = utilisateurService.findUserByUsername(principal.getName());

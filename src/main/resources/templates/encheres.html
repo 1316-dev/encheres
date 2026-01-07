@@ -67,23 +67,28 @@
 
                             <h3 class="card-title mb-2" th:text="${article.nomArticle}"></h3>
 
-                            <p class="card-text mb-1">
-                                Mise à prix : <span th:text="${article.miseAPrix}"></span> crédit
+                            <p class="card-text mb-1 text-white">
+                                Mise à prix : <span th:text="${article.miseAPrix + ' ' + 'crédits'}" class="card-text mb-1 ms-2 text-warning"></span>
                             </p>
 
-                            <p class="card-text mb-1">
-                                Fin de l'enchère le
-                                <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
-                                à
-                                <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
+
+                            <p class="card-text mb-1 text-white">
+                                Fin de l'enchère : <br>
+
+                                <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy') + ' - ' + #temporals.format(article.dateFinEnchere, 'HH:mm')}" class="card-text mb-1 text-warning"></span>
+
                             </p>
 
-                            <p class="card-text mb-2">
+                            <p class="card-text mb-2 text-white">
                                 Vendeur :
-                                <span th:text="${article.vendeur}" sec:authorize="isAnonymous()"></span>
+                                <span th:text="${' ' + article.vendeur}"
+                                      sec:authorize="isAnonymous()"
+                                      class="card-text mb-1 ms-2 text-warning">
+
+                                </span>
                                 <a th:href="@{/profilVendeur/{pseudo}(pseudo=${article.vendeur})}"
                                    th:text="${article.vendeur}"
-                                   class="link-offset-2 link-underline link-underline-opacity-75"
+                                   class="text-warning mb-1 ms-2 link-underline-warning link-underline-opacity-75"
                                    sec:authorize="isAuthenticated()"></a>
                             </p>
 

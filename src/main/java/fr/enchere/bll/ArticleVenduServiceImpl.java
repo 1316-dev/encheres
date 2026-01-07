@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,7 +35,11 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 
     @Override
     public List<ArticleVenduDto> AfficherListeArticleVendu() {
-        return articleVenduRepository.listeArticleVendu();
+
+        List<ArticleVenduDto> articlesTries = articleVenduRepository.listeArticleVendu().stream()
+                .sorted(Comparator.comparing(ArticleVenduDto::getDateDebutEnchere))
+                .toList();
+        return articlesTries;
     }
 
     @Override

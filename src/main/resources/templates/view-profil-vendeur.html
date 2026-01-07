@@ -43,23 +43,28 @@
 
 
                 <div class="row justify-content-center">
-                    <div class="card col-3 m-3" style="width: 18rem;" th:each="article : ${listeArticleVendeur}">
-                        <!--<img src="..." class="card-img-top" alt="...">-->
+                    <div class="card m-3" style="width: 18rem;" th:each="article : ${listeArticleVendeur}">
                         <div class="card-body text-center">
-                            <h3 class="card-title" th:text="${article.nomArticle}"></h3>
-                            <p class="card-text">
-                                Mise à prix : <span th:text="${article.miseAPrix}"></span> crédit
+
+                            <h3 class="card-title mb-2" th:text="${article.nomArticle}"></h3>
+
+                            <p class="card-text mb-1 text-white">
+                                Mise à prix : <span th:text="${article.miseAPrix + ' ' + 'crédits'}" class="card-text mb-1 ms-2 text-warning"></span>
                             </p>
 
-                            <p class="card-text">
-                                Fin de l'enchère le
-                                <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
-                                à
-                                <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
+
+                            <p class="card-text mb-1 text-white">
+                                Fin de l'enchère : <br>
+
+                                <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy') + ' - ' + #temporals.format(article.dateFinEnchere, 'HH:mm')}" class="card-text mb-1 text-warning"></span>
+
                             </p>
 
-                            <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary"
+
+                            <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}"
+                               class="btn btn-primary"
                                sec:authorize="isAuthenticated()">Détail Vente</a>
+
                         </div>
                     </div>
                 </div>

@@ -72,9 +72,11 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="dateDebutEnchere" class="form-label text-center w-100">Début de l'enchère</label>
-                        <input type="datetime-local" id="dateDebutEnchere"
+                        <input type="datetime-local"
+                               id="dateDebutEnchere"
+                               name="dateDebutEnchere"
                                class="form-control w-75 mx-auto text-center"
-                               th:field="*{dateDebutEnchere}"
+                               th:value="${articleVenduDto.dateDebutEnchere}"
                                 required>
                         <div style="color: red;"
                              class="text-center"
@@ -85,9 +87,11 @@
 
                     <div class="col-md-6 mb-3">
                         <label for="dateFinEnchere" class="form-label text-center w-100">Fin de l'enchère</label>
-                        <input type="datetime-local" id="dateFinEnchere"
+                        <input type="datetime-local"
+                               id="dateFinEnchere"
                                class="form-control w-75 mx-auto text-center"
-                               th:field="*{dateFinEnchere}"
+                               name="dateFinEnchere"
+                               th:value="${articleVenduDto.dateFinEnchere}"
                                required>
                         <div style="color: red;"
                              class="text-center"

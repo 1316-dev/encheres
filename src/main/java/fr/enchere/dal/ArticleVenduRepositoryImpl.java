@@ -43,6 +43,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
             articleVenduDto.setNoArticle(rs.getInt("no_article"));
             articleVenduDto.setNomArticle(rs.getString("nom_article"));
             articleVenduDto.setMiseAPrix(rs.getInt("prix_initial"));
+            articleVenduDto.setDateDebutEnchere(rs.getTimestamp("date_debut_encheres").toLocalDateTime());
             articleVenduDto.setDateFinEnchere(rs.getTimestamp("date_fin_encheres").toLocalDateTime());
             articleVenduDto.setVendeur(rs.getString("vendeur"));
             articleVenduDto.setNoCategorie(rs.getInt("no_categorie"));
