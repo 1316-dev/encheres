@@ -30,6 +30,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 public class EnchereController {
@@ -123,6 +124,16 @@ public class EnchereController {
         Retrait retrait = retraitService.findRetraitByNoArticle(articleId);
         model.addAttribute("article", article);
         model.addAttribute("retrait", retrait);
+
+        Optional<Utilisateur> bestBidderOpt = enchereService.findBestBidder(articleId);
+
+        bestBidderOpt.ifPresent(utilisateur ->
+                model.addAttribute("bestBidder", utilisateur)
+        );
+
+        //Gestion de la clotûre
+        articleVenduService.cloturerSiDateEchue(article);
+
         return "view-details-vente";
     }
 

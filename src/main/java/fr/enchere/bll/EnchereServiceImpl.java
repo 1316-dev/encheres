@@ -11,6 +11,8 @@ import fr.enchere.exception.EnchereTermineeException;
 import fr.enchere.exception.EnchereTropBasseException;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class EnchereServiceImpl implements EnchereService {
 
@@ -29,17 +31,15 @@ public class EnchereServiceImpl implements EnchereService {
     }
 
     @Override
-    public Enchere findBestEnchere(int id) {
-        System.out.println("findBestEnchere " + enchereRepository.findBestEnchere(id).getUtilisateur().getNoUtilisateur());
+    public Optional<Enchere> findBestEnchere(int id) {
         return enchereRepository.findBestEnchere(id);
     }
 
-    @Override
-    public String findBestBidder(int id) {
-        Utilisateur bidderNb = enchereRepository.findBestEnchere(id).getUtilisateur();
-        Utilisateur bidder = utilisateurRepository.findUserById(bidderNb.getNoUtilisateur());
-        return bidder.getPseudo();
+    public Optional<Utilisateur> findBestBidder(int id) {
+        return enchereRepository.findBestEnchere(id)
+                .map(Enchere::getUtilisateur);
     }
+
 
     @Override
     public void creerEnchere(Enchere currentEnchere) {
@@ -49,15 +49,14 @@ public class EnchereServiceImpl implements EnchereService {
 
         //récupérer utilisateur ayant fait l'enchere la plus haute
         Utilisateur vendeur = article.getUtilisateur();
-        Utilisateur previousBidder;
 
 
         //Transaction à mettre en place
         //Gestion métier
         //Vérifier l'état de vente de l'article (si false, enchère impossible)
-        if(!article.isEtatVente()){
+        if(article.isEtatVente()){
             System.out.println("Vente cloturée");
-           // throw new EnchereTermineeException();
+           throw new EnchereTermineeException();
         }
 
         //Un utilisateur ne peut enchérir sur un article créée par lui
@@ -86,14 +85,15 @@ public class EnchereServiceImpl implements EnchereService {
         articleVenduRepository.updatePrixVente(article.getNoArticle(), currentBid);
 
         //Vérification si une enchère précédente existe
-        //Optional à faire ?
-        if(!enchereRepository.findByProduitId(article.getNoArticle()).isEmpty())
-        {
-            Enchere previousEnchere = enchereRepository.findBestEnchere(article.getNoArticle());
-            previousBidder = utilisateurRepository.findUserById(previousEnchere.getUtilisateur().getNoUtilisateur());
+        Optional<Enchere> meilleureEnchereOpt = enchereRepository.findBestEnchere(article.getNoArticle());
+        if (meilleureEnchereOpt.isPresent()) {
+            Enchere ancienneEnchere = meilleureEnchereOpt.get();
+            Utilisateur ancienUtilisateur = utilisateurRepository.findUserById(ancienneEnchere.getUtilisateur().getNoUtilisateur());
             //MaJ des crédits ancien acheteur
-            utilisateurRepository.updateCredits(previousBidder.getNoUtilisateur(), previousBidder.getCredit() + lastPrice);
+            utilisateurRepository.updateCredits(ancienUtilisateur.getNoUtilisateur(), ancienUtilisateur.getCredit() + lastPrice);
+
         }
+
         //MaJ des credits acheteur
         utilisateurRepository.updateCredits(currentBidder.getNoUtilisateur(), currentBidder.getCredit() - currentBid);
 
