@@ -64,13 +64,7 @@ VALUES
     (3, 'Vélo', 'Vélo de course',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 3, 5, 0),
-
-
-    (4, 'Moto', 'Moto de course',
-     DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
-     DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 1, 5, 1)
+     500, NULL, 3, 5, 0)
 
 SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 
@@ -80,8 +74,7 @@ INSERT INTO RETRAITS (no_article, rue, code_postal, ville, no_utilisateur)
 VALUES
     (1, '10 rue Victor Hugo', '75001', 'Paris',1),
     (2, '5 avenue de France', '69000', 'Lyon',2),
-    (3, '10 rue Victor Hugo', '75001', 'Paris',3),
-    (4, '10 rue Victor Hugo', '75001', 'Paris',1);
+    (3, '10 rue Victor Hugo', '75001', 'Paris',3);
 
 /* Revoir si besoin DATE ET HEURE*/
 /* ENCHERES */
@@ -95,7 +88,6 @@ INSERT INTO ENCHERES
 VALUES
     (1, DATEADD(day, 1, GETDATE()), 520, 1, 2),
     (2, DATEADD(day, 1, GETDATE()), 550, 1, 3),
-    (3, DATEADD(day, 1, GETDATE()), 220, 2, 1),
-    (4, DATEADD(day, 1, GETDATE()), 350, 3, 2);
+    (3, DATEADD(day, 1, GETDATE()), 220, 2, 1);
 
 SET IDENTITY_INSERT ENCHERES OFF;

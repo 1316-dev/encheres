@@ -85,6 +85,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
         Optional<Enchere> meilleureEnchereOpt = enchereRepositoryImpl.findBestEnchere(articleVendu.getNoArticle());
         if (meilleureEnchereOpt.isPresent()) {
             articleVenduRepository.setGagnant(articleVendu.getNoArticle(), meilleureEnchereOpt.get().getUtilisateur().getNoUtilisateur());
+
         }
 
 
