@@ -8,5 +8,5 @@ public interface RetraitRepository {
 
     List<Retrait> findRetraitByNoUtilisateur(int no_utilisateur);
 
-    List<Retrait> findRetraitByNoArticle(int no_article);
+    Retrait findRetraitByNoArticle(int no_article);
 }

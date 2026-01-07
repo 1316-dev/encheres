@@ -56,9 +56,11 @@
                 <div class="row mb-3">
                     <div class="col-6 text-end fw-bold">Retrait :</div>
                     <div class="col-6 text-start">
-                        <span th:each="lieuRetrait : ${@retraitServiceImpl.findRetraitByNoArticle(articleId)}"
-                              th:text="${lieuRetrait.rue + ' ' + lieuRetrait.cp + ' ' + lieuRetrait.ville }"></span>
-                    </div>
+                        <span th:if="${retrait != null}">
+                        <span th:text="${retrait.rue}"></span><br/>
+                        <span th:text="${retrait.cp + ' ' + retrait.ville}"></span>
+                        </span>
+                        <span th:if="${retrait == null}">Aucune adresse de retrait spécifiée</span>
                 </div>
 
                 <div class="row mt-4">
@@ -101,6 +103,7 @@
             </div>
 
         </div>
+    </div>
     </div>
 </main>
 
