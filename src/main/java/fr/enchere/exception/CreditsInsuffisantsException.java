@@ -1,7 +1,15 @@
 package fr.enchere.exception;
 
 public class CreditsInsuffisantsException extends MetierException {
-    public CreditsInsuffisantsException() {
-        super("Crédits insuffisants pour placer l'enchère");
+    private final int noArticle;
+
+    // Constructeur avec noArticle et message
+    public CreditsInsuffisantsException(int noArticle, String message) {
+        super(message);
+        this.noArticle= noArticle;
+    }
+
+    public int getArticleId() {
+        return noArticle;
     }
 }

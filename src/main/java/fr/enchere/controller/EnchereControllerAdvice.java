@@ -1,5 +1,6 @@
 package fr.enchere.controller;
 
+import ch.qos.logback.core.model.Model;
 import fr.enchere.exception.CreditsInsuffisantsException;
 import fr.enchere.exception.EnchereTermineeException;
 import fr.enchere.exception.EnchereTropBasseException;
@@ -10,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 @ControllerAdvice
 public class EnchereControllerAdvice {
@@ -40,11 +42,18 @@ public class EnchereControllerAdvice {
                 .body("Le montant proposé est trop bas");
     }
 
-    @ExceptionHandler(CreditsInsuffisantsException.class)
-    public ResponseEntity<String> handleCreditsInsuffisants(CreditsInsuffisantsException ex) {
+   /* @ExceptionHandler(CreditsInsuffisantsException.class)
+   public ResponseEntity<String> handleCreditsInsuffisants(CreditsInsuffisantsException ex) {
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
                 .body("Crédits insuffisants");
-    }
-
+    }*/
+   @ExceptionHandler(CreditsInsuffisantsException.class)
+   public String handleCreditsInsuffisants(
+           CreditsInsuffisantsException ex,
+           RedirectAttributes redirectAttributes
+   ) {
+       redirectAttributes.addFlashAttribute("errorMessage", ex.getMessage());
+       return "redirect:/detail-vente/" + ex.getArticleId();
+   }
 }

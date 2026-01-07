@@ -9,6 +9,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.jdbc.core.JdbcTemplate;
 
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -42,7 +43,6 @@ public class CategorieRepositoryImplTest {
         //Act et Assert avec une lambda
         assertThrows(CategorieNotFoundException.class,()->categorieRepository.findCategorieById(id));
     }
-
 
 }
 

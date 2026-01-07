@@ -126,19 +126,21 @@
                         </div>
                     </div>
 
-                    <div class="text-center">
-                        <button type="submit" class="btn btn-success px-4">Enchérir</button>
+                            <div class="text-center">
+                                <button type="submit" class="btn btn-success px-4">Enchérir</button>
+                            </div>
+                        </form>
                     </div>
-                </form>
+                </div>
+                <!-- Message de succès -->
+                <div th:if="${successMessage}" class="alert alert-success text-center mt-4">
+                    <span th:text="${successMessage}"></span>
+                </div>
+                <div th:if="${errorMessage}" class="alert alert-danger text-center mt-4">
+                    <span th:text="${errorMessage}"></span>
+                </div>
             </div>
-            </div>
-            <!-- Message de succès -->
-            <div th:if="${successMessage}" class="alert alert-success text-center mt-4">
-                <span th:text="${successMessage}"></span>
-            </div>
-
         </div>
-    </div>
     </div>
 </main>
 

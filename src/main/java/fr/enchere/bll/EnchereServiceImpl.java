@@ -68,7 +68,8 @@ public class EnchereServiceImpl implements EnchereService {
         if(currentBid > creditAcheteur) {
             //Crédits insuffisants !
             System.out.println("Crédits insuffisants");
-            throw new CreditsInsuffisantsException();
+            throw new CreditsInsuffisantsException(article.getNoArticle(), "Crédits insuffisants");
+
         }
 
         //Récupérer le dernier montant d'enchere sur l'article
