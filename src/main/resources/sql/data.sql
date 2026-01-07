@@ -59,13 +59,13 @@ VALUES
     (2, 'Canapé', 'Canapé 3 places',
      GETDATE(), -- Date et heure actuelle de début pour le test revoir pour fin
      DATEADD(day, 10, GETDATE()), -- Finit dans exactement 10 jours à la même heure
-     500, NULL, 2, 3),
+     500, NULL, 2, 3, 0),
 
     (3, 'Vélo', 'Vélo de course',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 3, 5)
-     500, NULL, 1, 5, 0),
+     500, NULL, 3, 5, 0),
+
 
     (4, 'Moto', 'Moto de course',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
@@ -80,8 +80,8 @@ INSERT INTO RETRAITS (no_article, rue, code_postal, ville, no_utilisateur)
 VALUES
     (1, '10 rue Victor Hugo', '75001', 'Paris',1),
     (2, '5 avenue de France', '69000', 'Lyon',2),
-    (3, '10 rue Victor Hugo', '75001', 'Paris',3);
-
+    (3, '10 rue Victor Hugo', '75001', 'Paris',3),
+    (4, '10 rue Victor Hugo', '75001', 'Paris',1);
 
 /* Revoir si besoin DATE ET HEURE*/
 /* ENCHERES */
