@@ -36,7 +36,7 @@ VALUES
      '5 avenue de France', '69000', 'Lyon', '{bcrypt}$2a$10$OyG5YbdLxhxIQyrQFil31uf6HLcCehaMIkXGmSWbCxff5dSvQ.rQq', 2000, 0),
 
     (3, 'admin', 'ADMIN', 'Super', 'admin@mail.com', NULL,
-     '1 rue Admin', '31000', 'Toulouse', '{bcrypt}$2a$10$OyG5YbdLxhxIQyrQFil31uf6HLcCehaMIkXGmSWbCxff5dSvQ.rQq', 500, 1);
+     '1 rue Admin', '31000', 'Toulouse', '{bcrypt}$2a$10$OyG5YbdLxhxIQyrQFil31uf6HLcCehaMIkXGmSWbCxff5dSvQ.rQq', 1000, 1);
 
 SET IDENTITY_INSERT UTILISATEURS OFF;
 
@@ -46,7 +46,7 @@ SET IDENTITY_INSERT UTILISATEURS OFF;
 INSERT INTO ARTICLES_VENDUS
 (no_article, nom_article, description,
  date_debut_encheres, date_fin_encheres,
- prix_initial, prix_vente, no_utilisateur, no_categorie)
+ prix_initial, prix_vente, no_utilisateur, no_categorie, etat_vente)
 VALUES
 
 
@@ -54,17 +54,23 @@ VALUES
     (1, 'PC Portable', 'PC gamer Asus 32Go RAM',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, 550, 1, 2),
+     500, 550, 1, 2, 0),
 
     (2, 'Canapé', 'Canapé 3 places',
      GETDATE(), -- Date et heure actuelle de début pour le test revoir pour fin
      DATEADD(day, 10, GETDATE()), -- Finit dans exactement 10 jours à la même heure
-     500, NULL, 2, 3),
+     500, NULL, 2, 3, 0),
 
     (3, 'Vélo', 'Vélo de course',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 3, 5)
+     500, NULL, 3, 5, 0),
+
+
+    (4, 'Moto', 'Moto de course',
+     DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
+     DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
+     500, NULL, 1, 5, 1)
 
 SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 
@@ -74,8 +80,8 @@ INSERT INTO RETRAITS (no_article, rue, code_postal, ville, no_utilisateur)
 VALUES
     (1, '10 rue Victor Hugo', '75001', 'Paris',1),
     (2, '5 avenue de France', '69000', 'Lyon',2),
-    (3, '10 rue Victor Hugo', '75001', 'Paris',3);
-
+    (3, '10 rue Victor Hugo', '75001', 'Paris',3),
+    (4, '10 rue Victor Hugo', '75001', 'Paris',1);
 
 /* Revoir si besoin DATE ET HEURE*/
 /* ENCHERES */

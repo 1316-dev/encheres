@@ -18,6 +18,7 @@ public class ArticleVendu {
     private Categorie categorieArticle;
     private Utilisateur utilisateur;
     private Retrait lieuRetrait;
+    private Utilisateur gagnant;
 
     public ArticleVendu() {
     }
@@ -59,6 +60,11 @@ public class ArticleVendu {
 
 
     //Getters et setters
+
+
+    public Utilisateur getGagnant() {
+        return gagnant;
+    }
 
     public int getNoArticle() {
         return noArticle;

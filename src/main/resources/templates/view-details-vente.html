@@ -31,11 +31,11 @@
                 <div class="row mb-3">
                     <div class="col-6 text-end fw-bold">Meilleure offre :</div>
                     <div class="col-6 text-start">
-                        <span th:if="${article.getPrixVente()==0}" th:text="${article.getMiseAPrix() + ' points'}"></span>
+                        <span th:if="${article.getPrixVente()==0}" th:text="${article.getMiseAPrix() + ' puntos'}"></span>
                         <span th:unless="${article.getPrixVente()==0}" th:text="${article.getPrixVente() + ' points'}"></span>
                         par
                         <span th:if="${article.getPrixVente()==0}" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}"></span>
-                        <span th:unless="${article.getPrixVente()==0}" th:text="${@enchereServiceImpl.findBestBidder(article.getNoArticle())}"></span>
+                        <span th:unless="${article.getPrixVente()==0}" th:text="${@utilisateurServiceImpl.findUserById(bestBidder.noUtilisateur).pseudo}"></span>
                     </div>
                 </div>
 
@@ -68,6 +68,12 @@
                     <div class="col-6 text-start" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}"></div>
                 </div>
             </div>
+            <div th:if="${@articleVenduServiceImpl.articleEstVendu(article.getNoArticle())}" class="text-center mb-3">
+                <span>Vente terminée</span>
+            </div>
+
+            <div th:if="${!@articleVenduServiceImpl.articleEstVendu(article.getNoArticle())}" class="text-center mb-3">
+                <span>Vente en cours</span>
 
             <!-- Formulaire d'enchère -->
             <div th:if="${#authentication.name}!=${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}">
@@ -96,7 +102,7 @@
                     </div>
                 </form>
             </div>
-
+            </div>
             <!-- Message de succès -->
             <div th:if="${successMessage}" class="alert alert-success text-center mt-4">
                 <span th:text="${successMessage}"></span>

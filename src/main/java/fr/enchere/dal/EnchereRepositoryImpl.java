@@ -4,6 +4,7 @@ import fr.enchere.bo.ArticleVendu;
 import fr.enchere.bo.Categorie;
 import fr.enchere.bo.Enchere;
 import fr.enchere.bo.Utilisateur;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -16,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 
 @Repository
@@ -46,9 +48,23 @@ public class EnchereRepositoryImpl implements EnchereRepository {
 
     //Trouver la meilleure enchere sur un produit
     @Override
-    public Enchere findBestEnchere(int id) {
-        String sql = "select no_enchere, date_enchere, montant_enchere, no_article, no_utilisateur from ENCHERES where no_article = ? AND montant_enchere = (SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ?)";
-        return jdbcTemplate.queryForObject(sql,new EnchereRepositoryImpl.EnchereRowMapper(),id,id);
+    public Optional<Enchere> findBestEnchere(int id) {
+        String sql = "SELECT no_enchere, date_enchere, montant_enchere, no_article, no_utilisateur " +
+                "FROM ENCHERES " +
+                "WHERE no_article = ? " +
+                "AND montant_enchere = (SELECT MAX(montant_enchere) FROM ENCHERES WHERE no_article = ?)";
+
+        try {
+            Enchere enchere = jdbcTemplate.queryForObject(
+                    sql,
+                    new EnchereRowMapper(),
+                    id,
+                    id
+            );
+            return Optional.of(enchere);
+        } catch (EmptyResultDataAccessException e) {
+            return Optional.empty(); // Pas d'enchère précédente
+        }
     }
 
     //Pour trouver toutes les enchères d'un utilisateur
