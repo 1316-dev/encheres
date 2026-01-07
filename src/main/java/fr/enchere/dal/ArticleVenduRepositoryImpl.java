@@ -205,6 +205,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         public ArticleVendu mapRow(ResultSet rs, int rowNum) throws SQLException {
 
             Utilisateur user = new Utilisateur();
+            Utilisateur userGagnant = new Utilisateur();
             Categorie categorie = new Categorie();
 
 
