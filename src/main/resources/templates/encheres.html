@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <title>Enchères</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
 
+    <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
+    <link th:href="@{/css/general.css}" rel="stylesheet">
 </head>
 <body>
 
@@ -51,35 +52,39 @@
     </div>
 
     <div class="row">
-        <div class="card col-3 m-3" style="width: 18rem;" th:each="article : ${listeArticleVendu}">
-            <!--<img src="..." class="card-img-top" alt="...">-->
-            <div class="card-body ">
-                <h3 class="card-title" th:text="${article.nomArticle}"></h3>
-                <p class="card-text">
-                    Mise à prix : <span th:text="${article.miseAPrix}"></span> crédit
-                </p>
 
-                <p class="card-text">
-                    Fin de l'enchère le
-                    <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
-                    à
-                    <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
-                </p>
+            <div class="card col-3 m-3" style="width: 18rem;" th:each="article : ${listeArticleVendu}" th:classappend="${@articleVenduServiceImpl.articleEstVendu(article.getNoArticle())} ? ' disabled-div' : ''">
+                <!--<img src="..." class="card-img-top" alt="...">-->
+                <div class="card-body">
+                    <h3 class="card-title" th:text="${article.nomArticle}"></h3>
+                    <p class="card-text">
+                        Mise à prix : <span th:text="${article.miseAPrix}"></span> crédit
+                    </p>
+
+                    <p class="card-text">
+                        Fin de l'enchère le
+                        <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
+                        à
+                        <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
+                    </p>
 
 
-                <p class="card-text">
-                    Vendeur :
-                    <span th:text="${article.vendeur}" sec:authorize="isAnonymous()"></span>
-                    <a
-                        th:href="@{/profilVendeur/{pseudo}(pseudo=${article.vendeur})}"
-                        th:text="${article.vendeur}" class="link-offset-2 link-underline link-underline-opacity-75"
-                        sec:authorize="isAuthenticated()"
-                    ></a>
-                </p>
-                <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary"
-                   sec:authorize="isAuthenticated()">Détail Vente</a>
+                    <p class="card-text">
+                        Vendeur :
+                        <span th:text="${article.vendeur}" sec:authorize="isAnonymous()"></span>
+                        <a
+                            th:href="@{/profilVendeur/{pseudo}(pseudo=${article.vendeur})}"
+                            th:text="${article.vendeur}" class="link-offset-2 link-underline link-underline-opacity-75"
+                            sec:authorize="isAuthenticated()"
+                        ></a>
+                    </p>
+                    <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary"
+                       sec:authorize="isAuthenticated()">Détail Vente</a>
+                    <div th:if="${@articleVenduServiceImpl.articleEstVendu(article.getNoArticle())}" class="disabled-div">
+                        <span>Vente terminée</span>
+                    </div>
+                </div>
             </div>
-        </div>
     </div>
 
 </main>

@@ -29,4 +29,5 @@ public interface ArticleVenduRepository {
     void updateEtatVente(int idArticle, boolean etatVente);
     boolean existsByIdAndEtatVenteTrue(int id);
     int countArticlesVendusParUtilisateur(int noUtilisateur);
+    void setGagnant(int idArticle, int idGagnant);
 }

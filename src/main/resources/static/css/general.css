@@ -1,3 +1,7 @@
+.disabled-div{
+    opacity:0.4;
+}
+
 .form-like {
     display: grid;
     grid-template-columns: auto 1fr;
@@ -13,3 +17,4 @@
     text-align: right;
     white-space: nowrap;
 }
+

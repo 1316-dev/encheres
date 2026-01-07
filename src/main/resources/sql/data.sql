@@ -36,7 +36,7 @@ VALUES
      '5 avenue de France', '69000', 'Lyon', '{bcrypt}$2a$10$OyG5YbdLxhxIQyrQFil31uf6HLcCehaMIkXGmSWbCxff5dSvQ.rQq', 2000, 0),
 
     (3, 'admin', 'ADMIN', 'Super', 'admin@mail.com', NULL,
-     '1 rue Admin', '31000', 'Toulouse', '{bcrypt}$2a$10$OyG5YbdLxhxIQyrQFil31uf6HLcCehaMIkXGmSWbCxff5dSvQ.rQq', 500, 1);
+     '1 rue Admin', '31000', 'Toulouse', '{bcrypt}$2a$10$OyG5YbdLxhxIQyrQFil31uf6HLcCehaMIkXGmSWbCxff5dSvQ.rQq', 1000, 1);
 
 SET IDENTITY_INSERT UTILISATEURS OFF;
 
@@ -59,17 +59,17 @@ VALUES
     (2, 'Canapé', 'Canapé 3 places',
      GETDATE(), -- Date et heure actuelle de début pour le test revoir pour fin
      DATEADD(day, 10, GETDATE()), -- Finit dans exactement 10 jours à la même heure
-     500, NULL, 1, 2, 0),
+     500, NULL, 1, 3, 0),
 
     (3, 'Vélo', 'Vélo de course',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 1, 2, 0),
+     500, NULL, 1, 5, 0),
 
     (4, 'Moto', 'Moto de course',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 1, 2, 1)
+     500, NULL, 1, 5, 1)
 
 SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 

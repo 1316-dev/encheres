@@ -23,6 +23,7 @@ public interface ArticleVenduService {
 
     List<ArticleVenduDto> listeArticleVenduByVendeur(String pseudoVendeur);
     void cloturerVente(ArticleVendu articleVendu);
+    void cloturerSiDateEchue(ArticleVendu articleVendu);
     boolean articleEstVendu(int id);
 
     //TEST LENA

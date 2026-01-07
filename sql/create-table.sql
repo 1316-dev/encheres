@@ -44,7 +44,8 @@ CREATE TABLE ARTICLES_VENDUS (
                                  no_utilisateur                INTEGER NOT NULL,
                                  no_categorie                  INTEGER NOT NULL,
                                  url_image                     VARCHAR(80),
-                                 etat_vente                     BIT NOT NULL DEFAULT 0
+                                 etat_vente                     BIT NOT NULL DEFAULT 0,
+                                no_gagnant                      INTEGER NULL
 
 )
 
@@ -94,3 +95,10 @@ ALTER TABLE ARTICLES_VENDUS
         REFERENCES utilisateurs ( no_utilisateur )
         ON DELETE CASCADE
         ON UPDATE CASCADE
+ALTER TABLE ARTICLES_VENDUS
+    ADD CONSTRAINT gagnant_utilisateur_fk
+        FOREIGN KEY (no_gagnant)
+            REFERENCES UTILISATEURS(no_utilisateur)
+            ON DELETE NO ACTION
+            ON UPDATE NO ACTION;
+

@@ -247,7 +247,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
     @Override
     public void updatePrixVente(int idArticle, int prix){
-        String  sql = "UPDATE Articles_Vendus SET etat_vente = ? WHERE no_article = ?";
+        String  sql = "UPDATE Articles_Vendus SET prix_vente = ? WHERE no_article = ?";
 
         PreparedStatementSetter pss = new PreparedStatementSetter() {
             @Override public void setValues(PreparedStatement ps) throws SQLException {
@@ -261,7 +261,7 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
     @Override
     public void updateEtatVente(int idArticle, boolean etatVente) {
-        String sql = "UPDATE Articles_Vendus SET prix_vente = ? WHERE no_article = ?";
+        String sql = "UPDATE Articles_Vendus SET etat_vente = ? WHERE no_article = ?";
         PreparedStatementSetter pss = new PreparedStatementSetter() {
             @Override public void setValues(PreparedStatement ps) throws SQLException {
                 ps.setInt(1, etatVente ? 1 : 0);
@@ -272,6 +272,18 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
         jdbcTemplate.update(sql, pss);
     }
 
+    @Override
+    public void setGagnant(int idArticle, int idGagnant) {
+        String sql = "UPDATE Articles_Vendus SET no_gagnant = ? WHERE no_article = ?";
+        PreparedStatementSetter pss = new PreparedStatementSetter() {
+            @Override public void setValues(PreparedStatement ps) throws SQLException {
+                ps.setInt(1, idGagnant);
+                ps.setInt(2, idArticle);
+            }
+        };
+
+        jdbcTemplate.update(sql, pss);
+    }
     @Override
     public void createArticle(ArticleVendu articleVendu, Retrait retrait, Utilisateur utilisateur) {
         String sql = "insert into articles_vendus(nom_article, description, date_debut_encheres, date_fin_encheres, prix_initial,  no_utilisateur, no_categorie)"
