@@ -15,7 +15,7 @@
 
             <!-- Bloc informations article -->
             <div class="border rounded p-4 shadow mb-4">
-                <h1 class="text-center mb-4">Détail vente</h1>
+                <h1 class="text-center mb-4 text-warning">Détail vente</h1>
                 <h2 class="text-center mb-4" th:text="${article.getNomArticle()}"></h2>
 
                 <div class="row mb-3">
@@ -56,9 +56,11 @@
                 <div class="row mb-3">
                     <div class="col-6 text-end fw-bold">Retrait :</div>
                     <div class="col-6 text-start">
-                        <span th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getRue()}"></span>,
-                        <span th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getCodePostal() + ', ' + @utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).getVille()}"></span>
-                    </div>
+                        <span th:if="${retrait != null}">
+                        <span th:text="${retrait.rue}"></span><br/>
+                        <span th:text="${retrait.cp + ' ' + retrait.ville}"></span>
+                        </span>
+                        <span th:if="${retrait == null}">Aucune adresse de retrait spécifiée</span>
                 </div>
 
                 <div class="row mt-4">
@@ -107,6 +109,7 @@
             </div>
 
         </div>
+    </div>
     </div>
 </main>
 

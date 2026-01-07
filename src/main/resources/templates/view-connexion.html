@@ -6,35 +6,57 @@
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
 </head>
 <body>
+
 <header data-th-replace="~{fragments/entete :: frag-entete }"></header>
+<div class="text-center">
+    <div th:if="${param.expired}" class="text-warning">
+        Votre session a expiré pour cause d'inactivité. Veuillez vous reconnecter.
+    </div>
+</div>
 <main class="container mt-5 ">
     <div class="row justify-content-center">
-        <div class="col-lg-8 text-center">
-        <form th:action="@{/login}" method="POST" class="border rounded p-4 shadow">
-            <label for="inputLogin">Identifiant :</label>
-            <input type="text" id="inputLogin" name="login">
+        <div class="col-lg-6 col-md-8">
 
-            <label for="inputMdp">Mot de passe :</label>
-            <input type="password" id="inputMdp" name="password">
-            <div th:if="${param.error}" class="text-danger">
-                informations d'identification invalides
-            </div>
+            <form th:action="@{/login}" method="POST" class="border rounded p-4 shadow text-center">
 
+                <h1 class="text-warning mb-4">Se connecter</h1>
 
+                <div class="mb-3 text-start">
+                    <label for="inputLogin" class="form-label">Identifiant</label>
+                    <input type="text" id="inputLogin" name="login" class="form-control">
+                </div>
 
-            <div class="text-center m-1">
-                <input type="checkbox" id="cbSouvenir" name="remember"/>
-                <label for="cbSouvenir" class="m-2">Se souvenir de moi</label>
-                <a href="" class="m-2">Mot de passe oublié</a>
-            </div>
-            <div class="text-center m-1">
-                <button type="submit" class="btn btn-outline-success ms-1">Connexion</button>
-            </div>
+                <div class="mb-3 text-start">
+                    <label for="inputMdp" class="form-label">Mot de passe</label>
+                    <input type="password" id="inputMdp" name="password" class="form-control">
+                </div>
 
-            <div class="text-center m-2">
-                <a th:href="@{/inscription}" class="button">Créer un compte</a>
-            </div>
-        </form>
+                <div th:if="${param.error}" class="alert alert-danger mt-3">
+                    Informations d'identification invalides
+                </div>
+
+                <div class="d-flex justify-content-between align-items-center my-4">
+                    <div class="form-check">
+                        <input type="checkbox" id="cbSouvenir" name="remember-me" class="form-check-input">
+                        <label for="cbSouvenir" class="form-check-label">Se souvenir de moi</label>
+                    </div>
+                    <a href="#">Mot de passe oublié</a>
+                </div>
+
+                <div class="d-grid mb-3">
+                    <button type="submit" class="btn btn-outline-success">
+                        Connexion
+                    </button>
+                </div>
+
+                <div class="mt-3">
+                    <a th:href="@{/inscription}" class="link-warning">
+                        Créer un compte
+                    </a>
+                </div>
+
+            </form>
+
         </div>
     </div>
 

@@ -7,4 +7,6 @@ import java.util.List;
 public interface RetraitRepository {
 
     List<Retrait> findRetraitByNoUtilisateur(int no_utilisateur);
+
+    Retrait findRetraitByNoArticle(int no_article);
 }

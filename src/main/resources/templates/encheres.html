@@ -1,6 +1,8 @@
 <!DOCTYPE html>
-<html lang="fr" xmlns:sec="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org">
+<html lang="fr"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+
 <head>
     <meta charset="UTF-8">
     <title>Enchères</title>
@@ -8,86 +10,97 @@
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
     <link th:href="@{/css/general.css}" rel="stylesheet">
 </head>
+
 <body>
 
-<header th:replace="~{fragments/entete :: frag-entete}">
-</header>
-<main class="container">
+<header th:replace="~{fragments/entete :: frag-entete}"></header>
 
-
-    <h1 class="mt-4 m-3">Liste des enchères</h1>
-
-    <div class="row">
-
-        <div th:if="${supError}" class="alert alert-warning text-center mt-4">
-            <h2 th:text="${supError}"></h2>
-        </div>
-        <div th:if="${success}" class="alert alert-success text-center mt-4">
-            <h2 th:text="${success}"></h2>
-        </div>
-
-        <form th:action="@{/encheresCategorie}" method="get" th:object="${articleVenduDto}">
-            <div class="row">
-                <div class="col-3 m-3">
-                    <Label for="lettreRecherche" class="form mb-1">Filtres : </Label>
-                    <input type="text" name="lettreRecherche" id="lettreRecherche" class="form-control col-3">
-                </div>
-                <div class="col-3 m-3">
-                    <label for="noCategorie" class="form mb-1">Catégorie :</label>
-                    <select id="noCategorie"
-                            th:field="*{noCategorie}"
-                            class="form-control col-3">
-                        <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
-                                th:text="${categorie.libelle}"
-                                th:value="${categorie.noCategorie}">
-                        </option>
-                    </select>
-                </div>
-                <div class="col-3 mt-4 mb-3">
-                    <input type="submit" value="Rechercher" class="btn btn-primary m-3">
-                </div>
-            </div>
-
-        </form>
+<div class="text-center mt-3">
+    <div th:if="${param.logout}" class="alert alert-success">
+        Vous avez été déconnecté avec succès.
     </div>
+</div>
 
-    <div class="row">
+<main class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10 col-md-11">
 
-            <div class="card col-3 m-3" style="width: 18rem;" th:each="article : ${listeArticleVendu}" th:classappend="${@articleVenduServiceImpl.articleEstVendu(article.getNoArticle())} ? ' disabled-div' : ''">
-                <!--<img src="..." class="card-img-top" alt="...">-->
-                <div class="card-body">
-                    <h3 class="card-title" th:text="${article.nomArticle}"></h3>
-                    <p class="card-text">
-                        Mise à prix : <span th:text="${article.miseAPrix}"></span> crédit
-                    </p>
+            <div class="border rounded p-4 shadow">
 
-                    <p class="card-text">
-                        Fin de l'enchère le
-                        <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
-                        à
-                        <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
-                    </p>
+                <h1 class="text-warning text-center mb-4">Liste des enchères</h1>
 
+                <div th:if="${supError}" class="alert alert-warning text-center mb-3">
+                    <h2 th:text="${supError}"></h2>
+                </div>
+                <div th:if="${success}" class="alert alert-success text-center mb-3">
+                    <h2 th:text="${success}"></h2>
+                </div>
 
-                    <p class="card-text">
-                        Vendeur :
-                        <span th:text="${article.vendeur}" sec:authorize="isAnonymous()"></span>
-                        <a
-                            th:href="@{/profilVendeur/{pseudo}(pseudo=${article.vendeur})}"
-                            th:text="${article.vendeur}" class="link-offset-2 link-underline link-underline-opacity-75"
-                            sec:authorize="isAuthenticated()"
-                        ></a>
-                    </p>
-                    <a th:href="@{/detail-vente/{id}(id=${article.getNoArticle()})}" class="btn btn-primary"
-                       sec:authorize="isAuthenticated()">Détail Vente</a>
-                    <div th:if="${@articleVenduServiceImpl.articleEstVendu(article.getNoArticle())}" class="disabled-div">
-                        <span>Vente terminée</span>
+                <form th:action="@{/encheresCategorie}" method="get" th:object="${articleVenduDto}">
+                    <div class="d-flex justify-content-center flex-wrap mb-4">
+
+                        <div class="col-md-4 m-3">
+                            <label for="lettreRecherche" class="form-label">Filtres :</label>
+                            <input type="text" name="lettreRecherche" id="lettreRecherche" class="form-control">
+                        </div>
+
+                        <div class="col-md-4 m-3">
+                            <label for="noCategorie" class="form-label">Catégorie :</label>
+                            <select id="noCategorie" th:field="*{noCategorie}" class="form-select">
+                                <option th:each="categorie : ${@categorieServiceImpl.findAllCategorie()}"
+                                        th:value="${categorie.noCategorie}"
+                                        th:text="${categorie.libelle}">
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="col-12 text-center mt-3">
+                            <button type="submit" class="btn btn-primary px-4">Rechercher</button>
+                        </div>
+
+                    </div>
+                </form>
+
+                <div class="d-flex flex-wrap justify-content-center">
+                    <div class="card m-3" style="width: 18rem;" th:each="article : ${listeArticleVendu}">
+                        <div class="card-body text-center">
+
+                            <h3 class="card-title mb-2" th:text="${article.nomArticle}"></h3>
+
+                            <p class="card-text mb-1">
+                                Mise à prix : <span th:text="${article.miseAPrix}"></span> crédit
+                            </p>
+
+                            <p class="card-text mb-1">
+                                Fin de l'enchère le
+                                <span th:text="${#temporals.format(article.dateFinEnchere, 'dd/MM/yyyy')}"></span>
+                                à
+                                <span th:text="${#temporals.format(article.dateFinEnchere, 'HH:mm')}"></span>
+                            </p>
+
+                            <p class="card-text mb-2">
+                                Vendeur :
+                                <span th:text="${article.vendeur}" sec:authorize="isAnonymous()"></span>
+                                <a th:href="@{/profilVendeur/{pseudo}(pseudo=${article.vendeur})}"
+                                   th:text="${article.vendeur}"
+                                   class="link-offset-2 link-underline link-underline-opacity-75"
+                                   sec:authorize="isAuthenticated()"></a>
+                            </p>
+
+                            <a th:href="@{/detail-vente/{id}(id=${article.noArticle})}"
+                               class="btn btn-primary"
+                               sec:authorize="isAuthenticated()">Détail Vente</a>
+
+                        </div>
                     </div>
                 </div>
-            </div>
-    </div>
 
+            </div>
+        </div>
+    </div>
 </main>
+
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>

@@ -1,9 +1,6 @@
 package fr.enchere.controller;
 
-import fr.enchere.bll.ArticleVenduService;
-import fr.enchere.bll.CategorieService;
-import fr.enchere.bll.EnchereService;
-import fr.enchere.bll.UtilisateurService;
+import fr.enchere.bll.*;
 import fr.enchere.bo.*;
 
 import fr.enchere.dto.ArticleVenduDto;
@@ -43,12 +40,14 @@ public class EnchereController {
     private final ArticleVenduService articleVenduService;
     private final CategorieService categorieService;
     private final EnchereService enchereService;
+    private final RetraitService retraitService;
 
-    public EnchereController(UtilisateurService utilisateurService, ArticleVenduService articleVenduService, CategorieService categorieService, EnchereService enchereService) {
+    public EnchereController(UtilisateurService utilisateurService, ArticleVenduService articleVenduService, CategorieService categorieService, EnchereService enchereService, RetraitService retraitService) {
         this.utilisateurService = utilisateurService;
         this.articleVenduService = articleVenduService;
         this.categorieService = categorieService;
         this.enchereService = enchereService;
+        this.retraitService = retraitService;
     }
 
     @GetMapping({"/vendre"})
@@ -115,7 +114,9 @@ public class EnchereController {
     @GetMapping("/detail-vente/{articleId}")
     public String afficherDetailVente(@PathVariable int articleId, Model model) {
         ArticleVendu article = articleVenduService.findArticleById(articleId);
+        Retrait retrait = retraitService.findRetraitByNoArticle(articleId);
         model.addAttribute("article", article);
+        model.addAttribute("retrait", retrait);
 
         Optional<Utilisateur> bestBidderOpt = enchereService.findBestBidder(articleId);
 

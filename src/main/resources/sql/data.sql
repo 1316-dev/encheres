@@ -59,11 +59,12 @@ VALUES
     (2, 'Canapé', 'Canapé 3 places',
      GETDATE(), -- Date et heure actuelle de début pour le test revoir pour fin
      DATEADD(day, 10, GETDATE()), -- Finit dans exactement 10 jours à la même heure
-     500, NULL, 1, 3, 0),
+     500, NULL, 2, 3),
 
     (3, 'Vélo', 'Vélo de course',
      DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
+     500, NULL, 3, 5)
      500, NULL, 1, 5, 0),
 
     (4, 'Moto', 'Moto de course',
