@@ -63,7 +63,12 @@ public class ArticleVendu {
 
 
     public Utilisateur getGagnant() {
+        System.out.println("le gagnant :" + gagnant);
         return gagnant;
+    }
+
+    public void setGagnant(Utilisateur gagnant) {
+        this.gagnant = gagnant;
     }
 
     public int getNoArticle() {
