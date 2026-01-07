@@ -27,7 +27,7 @@
                         <label for="nomArticle" class="form-label text-center w-100">Nom de l'article</label>
                         <input type="text" id="nomArticle"
                                class="form-control w-75 mx-auto text-center"
-                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF]+$"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
                                title="Lettres, chiffres et accents uniquement"
                                required
                                data-th-errorclass="is-invalid"
@@ -144,7 +144,7 @@
                                 <label for="inputRue" class="form-label text-center w-100">Rue</label>
                                 <input type="text" id="inputRue"
                                        class="form-control w-75 mx-auto text-center"
-                                       pattern="^[a-zA-Z0-9 ]+$"
+                                       pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
                                        required
                                        th:field="${retraitDto.rue}"
                                         >
@@ -178,7 +178,7 @@
                                 <label for="inputVille" class="form-label text-center w-100">Ville</label>
                                 <input type="text" id="inputVille"
                                        class="form-control w-75 mx-auto text-center"
-
+                                       pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
                                        th:field="${retraitDto.ville}"
                                 >
                             <div style="color: red;"

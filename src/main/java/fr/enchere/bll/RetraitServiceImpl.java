@@ -11,6 +11,7 @@ public class RetraitServiceImpl implements RetraitService{
 
    private final RetraitRepository retraitRepository;
 
+
     public RetraitServiceImpl(RetraitRepository retraitRepository) {
         this.retraitRepository = retraitRepository;
     }
@@ -21,7 +22,8 @@ public class RetraitServiceImpl implements RetraitService{
     }
 
     @Override
-    public List<Retrait> findRetraitByNoArticle(int no_article) {
+    public Retrait findRetraitByNoArticle(int no_article) {
+        System.out.println(retraitRepository.findRetraitByNoArticle(no_article));
         return retraitRepository.findRetraitByNoArticle(no_article);
     }
 }
