@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-
+@ControllerAdvice
 public class EnchereControllerAdvice {
 
          private static final Logger logger = LoggerFactory.getLogger(EnchereControllerAdvice.class);

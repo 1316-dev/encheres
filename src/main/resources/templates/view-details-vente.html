@@ -44,6 +44,20 @@
                     <div class="col-6 text-start" th:text="${article.getMiseAPrix() + ' points'}"></div>
                 </div>
 
+                <div th:if="${article.dateDebutEnchere != null and article.dateDebutEnchere.isAfter(#temporals.createNow())}" class="row mb-3">
+                    <div class="col-6 text-end fw-bold">Date début enchère :</div>
+                    <div class="col-6 text-start">
+                        <span th:text="${#temporals.format(article.dateDebutEnchere, 'dd/MM/yyyy') + ' - ' + #temporals.format(article.dateDebutEnchere, 'HH:mm')}" ></span>
+                    </div>
+                </div>
+
+                <div th:if="${article.dateDebutEnchere != null and article.dateDebutEnchere.isBefore(#temporals.createNow())}" class="row mb-3">
+                    <div class="col-6 text-end fw-bold">Enchère ouverte depuis :</div>
+                    <div class="col-6 text-start">
+                        <span th:text="${#temporals.format(article.dateDebutEnchere, 'dd/MM/yyyy') + ' - ' + #temporals.format(article.dateDebutEnchere, 'HH:mm')}" ></span>
+                    </div>
+                </div>
+
                 <div class="row mb-3">
                     <div class="col-6 text-end fw-bold">Fin de l'enchère :</div>
                     <div class="col-6 text-start">
@@ -69,11 +83,11 @@
                 </div>
             </div>
             <div th:if="${@articleVenduServiceImpl.articleEstVendu(article.getNoArticle())}" class="text-center mb-3">
-                <span>Vente terminée</span>
+                <span class="text-warning">Vente terminée</span>
             </div>
 
-            <div th:if="${!@articleVenduServiceImpl.articleEstVendu(article.getNoArticle())}" class="text-center mb-3">
-                <span>Vente en cours</span>
+            <div th:if="${!@articleVenduServiceImpl.articleEstVendu(article.noArticle) and article.dateDebutEnchere.isBefore(#temporals.createNow())}" class="text-center mb-3">
+                <span class="text-warning">Vente en cours</span>
 
             <!-- Formulaire d'enchère -->
             <div th:if="${#authentication.name}!=${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}">

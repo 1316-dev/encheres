@@ -34,6 +34,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
 
     @Override
     public List<ArticleVenduDto> AfficherListeArticleVendu() {
+
         return articleVenduRepository.listeArticleVendu();
     }
 
