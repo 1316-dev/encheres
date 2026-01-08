@@ -6,6 +6,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Enchères - Détail vente</title>
+    <link rel="icon" href="/images/logo.ico">
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
     <link href="/css/general.css" rel="stylesheet">
 </head>
@@ -17,7 +18,7 @@
         <div class="col-lg-8">
 
             <!-- Bloc informations article -->
-            <div class="border rounded p-4 shadow mb-4">
+            <div class="rounded p-4 shadow mb-4" style="border: 1px solid rgba(255, 255, 255, 0.7);">
                 <h1 class="text-center mb-4 text-warning">Détail vente</h1>
                 <h2 class="text-center mb-4" th:text="${article.getNomArticle()}"></h2>
 
@@ -110,7 +111,7 @@
             <!-- Formulaire d'enchère -->
             <div th:if="${#authentication.name}!=${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}">
                 <form th:action="@{/detail-vente/{id}(id=${article.getNoArticle()})}" method="POST"
-                      class="border rounded p-4 shadow mb-4">
+                      class="rounded p-4 shadow mb-4" style="border: 1px solid rgba(255, 255, 255, 0.7);">
 
                     <!-- CSRF -->
                     <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">

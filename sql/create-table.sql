@@ -17,7 +17,7 @@ ALTER TABLE CATEGORIES ADD constraint categorie_pk PRIMARY KEY (no_categorie)
 
 CREATE TABLE UTILISATEURS (
                               no_utilisateur   INTEGER IDENTITY(1,1) NOT NULL,
-                              pseudo           VARCHAR(30) NOT NULL,
+                              pseudo           VARCHAR(30) COLLATE SQL_Latin1_General_CP1_CS_AS NOT NULL,
                               nom              VARCHAR(30) NOT NULL,
                               prenom           VARCHAR(30) NOT NULL,
                               email            VARCHAR(50) NOT NULL,
