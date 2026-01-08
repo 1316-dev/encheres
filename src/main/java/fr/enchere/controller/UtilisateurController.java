@@ -77,8 +77,7 @@ public class UtilisateurController {
             utilisateurService.creerUtilisateur(utilisateur);
             redirectAttr.addFlashAttribute("messageConnexion","Inscription réussie, vous pouvez vous connecter!");
             return "redirect:/connexion";
-            // Si OK redirection vers la page des enchères
-           // return "redirect:/view-list-encheres?pseudo=" + utilisateurDto.getPseudo();
+
 
         } catch (EmailDejaUtiliseException e) {
             resultat.rejectValue("email", "email.existe", "Cet Email est déjà utilisé");
