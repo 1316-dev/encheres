@@ -31,7 +31,12 @@
                                th:field="*{pseudo}"
                                pattern="^[a-zA-Z0-9]+$"
                                title="Uniquement lettres et chiffres"
-                               required>
+                               required
+                               th:classappend="${#fields.hasErrors('pseudo')} ? 'is-invalid' : ''">
+                        <div th:if="${#fields.hasErrors('pseudo')}"
+                             th:errors="*{pseudo}"
+                             class="text-danger small text-center w-75 mx-auto">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -40,7 +45,12 @@
                                pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
                                title="Le nom ne doit contenir que des lettres, des espaces ou des tirets."
                                class="form-control w-75 mx-auto"
-                               th:field="*{nom}">
+                               th:field="*{nom}"
+                               th:classappend="${#fields.hasErrors('nom')} ? 'is-invalid' : ''">
+                        <div th:if="${#fields.hasErrors('nom')}"
+                             th:errors="*{nom}"
+                             class="text-danger small text-center w-75 mx-auto">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -49,14 +59,24 @@
                                pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
                                title="Le prenom ne doit contenir que des lettres, des espaces ou des tirets."
                                class="form-control w-75 mx-auto"
-                               th:field="*{prenom}">
+                               th:field="*{prenom}"
+                               th:classappend="${#fields.hasErrors('prenom')} ? 'is-invalid' : ''">
+                        <div th:if="${#fields.hasErrors('prenom')}"
+                             th:errors="*{prenom}"
+                             class="text-danger small text-center w-75 mx-auto">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputEmail" class="form-label text-center w-100">Email</label>
                         <input type="email" id="inputEmail"
                                class="form-control w-75 mx-auto"
-                               th:field="*{email}">
+                               th:field="*{email}"
+                               th:classappend="${#fields.hasErrors('email')} ? 'is-invalid' : ''">
+                        <div th:if="${#fields.hasErrors('email')}"
+                             th:errors="*{email}"
+                             class="text-danger small text-center w-75 mx-auto">
+                        </div>
                     </div>
 
 
@@ -66,7 +86,12 @@
                                pattern="^(\+|00)?[0-9]{9,15}$"
                                title="Veuillez saisir un numéro valide (ex: 0612345678 ou +33612345678)"
                                class="form-control w-75 mx-auto"
-                               th:field="*{telephone}">
+                               th:field="*{telephone}"
+                               th:classappend="${#fields.hasErrors('telephone')} ? 'is-invalid' : ''">
+                        <div th:if="${#fields.hasErrors('telephone')}"
+                             th:errors="*{telephone}"
+                             class="text-danger small text-center w-75 mx-auto">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -75,7 +100,12 @@
                                pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
                                title="La rue ne doit contenir que des lettres, des espaces ou des tirets."
                                class="form-control w-75 mx-auto"
-                               th:field="*{rue}">
+                               th:field="*{rue}"
+                               th:classappend="${#fields.hasErrors('rue')} ? 'is-invalid' : ''">
+                        <div th:if="${#fields.hasErrors('rue')}"
+                             th:errors="*{rue}"
+                             class="text-danger small text-center w-75 mx-auto">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -84,7 +114,12 @@
                                pattern="^[a-zA-Z0-9 \\-]{3,10}$"
                                title="Le code postal doit contenir entre 3 et 10 caractères (lettres, chiffres, espaces ou tirets uniquement)."
                                class="form-control w-75 mx-auto"
-                               th:field="*{codePostal}">
+                               th:field="*{codePostal}"
+                               th:classappend="${#fields.hasErrors('codePostal')} ? 'is-invalid' : ''">
+                        <div th:if="${#fields.hasErrors('codePostal')}"
+                             th:errors="*{codePostal}"
+                             class="text-danger small text-center w-75 mx-auto">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -93,7 +128,12 @@
                                class="form-control w-75 mx-auto"
                                pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
                                title="Le nom de la ville peut contenir des lettres, des accents, des chiffres, des tirets et des apostrophes."
-                               th:field="*{ville}">
+                               th:field="*{ville}"
+                               th:classappend="${#fields.hasErrors('ville')} ? 'is-invalid' : ''">
+                        <div th:if="${#fields.hasErrors('ville')}"
+                             th:errors="*{ville}"
+                             class="text-danger small text-center w-75 mx-auto">
+                        </div>
                     </div>
 
                     <div class="col-md-6 mb-3">
@@ -102,7 +142,12 @@
                                pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!\-_]).{8,20}$"
                                title="8-20 caractères avec Majuscule, Minuscule, Chiffre et Spécial."
                                class="form-control w-75 mx-auto" required
-                               th:field="*{motDePasse}">
+                               th:field="*{motDePasse}"
+                               th:classappend="${#fields.hasErrors('motDePasse')} ? 'is-invalid' : ''">
+                        <div th:if="${#fields.hasErrors('motDePasse')}"
+                             th:errors="*{motDePasse}"
+                             class="text-danger small text-center w-75 mx-auto">
+                        </div>
 
                     </div>
 
@@ -127,6 +172,8 @@
                             </a>
                         </div>
                     </div>
+
+                    <!-- replacer sous les champs à supprimer
                     <div class="text-danger text-center" th:if="${#fields.hasErrors('email')}">
                         <small th:errors="*{email}"></small>
                     </div>
@@ -135,7 +182,7 @@
                     </div>
                     <div class="text-danger text-center" th:if="${#fields.hasErrors('pseudo')}">
                         <small th:errors="*{pseudo}"></small>
-                    </div>
+                    </div>-->
                 </div>
 
             </form>
