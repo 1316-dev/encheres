@@ -30,10 +30,9 @@ public class WebSecurityConfig {
                         .anyRequest().authenticated()
                         // .anyRequest().permitAll()
                 )
-                //.formLogin(Customizer.withDefaults())
                 .formLogin((form) -> form.loginPage("/connexion")
                 .defaultSuccessUrl("/gestion-encheres", true)
-                         //.failureUrl("/login?error") // redirect to error page
+
                 .loginProcessingUrl("/login")
                         .usernameParameter("login")
                 .permitAll() )
@@ -55,14 +54,6 @@ public class WebSecurityConfig {
                         .rememberMeParameter("remember-me")    // Doit correspondre au 'name' de votre checkbox HTML
                 );
 
-        /*
-                .logout(logout -> logout
-                        .logoutUrl("/logout")      // URL de déconnexion
-                        .logoutSuccessUrl("/")         // URL après déconnexion
-                        .invalidateHttpSession(true)   // invalide la session
-                        .clearAuthentication(true)     // nettoie l'authentification
-                        .deleteCookies("JSESSIONID")); // supprime le cookie de session
-          */
 
         return http.build();
 

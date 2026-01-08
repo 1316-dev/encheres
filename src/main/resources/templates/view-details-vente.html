@@ -91,7 +91,7 @@
                     Aucune enchère n'a été faite.
                 </span>
                 <span class="text-warning" th:if="${bestBidder != null && #authentication.name == @utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}">
-                    , remportée par
+                    Remportée par
                     <a th:href="@{/profilVendeur/{pseudo}(pseudo=${@utilisateurServiceImpl.findUserById(bestBidder.noUtilisateur).pseudo})}"
                        th:text="${@utilisateurServiceImpl.findUserById(bestBidder.noUtilisateur).pseudo}"
                        class="link-offset-2 link-underline link-underline-opacity-75"
