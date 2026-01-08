@@ -58,8 +58,10 @@
                         <label for="description" class="form-label text-center w-100">Description</label>
                         <textarea id="description"
                                   rows="5" cols="10"
+                                  maxlength="300"
                                   class="form-control w-75 mx-auto text-center"
                                   pattern="^[^<>]+$"
+                                  title="Les caractères spéciaux < et > ne sont pas autorisés pour des raisons de sécurité."
                                   required
                                   th:field="*{description}"
                                   data-th-errorclass="is-invalid">
@@ -165,7 +167,8 @@
                                 <label for="inputCP" class="form-label text-center w-100">Code postal</label>
                                 <input type="text" id="inputCP"
                                        class="form-control w-75 mx-auto text-center"
-                                       pattern="^[a-zA-Z0-9 ]+$"
+                                       pattern="^[a-zA-Z0-9 \\-]{3,10}$"
+                                       title="Le code postal doit contenir entre 3 et 10 caractères (lettres, chiffres, espaces ou tirets uniquement)."
                                        required
 
                                        th:field="${retraitDto.cp}"
@@ -184,6 +187,7 @@
                                 <input type="text" id="inputVille"
                                        class="form-control w-75 mx-auto text-center"
                                        pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
+                                       title="Le nom de la ville peut contenir des lettres, des accents, des chiffres, des tirets et des apostrophes."
                                        th:field="${retraitDto.ville}"
                                 >
                             <div style="color: red;"

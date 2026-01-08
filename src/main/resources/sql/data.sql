@@ -52,7 +52,7 @@ VALUES
 
 
     (1, 'PC Portable', 'PC gamer Asus 32Go RAM',
-     DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
+     DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
      500, 550, 1, 2, 0),
 

@@ -54,7 +54,7 @@ ALTER TABLE ARTICLES_VENDUS ADD constraint articles_vendus_pk PRIMARY KEY (no_ar
 CREATE TABLE RETRAITS (
                           no_article       INTEGER NOT NULL,
                           rue              VARCHAR(30) NOT NULL,
-                          code_postal      VARCHAR(15) NOT NULL,
+                          code_postal      VARCHAR(10) NOT NULL,
                           ville            VARCHAR(30) NOT NULL,
                           no_utilisateur   INTEGER NOT NULL
 )
