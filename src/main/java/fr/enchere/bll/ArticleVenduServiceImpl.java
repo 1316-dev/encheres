@@ -118,7 +118,7 @@ public class ArticleVenduServiceImpl implements ArticleVenduService{
         return listeArticleVendufiltre;
     }
 
-    //TEST LENA
+
     @Override
     public boolean utilisateurADesVentes(int noUtilisateur) {
         return articleVenduRepository.countArticlesVendusParUtilisateur(noUtilisateur) > 0;

@@ -64,9 +64,10 @@ public class UtilisateurController {
         }
 
         if (resultat.hasErrors()) {
+            /* pas utilisé si on remplace redirct part la view
             redirectAttr.addFlashAttribute("org.springframework.validation.BindingResult.utilisateurDto", resultat);
-            redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
-            return "redirect:/inscription";
+            redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);*/
+            return "view-creer-compte";
         }
 
         try {
@@ -76,8 +77,7 @@ public class UtilisateurController {
             utilisateurService.creerUtilisateur(utilisateur);
             redirectAttr.addFlashAttribute("messageConnexion","Inscription réussie, vous pouvez vous connecter!");
             return "redirect:/connexion";
-            // Si OK redirection vers la page des enchères
-           // return "redirect:/view-list-encheres?pseudo=" + utilisateurDto.getPseudo();
+
 
         } catch (EmailDejaUtiliseException e) {
             resultat.rejectValue("email", "email.existe", "Cet Email est déjà utilisé");

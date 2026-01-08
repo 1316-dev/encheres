@@ -79,7 +79,7 @@ public class EnchereServiceImpl implements EnchereService {
             throw new EnchereTropBasseException(article.getNoArticle(),"Le montant proposé est trop bas");
         }
 
-        //SI TOUT OK
+
         //Mise à jour du prix de vente
         articleVenduRepository.updatePrixVente(article.getNoArticle(), currentBid);
 
