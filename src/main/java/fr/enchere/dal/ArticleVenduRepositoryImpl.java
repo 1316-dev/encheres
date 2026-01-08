@@ -321,7 +321,6 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
 
     }
 
-    //test lena
 
     @Override
     public int countArticlesVendusParUtilisateur(int noUtilisateur) {

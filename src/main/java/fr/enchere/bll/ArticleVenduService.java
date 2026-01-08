@@ -26,6 +26,6 @@ public interface ArticleVenduService {
     void cloturerSiDateEchue(ArticleVendu articleVendu);
     boolean articleEstVendu(int id);
 
-    //TEST LENA
+
     boolean utilisateurADesVentes(int noUtilisateur);
 }

@@ -35,13 +35,7 @@ public class EnchereControllerAdvice {
                 .body("L'enchère est terminée");
     }
 
-   /* @ExceptionHandler(EnchereTropBasseException.class)
-    public ResponseEntity<String> handleEnchereTropBasse(EnchereTropBasseException ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body("Le montant proposé est trop bas");
-    }
-*/
+
     @ExceptionHandler(EnchereTropBasseException.class)
     public String handleEnchereTropBasse(
             EnchereTropBasseException ex,
@@ -51,12 +45,6 @@ public class EnchereControllerAdvice {
         return "redirect:/detail-vente/" + ex.getArticleId();
     }
 
-   /* @ExceptionHandler(CreditsInsuffisantsException.class)
-   public ResponseEntity<String> handleCreditsInsuffisants(CreditsInsuffisantsException ex) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body("Crédits insuffisants");
-    }*/
    @ExceptionHandler(CreditsInsuffisantsException.class)
    public String handleCreditsInsuffisants(
            CreditsInsuffisantsException ex,
