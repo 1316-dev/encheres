@@ -38,7 +38,7 @@ public class UtilisateurDto {
     private String rue;
     @Pattern(regexp = "[a-zA-Z0-9 \\-]{3,10}", message = "Le code postal doit contenir entre 3 et 10 caractères (lettres, chiffres, espaces ou tirets uniquement).")
     @NotBlank
-    @Size(min = 3, max = 10, message = "longueur comprise entre  7 et 10" )
+    @Size(min = 3, max = 10, message = "longueur comprise entre  3 et 10" )
     private String codePostal;
     @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-']+$", message = "Format de ville invalide")
     @Size(min = 2, max = 50, message = "longueur comprise entre  2 et 50" )
