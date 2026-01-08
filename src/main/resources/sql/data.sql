@@ -62,7 +62,7 @@ VALUES
      500, NULL, 2, 3, 0),
 
     (3, 'Vélo', 'Vélo de course',
-     DATETIMEFROMPARTS(2026, 01, 18, 20, 00, 0, 0), -- 18/12/2025 à 20h00
+     GETDATE(),
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
      500, NULL, 3, 5, 0)
 
