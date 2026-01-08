@@ -118,6 +118,25 @@ public class EnchereController {
         return "redirect:/encheres";
     }
 
+    @GetMapping({"/modifier/{articleId}"})
+    public String modifierUnArticle(@PathVariable int articleId,Model model, Principal principal) {
+        ArticleVendu articleVendu = articleVenduService.findArticleById(articleId);
+
+        String pseudo = principal.getName();
+        Utilisateur utilisateur = utilisateurService.findUserByUsername(pseudo);
+        model.addAttribute("today", LocalDate.now());
+        model.addAttribute("utilisateur", utilisateur);
+        model.addAttribute("articleVendu", articleVendu);
+        RetraitDto retraitDto = new RetraitDto();
+        retraitDto.setRue(utilisateur.getRue());
+        retraitDto.setCp(utilisateur.getCodePostal());
+        retraitDto.setVille(utilisateur.getVille());
+        model.addAttribute("retraitDto", retraitDto);
+
+        return "view-modifier-article";
+
+    }
+
     @GetMapping("/detail-vente/{articleId}")
     public String afficherDetailVente(@PathVariable int articleId, Model model) {
         ArticleVendu article = articleVenduService.findArticleById(articleId);
