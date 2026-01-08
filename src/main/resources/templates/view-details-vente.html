@@ -35,11 +35,10 @@
                 <div class="row mb-3">
                     <div class="col-6 text-end fw-bold">Meilleure offre :</div>
                     <div class="col-6 text-start">
-                        <span th:if="${article.getPrixVente()==0}" th:text="${article.getMiseAPrix() + ' points'}"></span>
-                        <span th:unless="${article.getPrixVente()==0}" th:text="${article.getPrixVente() + ' points'}"></span>
-                        par
-                        <span th:if="${article.getPrixVente()==0}" th:text="${@utilisateurServiceImpl.findUserById(article.utilisateur.noUtilisateur).pseudo}"></span>
-                        <span th:unless="${article.getPrixVente()==0}" th:text="${@utilisateurServiceImpl.findUserById(bestBidder.noUtilisateur).pseudo}"></span>
+                        <span th:if="${article.getPrixVente()==0}">Aucune enchère en cours</span>
+                        <span th:if="${article.getPrixVente()!=0}" th:text="${article.getPrixVente() + ' points'}"></span>
+
+                        <span th:unless="${article.getPrixVente()==0}" th:text="${'par ' + @utilisateurServiceImpl.findUserById(bestBidder.noUtilisateur).pseudo}"></span>
                     </div>
                 </div>
 
