@@ -54,7 +54,8 @@ public class UtilisateurController {
 
 
     @PostMapping({"/inscription"})
-    public String creerUtilisateur(@Valid UtilisateurDto utilisateurDto, BindingResult resultat, RedirectAttributes redirectAttr, @RequestParam("confirmation") String confirmation) {
+    public String creerUtilisateur(@Valid UtilisateurDto utilisateurDto, BindingResult resultat,
+                                   RedirectAttributes redirectAttr, @RequestParam("confirmation") String confirmation) {
 
 
         // Vérification de la correspondance des mots de passe
@@ -73,8 +74,10 @@ public class UtilisateurController {
             BeanUtils.copyProperties(utilisateurDto, utilisateur);
 
             utilisateurService.creerUtilisateur(utilisateur);
+            redirectAttr.addFlashAttribute("messageConnexion","Inscription réussie, vous pouvez vous connecter!");
+            return "redirect:/connexion";
             // Si OK redirection vers la page des enchères
-            return "redirect:/view-list-encheres?pseudo=" + utilisateurDto.getPseudo();
+           // return "redirect:/view-list-encheres?pseudo=" + utilisateurDto.getPseudo();
 
         } catch (EmailDejaUtiliseException e) {
             resultat.rejectValue("email", "email.existe", "Cet Email est déjà utilisé");

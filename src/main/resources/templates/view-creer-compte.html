@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Enchères - S'inscrire</title>
-
+    <link rel="icon" href="/images/logo.ico">
 
     <link href="https://cdn.jsdelivr.net/npm/bootswatch@5.3.2/dist/darkly/bootstrap.min.css" rel="stylesheet">
 </head>
@@ -20,7 +20,7 @@
                   th:object="${utilisateurDto}"
                   class="rounded p-4 shadow" style="border: 1px solid rgba(255, 255, 255, 0.7);">
 
-                <h1 class="text-center mb-4 text-warning">Mon profil</h1>
+                <h1 class="text-center mb-4 text-warning">Création profil</h1>
 
                 <div class="row">
 
@@ -28,7 +28,8 @@
                         <label for="inputPseudo" class="form-label text-center w-100">Pseudo</label>
                         <input type="text" id="inputPseudo"
                                class="form-control w-75 mx-auto"
-                               th:field="*{pseudo}" pattern="[a-zA-Z0-9]+"
+                               th:field="*{pseudo}"
+                               pattern="^[a-zA-Z0-9]+$"
                                title="Uniquement lettres et chiffres"
                                required>
                     </div>
@@ -36,6 +37,8 @@
                     <div class="col-md-6 mb-3">
                         <label for="inputNom" class="form-label text-center w-100">Nom</label>
                         <input type="text" id="inputNom"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
+                               title="Le nom ne doit contenir que des lettres, des espaces ou des tirets."
                                class="form-control w-75 mx-auto"
                                th:field="*{nom}">
                     </div>
@@ -43,6 +46,8 @@
                     <div class="col-md-6 mb-3">
                         <label for="inputPrenom" class="form-label text-center w-100">Prénom</label>
                         <input type="text" id="inputPrenom"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
+                               title="Le prenom ne doit contenir que des lettres, des espaces ou des tirets."
                                class="form-control w-75 mx-auto"
                                th:field="*{prenom}">
                     </div>
@@ -58,6 +63,8 @@
                     <div class="col-md-6 mb-3">
                         <label for="inputTel" class="form-label text-center w-100">Téléphone</label>
                         <input type="tel" id="inputTel"
+                               pattern="^(\+|00)?[0-9]{9,15}$"
+                               title="Veuillez saisir un numéro valide (ex: 0612345678 ou +33612345678)"
                                class="form-control w-75 mx-auto"
                                th:field="*{telephone}">
                     </div>
@@ -65,6 +72,8 @@
                     <div class="col-md-6 mb-3">
                         <label for="inputRue" class="form-label text-center w-100">Rue</label>
                         <input type="text" id="inputRue"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
+                               title="La rue ne doit contenir que des lettres, des espaces ou des tirets."
                                class="form-control w-75 mx-auto"
                                th:field="*{rue}">
                     </div>
@@ -72,6 +81,8 @@
                     <div class="col-md-6 mb-3">
                         <label for="inputCP" class="form-label text-center w-100">Code postal</label>
                         <input type="text" id="inputCP"
+                               pattern="^[a-zA-Z0-9 \\-]{3,10}$"
+                               title="Le code postal doit contenir entre 3 et 10 caractères (lettres, chiffres, espaces ou tirets uniquement)."
                                class="form-control w-75 mx-auto"
                                th:field="*{codePostal}">
                     </div>
@@ -80,12 +91,16 @@
                         <label for="inputVille" class="form-label text-center w-100">Ville</label>
                         <input type="text" id="inputVille"
                                class="form-control w-75 mx-auto"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
+                               title="Le nom de la ville peut contenir des lettres, des accents, des chiffres, des tirets et des apostrophes."
                                th:field="*{ville}">
                     </div>
 
                     <div class="col-md-6 mb-3">
                         <label for="inputMdp" class="form-label text-center w-100">Mot de passe</label>
                         <input type="password" id="inputMdp"
+                               pattern="^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!\-_]).{8,20}$"
+                               title="8-20 caractères avec Majuscule, Minuscule, Chiffre et Spécial."
                                class="form-control w-75 mx-auto" required
                                th:field="*{motDePasse}">
 
