@@ -78,7 +78,7 @@ public class EnchereServiceImpl implements EnchereService {
         //Vérifier le montant de l'enchere VS la dernière enchère
         if(currentBid <= lastPrice) {
             System.out.println("Le montant de l'enchère doit dépasser le précédent prix");
-            throw new EnchereTropBasseException();
+            throw new EnchereTropBasseException(article.getNoArticle(),"Le montant proposé est trop bas");
         }
 
         //SI TOUT OK
