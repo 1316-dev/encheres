@@ -10,6 +10,7 @@ import fr.enchere.exception.CreditsInsuffisantsException;
 import fr.enchere.exception.EnchereTermineeException;
 import fr.enchere.exception.EnchereTropBasseException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
@@ -42,16 +43,15 @@ public class EnchereServiceImpl implements EnchereService {
 
 
     @Override
+    @Transactional
     public void creerEnchere(Enchere currentEnchere) {
         ArticleVendu article = currentEnchere.getArticleVendu();
         int currentBid = currentEnchere.getMontantEnchere();
         Utilisateur currentBidder = currentEnchere.getUtilisateur();
 
-        //récupérer utilisateur ayant fait l'enchere la plus haute
+        //récupérer le vendeur de l'article
         Utilisateur vendeur = article.getUtilisateur();
 
-
-        //Transaction à mettre en place
         //Gestion métier
         //Vérifier l'état de vente de l'article (si false, enchère impossible)
         if(article.isEtatVente()){
@@ -67,12 +67,10 @@ public class EnchereServiceImpl implements EnchereService {
         int creditAcheteur = currentBidder.getCredit();
         if(currentBid > creditAcheteur) {
             //Crédits insuffisants !
-            System.out.println("Crédits insuffisants");
             throw new CreditsInsuffisantsException(article.getNoArticle(), "Crédits insuffisants");
-
         }
 
-        //Récupérer le dernier montant d'enchere sur l'article
+        //Récupérer le dernier montant d'enchere sur l'article (int donc non null)
         int lastPrice = article.getPrixVente();
 
         //Vérifier le montant de l'enchere VS la dernière enchère
@@ -85,6 +83,9 @@ public class EnchereServiceImpl implements EnchereService {
         //Mise à jour du prix de vente
         articleVenduRepository.updatePrixVente(article.getNoArticle(), currentBid);
 
+        //MaJ des credits acheteur
+        utilisateurRepository.updateCredits(currentBidder.getNoUtilisateur(), currentBidder.getCredit() - currentBid);
+
         //Vérification si une enchère précédente existe
         Optional<Enchere> meilleureEnchereOpt = enchereRepository.findBestEnchere(article.getNoArticle());
         if (meilleureEnchereOpt.isPresent()) {
@@ -92,14 +93,10 @@ public class EnchereServiceImpl implements EnchereService {
             Utilisateur ancienUtilisateur = utilisateurRepository.findUserById(ancienneEnchere.getUtilisateur().getNoUtilisateur());
             //MaJ des crédits ancien acheteur
             utilisateurRepository.updateCredits(ancienUtilisateur.getNoUtilisateur(), ancienUtilisateur.getCredit() + lastPrice);
-
         }
 
-        //MaJ des credits acheteur
-        utilisateurRepository.updateCredits(currentBidder.getNoUtilisateur(), currentBidder.getCredit() - currentBid);
 
-
-        //Ajouter l'appel à la fonction du repository
+        //Création de l'enchere via repo
         enchereRepository.creerEnchere(currentEnchere);
     }
 }
