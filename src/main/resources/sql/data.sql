@@ -17,7 +17,7 @@ INSERT INTO CATEGORIES (no_categorie, libelle) VALUES
                                                    (3, 'Ameublement'),
                                                    (4, 'Vêtements'),
                                                    (5, 'Sport'),
-                                                   (6, 'Livre');
+                                                   (6, 'Loisirs');
 
 SET IDENTITY_INSERT CATEGORIES OFF;
 
@@ -52,7 +52,7 @@ VALUES
 
 
     (1, 'PC Portable', 'PC gamer Asus 32Go RAM',
-     DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 18/12/2025 à 20h00
+     GETDATE(), -- 18/12/2025 à 20h00
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
      500, 550, 1, 2, 0),
 
@@ -64,7 +64,12 @@ VALUES
     (3, 'Vélo', 'Vélo de course',
      GETDATE(),
      DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
-     500, NULL, 3, 5, 0)
+     500, NULL, 3, 5, 0),
+
+    (4, 'Seven Wonders', 'Le jeu de société avec les merveilles du monde',
+     DATEADD(day, 3, GETDATE()),
+     DATETIMEFROMPARTS(2026, 01, 28, 20, 00, 0, 0), -- 28/12/2025 à 20h00
+     500, NULL, 1, 6, 0)
 
 SET IDENTITY_INSERT ARTICLES_VENDUS OFF;
 
@@ -74,7 +79,8 @@ INSERT INTO RETRAITS (no_article, rue, code_postal, ville, no_utilisateur)
 VALUES
     (1, '10 rue Victor Hugo', '75001', 'Paris',1),
     (2, '5 avenue de France', '69000', 'Lyon',2),
-    (3, '10 rue Victor Hugo', '75001', 'Paris',3);
+    (3, '10 rue Victor Hugo', '75001', 'Paris',3),
+    (4, '13 avenue Jean Valjean', '75001', 'Paris',1);
 
 /* Revoir si besoin DATE ET HEURE*/
 /* ENCHERES */
