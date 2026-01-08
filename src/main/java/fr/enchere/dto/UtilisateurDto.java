@@ -27,7 +27,7 @@ public class UtilisateurDto {
     @Size(min = 3, max = 30, message = "longueur comprise entre  3 et 30" )
     private String prenom;
     @Email
-    @Size(max = 50)
+    @Size(max = 50, message ="longueur inférieur à 50")
     private String email;
     @Pattern(regexp = "^(\\+|00)?[0-9]{9,15}$", message = "Format de téléphone invalide")    @NotBlank
     @Size(min = 7, max = 15, message = "longueur comprise entre  7 et 15" )
@@ -36,7 +36,7 @@ public class UtilisateurDto {
     @NotBlank
     @Size(min = 3, max = 30, message = "longueur comprise entre  3 et 30" )
     private String rue;
-    @Pattern(regexp = "[a-zA-Z0-9 \\-]{3,10}", message = "Le code postal doit contenir entre 3 et 10 caractères (lettres, chiffres, espaces ou tirets uniquement).")
+    @Pattern(regexp = "[a-zA-Z0-9 \\-]{3,10}", message = " (lettres, chiffres, espaces ou tirets uniquement).")
     @NotBlank
     @Size(min = 3, max = 10, message = "longueur comprise entre  3 et 10" )
     private String codePostal;

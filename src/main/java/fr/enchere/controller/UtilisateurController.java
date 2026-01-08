@@ -64,9 +64,10 @@ public class UtilisateurController {
         }
 
         if (resultat.hasErrors()) {
+            /* pas utilisé si on remplace redirct part la view
             redirectAttr.addFlashAttribute("org.springframework.validation.BindingResult.utilisateurDto", resultat);
-            redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);
-            return "redirect:/inscription";
+            redirectAttr.addFlashAttribute("utilisateurDto", utilisateurDto);*/
+            return "view-creer-compte";
         }
 
         try {

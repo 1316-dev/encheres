@@ -98,8 +98,13 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
                 for (String valeur : choixCheckBoxAchats) {
                     if (valeur.equals("encheresOuvertes")) {
                         // L'utilisateur a coché "encheresOuvertes"
-                        String sql = "select * from dbo.afficherVentesEnCours where nom_article LIKE ? and date_fin_encheres > getdate()";
+                        String sql = "select * from dbo.afficherVentesEnCours where nom_article LIKE ? and date_fin_encheres > getdate() and date_debut_encheres < getdate()";
                         listeMesAchatsFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(), "%"+recherche+"%"));
+                    }
+                    if (valeur.equals("encheresAVenir")) {
+                        // L'utilisateur a coché "encheresAVenir"
+                        String sql = "SELECT * FROM dbo.afficherVentesEnCours WHERE nom_article LIKE ? AND date_fin_encheres > getdate() AND date_debut_encheres > getdate()";
+                        listeMesAchatsFiltrees.addAll(jdbcTemplate.query(sql,new ArticleVenduRowMapper(),"%"+recherche+"%"));
                     }
                     if (valeur.equals("mesEncheres")) {
                         // L'utilisateur a coché "mesEncheres"
@@ -113,8 +118,8 @@ public class ArticleVenduRepositoryImpl implements ArticleVenduRepository{
                     }
                 } }else {
                 // Aucune case n'est cochée
-                String sql = "select * from dbo.gestionEncheresMesAchats where  acheteur = ? AND nom_article LIKE ?";
-                listeMesAchatsFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),acheteurID,"%"+recherche+"%");
+                String sql = "select * from dbo.gestionEncheresMesAchats where  nom_article LIKE ? AND date_fin_encheres > getdate()";
+                listeMesAchatsFiltrees = jdbcTemplate.query(sql,new ArticleVenduRowMapper(),"%"+recherche+"%");
             }
         } else {
             if (choixCheckBoxAchats != null) {
