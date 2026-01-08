@@ -34,7 +34,7 @@ public class UtilisateurDto {
     private String telephone;
     @Pattern(regexp = "^[a-zA-Z0-9À-ÿœŒ\\s\\-']+$", message = "La rue ne doit contenir que des lettres, des espaces ou des tirets.")
     @NotBlank
-    @Size(min = 3, max = 30, message = "longueur comprise entre  7 et 30" )
+    @Size(min = 3, max = 30, message = "longueur comprise entre  3 et 30" )
     private String rue;
     @Pattern(regexp = "[a-zA-Z0-9 \\-]{3,10}", message = "Le code postal doit contenir entre 3 et 10 caractères (lettres, chiffres, espaces ou tirets uniquement).")
     @NotBlank
