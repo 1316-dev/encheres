@@ -41,7 +41,7 @@
 
                         <div class="col-md-4 m-3">
                             <label for="lettreRecherche" class="form-label">Filtres :</label>
-                            <input type="text" name="lettreRecherche" id="lettreRecherche" class="form-control">
+                            <input type="text" name="lettreRecherche" id="lettreRecherche" class="form-control" placeholder="Le nom de l'article contient">
                         </div>
 
                         <div class="col-md-4 m-3">
@@ -68,7 +68,7 @@
                             <h3 class="card-title mb-2" th:text="${article.nomArticle}"></h3>
 
                             <p class="card-text mb-1 text-white">
-                                Mise à prix : <span th:text="${article.miseAPrix + ' ' + 'crédits'}" class="card-text mb-1 ms-2 text-warning"></span>
+                                Mise à prix : <span th:text="${article.miseAPrix + ' ' + 'points'}" class="card-text mb-1 ms-2 text-warning"></span>
                             </p>
 
 
