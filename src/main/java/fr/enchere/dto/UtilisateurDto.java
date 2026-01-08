@@ -2,6 +2,10 @@ package fr.enchere.dto;
 
 import fr.enchere.bo.ArticleVendu;
 import fr.enchere.bo.Enchere;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
+import jakarta.validation.constraints.Size;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,14 +14,40 @@ import java.util.Objects;
 public class UtilisateurDto {
 
     private int noUtilisateur;
+    @Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Uniquement lettres et chiffres")
+    @NotBlank
+    @Size(min = 3, max = 30)
     private String pseudo;
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-']+$", message = "Le nom ne doit contenir que des lettres, des espaces ou des tirets.")
+    @NotBlank
+    @Size(min = 3, max = 30)
     private String nom;
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-']+$", message = "Le prenom ne doit contenir que des lettres, des espaces ou des tirets.")
+    @NotBlank
+    @Size(min = 3, max = 30)
     private String prenom;
+    @Email
+    @Size(max = 50)
     private String email;
+    @Pattern(regexp = "^(\\+|00)?[0-9]{9,15}$", message = "Format de téléphone invalide")    @NotBlank
+    @Size(min = 7, max = 15)
     private String telephone;
+    @Pattern(regexp = "^[a-zA-Z0-9À-ÿœŒ\\s\\-']+$", message = "La rue ne doit contenir que des lettres, des espaces ou des tirets.")
+    @NotBlank
+    @Size(min = 7, max = 30)
     private String rue;
+    @Pattern(regexp = "[a-zA-Z0-9 \\-]{3,10}", message = "Le code postal doit contenir entre 3 et 10 caractères (lettres, chiffres, espaces ou tirets uniquement).")
+    @NotBlank
+    @Size(min = 3, max = 10)
     private String codePostal;
+    @Pattern(regexp = "^[A-Za-zÀ-ÿ\\s\\-']+$", message = "Format de ville invalide")
+    @Size(min = 2, max = 50)
+    @NotBlank
     private String ville;
+    @Pattern(
+            regexp = "^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=!\\-_])(?=\\S+$).{8,20}$",
+            message = "Le mot de passe doit contenir entre 8 et 20 caractères, incluant une majuscule, une minuscule, un chiffre et un caractère spécial."
+    )
     private String motDePasse;
     private int credit;
     private boolean administrateur;

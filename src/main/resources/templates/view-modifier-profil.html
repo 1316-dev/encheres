@@ -34,6 +34,8 @@
                         <label class="form-label text-center w-100">Pseudo</label>
                         <input type="text"
                                class="form-control w-75 mx-auto"
+                               pattern="^[a-zA-Z0-9]+$"
+                               title="Uniquement lettres et chiffres"
                                th:field="*{pseudo}"
                                required>
                         <div class="text-danger text-center"
@@ -44,6 +46,9 @@
                         <label class="form-label text-center w-100">Nom</label>
                         <input type="text"
                                class="form-control w-75 mx-auto"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
+                               title="Le nom ne doit contenir que des lettres, des espaces ou des tirets."
+
                                th:field="*{nom}">
                         <div class="text-danger text-center"
                              th:errors="*{nom}"></div>
@@ -53,6 +58,9 @@
                         <label class="form-label text-center w-100">Prénom</label>
                         <input type="text"
                                class="form-control w-75 mx-auto"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
+                               title="Le prenom ne doit contenir que des lettres, des espaces ou des tirets."
+
                                th:field="*{prenom}">
                         <div class="text-danger text-center"
                              th:errors="*{prenom}"></div>
@@ -72,6 +80,9 @@
                         <label class="form-label text-center w-100">Téléphone</label>
                         <input type="tel"
                                class="form-control w-75 mx-auto"
+                               pattern="^(\+|00)?[0-9]{9,15}$"
+                               title="Veuillez saisir un numéro valide (ex: 0612345678 ou +33612345678)"
+
                                th:field="*{telephone}">
                         <div class="text-danger text-center"
                              th:errors="*{telephone}"></div>
@@ -81,6 +92,9 @@
                         <label class="form-label text-center w-100">Rue</label>
                         <input type="text"
                                class="form-control w-75 mx-auto"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
+                               title="La rue ne doit contenir que des lettres, des espaces ou des tirets."
+
                                th:field="*{rue}">
                         <div class="text-danger text-center"
                              th:errors="*{rue}"></div>
@@ -90,6 +104,9 @@
                         <label class="form-label text-center w-100">Code postal</label>
                         <input type="text"
                                class="form-control w-75 mx-auto"
+                               pattern="^[a-zA-Z0-9 \\-]{3,10}$"
+                               title="Le code postal doit contenir entre 3 et 10 caractères (lettres, chiffres, espaces ou tirets uniquement)."
+
                                th:field="*{codePostal}">
                         <div class="text-danger text-center"
                              th:errors="*{codePostal}"></div>
@@ -99,6 +116,8 @@
                         <label class="form-label text-center w-100">Ville</label>
                         <input type="text"
                                class="form-control w-75 mx-auto"
+                               pattern="^[a-zA-Z0-9 \u00C0-\u00FF'-]+$"
+                               title="Le nom de la ville peut contenir des lettres, des accents, des chiffres, des tirets et des apostrophes."
                                th:field="*{ville}">
                         <div class="text-danger text-center"
                              th:errors="*{ville}"></div>
