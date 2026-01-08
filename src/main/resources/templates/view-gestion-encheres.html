@@ -210,7 +210,7 @@
                                sec:authorize="isAuthenticated()">Détail Vente</a>
 
 
-                            <a th:if="${#authentication.name == article.vendeur.pseudo and article.dateDebutEnchere.isAfter(#temporals.createNow())}"
+                            <a th:if="${#authentication.name == article.vendeur and article.dateDebutEnchere.isAfter(#temporals.createNow())}"
                                     th:href="@{/modifier/{id}(id=${article.noArticle})}"
                                class="btn btn-outline-light "
                                sec:authorize="isAuthenticated()">Modifier</a>
